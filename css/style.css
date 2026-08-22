@@ -1,0 +1,183 @@
+/* Gemeinsames Stylesheet für die gesamte Praxissemester-Webseite */
+
+:root {
+  --farbe-hintergrund: #f7f8fa;
+  --farbe-text: #1f2430;
+  --farbe-text-hell: #5a6270;
+  --farbe-akzent: #2f6fed;
+  --farbe-akzent-dunkel: #1f4fb0;
+  --farbe-karte: #ffffff;
+  --farbe-rand: #e2e5eb;
+  --schatten: 0 2px 8px rgba(20, 25, 40, 0.06);
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--farbe-hintergrund);
+  color: var(--farbe-text);
+  line-height: 1.6;
+}
+
+header.site-header {
+  background: var(--farbe-karte);
+  border-bottom: 1px solid var(--farbe-rand);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-header .inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.site-header .logo {
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: var(--farbe-text);
+}
+
+.site-header nav a {
+  color: var(--farbe-text-hell);
+  text-decoration: none;
+  margin-left: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.site-header nav a:hover,
+.site-header nav a:focus {
+  color: var(--farbe-akzent);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  color: var(--farbe-text-hell);
+  max-width: 650px;
+}
+
+h2.section-title {
+  font-size: 1.3rem;
+  margin: 2.5rem 0 1.25rem;
+}
+
+.projekt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.projekt-karte {
+  background: var(--farbe-karte);
+  border: 1px solid var(--farbe-rand);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.projekt-karte:hover,
+.projekt-karte:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(20, 25, 40, 0.1);
+}
+
+.projekt-karte .tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--farbe-akzent-dunkel);
+  background: #e8f0fe;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+
+.projekt-karte h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.projekt-karte p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--farbe-text-hell);
+}
+
+.zurueck-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--farbe-akzent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.zurueck-link:hover {
+  text-decoration: underline;
+}
+
+.projekt-detail header.projekt-kopf {
+  margin-bottom: 2rem;
+}
+
+.projekt-detail .meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  color: var(--farbe-text-hell);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.projekt-detail section {
+  margin-bottom: 2rem;
+}
+
+.projekt-detail section h2 {
+  font-size: 1.15rem;
+  border-bottom: 1px solid var(--farbe-rand);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.bild-platzhalter {
+  background: #eef1f5;
+  border: 1px dashed var(--farbe-rand);
+  border-radius: var(--radius);
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--farbe-text-hell);
+  font-size: 0.9rem;
+}
+
+footer.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--farbe-text-hell);
+  font-size: 0.85rem;
+}
