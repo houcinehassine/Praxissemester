@@ -151,6 +151,34 @@ header.site-header {
   color: #b7bfd8;
 }
 
+.rahmendaten {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.rahmendaten div {
+  min-width: 140px;
+}
+
+.rahmendaten span {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #97a1c2;
+  margin-bottom: 0.15rem;
+}
+
+.rahmendaten strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f0f2f8;
+}
+
 main {
   max-width: 1080px;
   margin: 0 auto;
@@ -465,6 +493,268 @@ h2.section-title {
   border-radius: 6px;
   padding: 0.3rem 0.5rem;
   word-break: break-all;
+}
+
+/* ---------- Kennzahlen (Stat-Grid) ---------- */
+
+.kennzahlen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.9rem;
+  margin: 1.5rem 0 0;
+}
+
+.kennzahl {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+
+.kennzahl strong {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--akzent-hell);
+  line-height: 1.2;
+}
+
+.kennzahl span {
+  font-size: 0.78rem;
+  color: #c7cede;
+}
+
+/* ---------- Zitat-Box (Aufgabenstellung) ---------- */
+
+.zitat-box {
+  background: var(--karte);
+  border-left: 4px solid var(--akzent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.1rem 1.4rem;
+  font-size: 1.02rem;
+  color: var(--text);
+  box-shadow: var(--schatten);
+}
+
+.zitat-box .quelle {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-hell);
+}
+
+/* ---------- Ergebnisliste (Checkmarks) ---------- */
+
+.ergebnis-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.ergebnis-liste li {
+  background: var(--karte);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.ergebnis-liste li::before {
+  content: "✓";
+  flex: none;
+  color: var(--kat-zerspan);
+  font-weight: 700;
+}
+
+.ergebnis-liste strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+/* ---------- Datentabellen ---------- */
+
+.tabelle-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  background: var(--karte);
+}
+
+table.tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  min-width: 480px;
+}
+
+table.tabelle th,
+table.tabelle td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rand);
+}
+
+table.tabelle th {
+  background: var(--hintergrund);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-hell);
+}
+
+table.tabelle tr:last-child td {
+  border-bottom: none;
+}
+
+table.tabelle tr.empfehlung {
+  background: var(--kat-zerspan-bg);
+  font-weight: 600;
+}
+
+.prio {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.prio--hoch { background: var(--kat-schweiss-bg); color: var(--kat-schweiss); }
+.prio--mittel { background: #fff4d6; color: #8a6100; }
+.prio--niedrig { background: var(--kat-lager-bg); color: var(--kat-lager); }
+
+/* ---------- Nutzen-Highlight ---------- */
+
+.nutzen-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  background: linear-gradient(135deg, var(--dunkel) 0%, var(--dunkel-2) 100%);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+}
+
+.nutzen-box .wert {
+  text-align: center;
+}
+
+.nutzen-box .wert strong {
+  display: block;
+  font-size: 1.7rem;
+  color: var(--akzent-hell);
+}
+
+.nutzen-box .wert span {
+  font-size: 0.78rem;
+  color: #c7cede;
+}
+
+.nutzen-box .pfeil {
+  font-size: 1.4rem;
+  color: #c7cede;
+}
+
+.nutzen-box .fussnote {
+  flex-basis: 100%;
+  font-size: 0.78rem;
+  color: #b7bfd8;
+  margin: 0;
+}
+
+/* ---------- 5S / Vier-Karten-Grid ---------- */
+
+.karten-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+}
+
+.mini-karte {
+  background: var(--karte);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.mini-karte h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  color: var(--akzent);
+}
+
+.mini-karte p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-hell);
+}
+
+/* ---------- Fazit-Grid (Fachlich/Methodisch/Praktisch) ---------- */
+
+.fazit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.fazit-grid .karte {
+  background: var(--karte);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+}
+
+.fazit-grid .karte .label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--akzent);
+  margin-bottom: 0.4rem;
+}
+
+.fazit-grid .karte h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.98rem;
+}
+
+.fazit-grid .karte p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-hell);
+}
+
+/* ---------- Bildunterschrift ---------- */
+
+.bild-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  border: 1px solid var(--rand);
+}
+
+.bild-box .label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-hell);
+  margin-bottom: 0.5rem;
+}
+
+.bild-box .bildtext {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--text-hell);
 }
 
 /* ---------- Prev/Next Navigation ---------- */
