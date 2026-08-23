@@ -151,6 +151,34 @@ header.site-header {
   color: #b7bfd8;
 }
 
+.rahmendaten {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.rahmendaten div {
+  min-width: 140px;
+}
+
+.rahmendaten span {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #97a1c2;
+  margin-bottom: 0.15rem;
+}
+
+.rahmendaten strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f0f2f8;
+}
+
 main {
   max-width: 1080px;
   margin: 0 auto;
