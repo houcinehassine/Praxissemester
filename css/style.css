@@ -1,39 +1,63 @@
 /* Gemeinsames Stylesheet für die gesamte Praxissemester-Webseite */
 
 :root {
-  --farbe-hintergrund: #f7f8fa;
-  --farbe-text: #1f2430;
-  --farbe-text-hell: #5a6270;
-  --farbe-akzent: #2f6fed;
-  --farbe-akzent-dunkel: #1f4fb0;
-  --farbe-karte: #ffffff;
-  --farbe-rand: #e2e5eb;
-  --schatten: 0 2px 8px rgba(20, 25, 40, 0.06);
-  --radius: 10px;
+  --dunkel: #14213d;
+  --dunkel-2: #1c2b4f;
+  --akzent: #fb8500;
+  --akzent-hell: #ffb703;
+  --hintergrund: #f5f6f8;
+  --text: #1f2430;
+  --text-hell: #5a6270;
+  --karte: #ffffff;
+  --rand: #e2e5eb;
+  --schatten: 0 2px 10px rgba(20, 25, 40, 0.07);
+  --schatten-hover: 0 10px 24px rgba(20, 25, 40, 0.12);
+  --radius: 12px;
+
+  --kat-lager: #2f6fed;
+  --kat-lager-bg: #e8f0fe;
+  --kat-schweiss: #e85d04;
+  --kat-schweiss-bg: #fdece0;
+  --kat-zerspan: #0f9b8e;
+  --kat-zerspan-bg: #e1f5f2;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: var(--farbe-hintergrund);
-  color: var(--farbe-text);
-  line-height: 1.6;
+  background: var(--hintergrund);
+  color: var(--text);
+  line-height: 1.65;
 }
 
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+}
+
+/* ---------- Header ---------- */
+
 header.site-header {
-  background: var(--farbe-karte);
-  border-bottom: 1px solid var(--farbe-rand);
+  background: var(--dunkel);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
 }
 
 .site-header .inner {
-  max-width: 1000px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 1rem 1.5rem;
   display: flex;
@@ -47,137 +71,448 @@ header.site-header {
   font-weight: 700;
   font-size: 1.15rem;
   text-decoration: none;
-  color: var(--farbe-text);
+  color: #fff;
+}
+
+.site-header .logo span {
+  color: var(--akzent-hell);
 }
 
 .site-header nav a {
-  color: var(--farbe-text-hell);
+  color: #c7cede;
   text-decoration: none;
   margin-left: 1.25rem;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 .site-header nav a:hover,
-.site-header nav a:focus {
-  color: var(--farbe-akzent);
+.site-header nav a:focus-visible {
+  color: #fff;
+}
+
+/* ---------- Hero (Startseite) ---------- */
+
+.hero {
+  background: linear-gradient(135deg, var(--dunkel) 0%, var(--dunkel-2) 55%, #26365f 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+}
+
+.hero .inner {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  margin: 0 0 0.75rem;
+}
+
+.hero p {
+  color: #d7dcec;
+  max-width: 620px;
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.hero .stat-reihe {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero .stat {
+  min-width: 90px;
+}
+
+.hero .stat strong {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--akzent-hell);
+}
+
+.hero .stat span {
+  font-size: 0.82rem;
+  color: #b7bfd8;
 }
 
 main {
-  max-width: 1000px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
 }
 
-.hero h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.hero p {
-  color: var(--farbe-text-hell);
-  max-width: 650px;
-}
-
 h2.section-title {
-  font-size: 1.3rem;
-  margin: 2.5rem 0 1.25rem;
+  font-size: 1.35rem;
+  margin: 0 0 0.25rem;
 }
+
+.section-intro {
+  color: var(--text-hell);
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- Filter ---------- */
+
+.filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+.filter-btn {
+  border: 1px solid var(--rand);
+  background: var(--karte);
+  color: var(--text-hell);
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--akzent);
+  color: var(--text);
+}
+
+.filter-btn.aktiv {
+  background: var(--dunkel);
+  border-color: var(--dunkel);
+  color: #fff;
+}
+
+/* ---------- Projekt-Karten ---------- */
 
 .projekt-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.25rem;
 }
 
 .projekt-karte {
-  background: var(--farbe-karte);
-  border: 1px solid var(--farbe-rand);
+  background: var(--karte);
+  border: 1px solid var(--rand);
   border-radius: var(--radius);
   box-shadow: var(--schatten);
-  padding: 1.25rem;
+  padding: 1.4rem;
   text-decoration: none;
   color: inherit;
   display: block;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
 .projekt-karte:hover,
-.projekt-karte:focus {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(20, 25, 40, 0.1);
+.projekt-karte:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--schatten-hover);
 }
 
-.projekt-karte .tag {
-  display: inline-block;
+.projekt-karte.versteckt {
+  display: none;
+}
+
+.karte-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.karte-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.karte-nummer {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--farbe-akzent-dunkel);
-  background: #e8f0fe;
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-  margin-bottom: 0.6rem;
+  font-weight: 700;
+  color: var(--text-hell);
+  letter-spacing: 0.04em;
 }
 
 .projekt-karte h3 {
-  margin: 0 0 0.4rem;
+  margin: 0.2rem 0 0.4rem;
   font-size: 1.05rem;
 }
 
 .projekt-karte p {
-  margin: 0;
+  margin: 0 0 0.9rem;
   font-size: 0.9rem;
-  color: var(--farbe-text-hell);
+  color: var(--text-hell);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.tag--lager { color: var(--kat-lager); background: var(--kat-lager-bg); }
+.tag--schweiss { color: var(--kat-schweiss); background: var(--kat-schweiss-bg); }
+.tag--zerspan { color: var(--kat-zerspan); background: var(--kat-zerspan-bg); }
+
+.karte-icon.icon--lager { background: var(--kat-lager-bg); color: var(--kat-lager); }
+.karte-icon.icon--schweiss { background: var(--kat-schweiss-bg); color: var(--kat-schweiss); }
+.karte-icon.icon--zerspan { background: var(--kat-zerspan-bg); color: var(--kat-zerspan); }
+
+/* ---------- Detailseite ---------- */
+
+.projekt-kopf {
+  color: #fff;
+  background: linear-gradient(135deg, var(--dunkel) 0%, var(--dunkel-2) 100%);
+  margin: -2.5rem -1.5rem 2.5rem;
+  padding: 2.5rem 1.5rem 2.25rem;
+}
+
+.projekt-kopf .kopf-inner {
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .zurueck-link {
   display: inline-block;
-  margin-bottom: 1.5rem;
-  color: var(--farbe-akzent);
+  margin-bottom: 1rem;
+  color: #c7cede;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .zurueck-link:hover {
-  text-decoration: underline;
+  color: #fff;
 }
 
-.projekt-detail header.projekt-kopf {
-  margin-bottom: 2rem;
+.projekt-kopf h1 {
+  margin: 0.6rem 0 0.6rem;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
 }
 
-.projekt-detail .meta {
+.projekt-kopf p.intro {
+  color: #d7dcec;
+  max-width: 640px;
+  margin: 0;
+}
+
+.meta {
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
-  color: var(--farbe-text-hell);
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  color: #b7bfd8;
+  font-size: 0.85rem;
+  margin-top: 1rem;
 }
 
 .projekt-detail section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.75rem;
 }
 
-.projekt-detail section h2 {
-  font-size: 1.15rem;
-  border-bottom: 1px solid var(--farbe-rand);
-  padding-bottom: 0.4rem;
-  margin-bottom: 0.8rem;
+.projekt-detail section > h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.projekt-detail section > p {
+  color: var(--text);
+}
+
+/* ---------- Ablauf-Stepper (interaktiv) ---------- */
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.schritt {
+  background: var(--karte);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.schritt-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0.9rem 1.1rem;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text);
+}
+
+.schritt-nummer {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--hintergrund);
+  border: 1.5px solid var(--rand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-hell);
+  transition: all 0.15s ease;
+}
+
+.schritt.offen .schritt-nummer {
+  background: var(--akzent);
+  border-color: var(--akzent);
+  color: #fff;
+}
+
+.schritt-titel {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.schritt-pfeil {
+  flex: none;
+  color: var(--text-hell);
+  transition: transform 0.18s ease;
+}
+
+.schritt.offen .schritt-pfeil {
+  transform: rotate(180deg);
+  color: var(--akzent);
+}
+
+.schritt-inhalt {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.22s ease;
+}
+
+.schritt.offen .schritt-inhalt {
+  max-height: 300px;
+}
+
+.schritt-inhalt p {
+  margin: 0;
+  padding: 0 1.1rem 1.1rem 2.85rem;
+  color: var(--text-hell);
+  font-size: 0.92rem;
+}
+
+/* ---------- Vorher/Nachher & Bilder ---------- */
+
+.bild-vergleich {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 560px) {
+  .bild-vergleich {
+    grid-template-columns: 1fr;
+  }
 }
 
 .bild-platzhalter {
   background: #eef1f5;
-  border: 1px dashed var(--farbe-rand);
+  border: 1px dashed #c9cedb;
   border-radius: var(--radius);
   padding: 2.5rem 1rem;
   text-align: center;
-  color: var(--farbe-text-hell);
-  font-size: 0.9rem;
+  color: var(--text-hell);
+  font-size: 0.85rem;
 }
+
+.bild-platzhalter .label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-hell);
+  margin-bottom: 0.5rem;
+}
+
+.bild-platzhalter code {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  background: #fff;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  word-break: break-all;
+}
+
+/* ---------- Prev/Next Navigation ---------- */
+
+.projekt-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--rand);
+  padding-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.projekt-nav a {
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+  background: var(--karte);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+  max-width: 46%;
+}
+
+.projekt-nav a:hover,
+.projekt-nav a:focus-visible {
+  border-color: var(--akzent);
+  transform: translateY(-2px);
+}
+
+.projekt-nav .richtung {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-hell);
+  margin-bottom: 0.2rem;
+}
+
+.projekt-nav .naechste {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* ---------- Footer ---------- */
 
 footer.site-footer {
   text-align: center;
   padding: 1.5rem;
-  color: var(--farbe-text-hell);
+  color: var(--text-hell);
   font-size: 0.85rem;
 }

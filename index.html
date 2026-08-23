@@ -10,7 +10,7 @@
 
   <header class="site-header">
     <div class="inner">
-      <a href="index.html" class="logo">Mein Praxissemester</a>
+      <a href="index.html" class="logo">Mein <span>Praxissemester</span></a>
       <nav>
         <a href="index.html">Start</a>
         <a href="#projekte">Projekte</a>
@@ -18,30 +18,123 @@
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <h1>Willkommen zu meinem Praxissemester</h1>
+  <section class="hero">
+    <div class="inner">
+      <h1>Dokumentation meines Praxissemesters</h1>
       <p>
-        Auf dieser Seite dokumentiere ich die Projekte, die ich während meines
-        Praxissemesters bearbeitet habe. Jede Karte unten führt zu einer
-        eigenen Detailseite mit Beschreibung, Vorgehen und Ergebnissen.
+        Hier stelle ich die Projekte vor, die ich während meines Praxissemesters
+        in der Werkstatt bearbeitet habe – von der Neuordnung des Lagers über
+        digitale Lösungen bis zur Umstrukturierung der Arbeitsplätze nach 5S.
       </p>
-    </section>
+      <div class="stat-reihe">
+        <div class="stat">
+          <strong>7</strong>
+          <span>Projekte</span>
+        </div>
+        <div class="stat">
+          <strong>3</strong>
+          <span>Bereiche</span>
+        </div>
+        <div class="stat">
+          <strong>5S</strong>
+          <span>Methode</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <main>
     <h2 class="section-title" id="projekte">Projekte</h2>
+    <p class="section-intro">Nach Bereich filtern oder direkt eine Karte anklicken, um die Details zu sehen.</p>
+
+    <div class="filter-bar">
+      <button class="filter-btn aktiv" data-filter="alle">Alle</button>
+      <button class="filter-btn" data-filter="lager">Lager &amp; Organisation</button>
+      <button class="filter-btn" data-filter="schweiss">Schweißarbeitsplatz</button>
+      <button class="filter-btn" data-filter="zerspan">Zerspanung</button>
+    </div>
+
     <div class="projekt-grid">
 
-      <a class="projekt-karte" href="projekte/projekt-1.html">
-        <span class="tag">Beispiel</span>
-        <h3>Projekt 1: Titel hier</h3>
-        <p>Kurze ein bis zwei Sätze, worum es in diesem Projekt geht.</p>
+      <a class="projekt-karte" href="projekte/projekt-1.html" data-kategorie="lager">
+        <div class="karte-icon icon--lager">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="10" width="8" height="8" rx="1"/><rect x="13" y="10" width="8" height="8" rx="1"/><rect x="8" y="3" width="8" height="8" rx="1"/>
+          </svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 01</span>
+        <h3>Schraubenlager neu geordnet</h3>
+        <p>Neues Ordnungskonzept für das Schraubenlager entwickelt und in der Praxis umgesetzt.</p>
+        <span class="tag tag--lager">Lager &amp; Organisation</span>
       </a>
 
-      <!--
-        Neues Projekt hinzufügen:
-        1. Datei projekte/projekt-2.html kopieren von projekt-1.html
-        2. Hier eine neue Karte einfügen und auf die neue Datei verlinken
-      -->
+      <a class="projekt-karte" href="projekte/projekt-2.html" data-kategorie="lager">
+        <div class="karte-icon icon--lager">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="10" width="8" height="8" rx="1"/><rect x="13" y="10" width="8" height="8" rx="1"/><rect x="8" y="3" width="8" height="8" rx="1"/>
+          </svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 02</span>
+        <h3>Excel-Lagersystem</h3>
+        <p>Excel-System zur Verwaltung des Materialnachschubs im Lager aufgebaut.</p>
+        <span class="tag tag--lager">Lager &amp; Organisation</span>
+      </a>
+
+      <a class="projekt-karte" href="projekte/projekt-3.html" data-kategorie="lager">
+        <div class="karte-icon icon--lager">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="10" width="8" height="8" rx="1"/><rect x="13" y="10" width="8" height="8" rx="1"/><rect x="8" y="3" width="8" height="8" rx="1"/>
+          </svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 03</span>
+        <h3>Lagersystem als Webseite</h3>
+        <p>Das Excel-Lagersystem in eine Webseite umgewandelt, um es einfacher nutzbar zu machen.</p>
+        <span class="tag tag--lager">Lager &amp; Organisation</span>
+      </a>
+
+      <a class="projekt-karte" href="projekte/projekt-4.html" data-kategorie="schweiss">
+        <div class="karte-icon icon--schweiss">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13,2 4,14 11,14 10,22 20,9 13,9 13,2"/></svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 04</span>
+        <h3>Schweißarbeitsplatz nach 5S</h3>
+        <p>Den Schweißarbeitsplatz analysiert und nach der 5S-Methode neu strukturiert.</p>
+        <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
+      </a>
+
+      <a class="projekt-karte" href="projekte/projekt-5.html" data-kategorie="schweiss">
+        <div class="karte-icon icon--schweiss">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13,2 4,14 11,14 10,22 20,9 13,9 13,2"/></svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 05</span>
+        <h3>Neues Schweißtisch-Konzept</h3>
+        <p>Ein neues Konzept für den Schweißtisch entwickelt.</p>
+        <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
+      </a>
+
+      <a class="projekt-karte" href="projekte/projekt-6.html" data-kategorie="schweiss">
+        <div class="karte-icon icon--schweiss">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13,2 4,14 11,14 10,22 20,9 13,9 13,2"/></svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 06</span>
+        <h3>Schweißwagen mit Werkzeugordnung</h3>
+        <p>Einen Schweißwagen mit festem Einordnungsplatz für die Werkzeuge hergestellt.</p>
+        <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
+      </a>
+
+      <a class="projekt-karte" href="projekte/projekt-7.html" data-kategorie="zerspan">
+        <div class="karte-icon icon--zerspan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+            <line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/>
+          </svg>
+        </div>
+        <span class="karte-nummer">PROJEKT 07</span>
+        <h3>Zerspanarbeitsplatz nach 5S</h3>
+        <p>Den Zerspanarbeitsplatz (Drehen und Fräsen) analysiert und nach 5S neu strukturiert.</p>
+        <span class="tag tag--zerspan">Zerspanung</span>
+      </a>
 
     </div>
   </main>
@@ -50,5 +143,6 @@
     Praxissemester-Dokumentation
   </footer>
 
+  <script src="js/main.js"></script>
 </body>
 </html>
