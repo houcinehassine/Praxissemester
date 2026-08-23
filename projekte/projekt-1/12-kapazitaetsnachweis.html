@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 1: Kapazitätsnachweis | Mein Praxissemester</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="inner">
+      <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-aufgabenstellung.html" class=""><span class="nr">2</span>Aufgabenstellung</a><a href="03-bestandsaufnahme.html" class=""><span class="nr">3</span>Bestandsaufnahme</a><a href="04-bestandsanalyse.html" class=""><span class="nr">4</span>Bestandsanalyse</a><a href="05-zylinderkopf.html" class=""><span class="nr">5</span>Zylinderkopf</a><a href="06-sechskant.html" class=""><span class="nr">6</span>Sechskant</a><a href="07-holzschrauben.html" class=""><span class="nr">7</span>Holzschrauben</a><a href="08-schlossschrauben.html" class=""><span class="nr">8</span>Schloßschrauben</a><a href="09-zusammenfuehrung.html" class=""><span class="nr">9</span>Zusammenführung</a><a href="10-boxen-regal-layout.html" class=""><span class="nr">10</span>Boxen & Regal</a><a href="11-cad-konstruktion.html" class=""><span class="nr">11</span>CAD-Konstruktion</a><a href="12-kapazitaetsnachweis.html" class="aktiv"><span class="nr">12</span>Kapazitätsnachweis</a><a href="13-bewertung-ausblick.html" class=""><span class="nr">13</span>Bewertung & Ausblick</a>
+    </div>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 1</a> &rsaquo; Seite 12 von 13</div>
+      <h1>Kapazitätsnachweis</h1>
+      <p class="intro">Die entscheidende Frage zum Schluss: Passen die 135 Boxen in die 6 Regalfächer? Der Nachweis stützt sich jetzt nicht mehr auf Annahmen, sondern auf die im CAD konstruierten Boxgrößen von Seite 11.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="kennzahlen-grid" style="background:var(--karte);padding:1rem;border-radius:var(--radius);border:1px solid var(--rand)">
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">930 × 500</strong><span style="color:var(--text-hell)">mm je Fach</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">6</strong><span style="color:var(--text-hell)">Fächer</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">135</strong><span style="color:var(--text-hell)">Boxen Bedarf</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">CAD</strong><span style="color:var(--text-hell)">Grundlage: CAD-Modell</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>1 &middot; Wie viele Boxen passen nebeneinander?</h2>
+      <p class="section-intro">930 mm Fachbreite.</p>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Boxgröße</th><th>Außenmaß (B × H × T)</th><th class="num-c">je Reihe</th><th class="num-c">belegt</th><th class="num-c">Rest</th></tr></thead>
+            <tbody>
+              <tr><td><b>S</b></td><td>102 × 74 × 115 mm</td><td class="num-c">9</td><td class="num-c">918 mm</td><td class="num-c">12 mm</td></tr>
+              <tr><td><b>M</b></td><td>115 × 85 × 155 mm</td><td class="num-c">8</td><td class="num-c">920 mm</td><td class="num-c">10 mm</td></tr>
+              <tr><td><b>L</b></td><td>145 × 125 × 225 mm</td><td class="num-c">6</td><td class="num-c">870 mm</td><td class="num-c">60 mm</td></tr>
+            </tbody>
+          </table></div>
+      <p style="margin-top:0.75rem"><strong>Bewertung:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>S und M nutzen die Breite fast verlustfrei aus</strong>10 bis 12 mm Rest sind reine Montagetoleranz.</span></li>
+        <li><span><strong>L lässt 60 mm frei</strong>dieser Streifen kann als Etikettenleiste oder Griffrand genutzt werden.</span></li>
+      </ul>
+      <p style="margin-top:0.5rem">⇒ Die Aufgabenstellung „möglichst viele nebeneinander“ ist damit erfüllt.</p>
+    </section>
+
+    <section>
+      <h2>2 &middot; Kapazität der fünf Fach-Varianten</h2>
+      <p class="section-intro">Aus dem CAD-Modell.</p>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Fach-Variante</th><th class="num-c">S / M / L je Fach</th><th class="num-c">Boxen je Fach</th><th class="num-c">× 6 Fächer</th></tr></thead>
+            <tbody><tr><td><b>3 × M</b></td><td class="num-c">0 / 27 / 0</td><td class="num-c">27</td><td class="num-c">162</td></tr><tr><td><b>S + M + L</b></td><td class="num-c">9 / 9 / 6</td><td class="num-c">24</td><td class="num-c">144</td></tr><tr><td><b>S + 2 M</b></td><td class="num-c">9 / 17 / 0</td><td class="num-c">26</td><td class="num-c">156</td></tr><tr><td><b>2 × L</b></td><td class="num-c">0 / 0 / 12</td><td class="num-c">12</td><td class="num-c">72</td></tr><tr><td><b>M + L</b></td><td class="num-c">0 / 9 / 6</td><td class="num-c">15</td><td class="num-c">90</td></tr></tbody>
+          </table></div>
+    </section>
+
+    <section>
+      <h2>3 &middot; Grobnachweis – reine Platzzahl</h2>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Regalvariante</th><th>Rechnung</th><th class="num-c">Plätze</th><th class="num-c">Bedarf</th><th class="num-c">Reserve</th><th class="num-c">Auslastung</th></tr></thead>
+            <tbody><tr><td><b>Volle Boxen M</b></td><td>6 × 27</td><td class="num-c">162</td><td class="num-c">135</td><td class="num-c">27</td><td class="num-c">83 %</td></tr><tr><td><b>Volle 1S 2M</b></td><td>6 × 26</td><td class="num-c">156</td><td class="num-c">135</td><td class="num-c">21</td><td class="num-c">87 %</td></tr><tr><td><b>Volle S · M · L</b></td><td>6 × 24</td><td class="num-c">144</td><td class="num-c">135</td><td class="num-c">9</td><td class="num-c">94 %</td></tr></tbody>
+          </table></div>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Ergebnis Grobnachweis:</strong> Alle drei Regalvarianten reichen
+        aus. 144 bis 162 Boxplätze stehen 135 benötigten Boxen gegenüber – je
+        nach Variante bleiben 9 bis 27 Plätze Reserve.
+      </div>
+    </section>
+
+    <section>
+      <h2>4 &middot; Feinnachweis – passt auch die Größenverteilung?</h2>
+      <p class="section-intro">Der kritische Teil.</p>
+      <div class="kennzahlen-grid" style="background:var(--karte);padding:1rem;border-radius:var(--radius);border:1px solid var(--rand);margin-bottom:1rem">
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">14</strong><span style="color:var(--text-hell)">Bedarf S · Längen bis 20 mm</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">81</strong><span style="color:var(--text-hell)">Bedarf M · 25 – 75 mm</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">40</strong><span style="color:var(--text-hell)">Bedarf L · ab 80 mm</span></div>
+      </div>
+      <p class="section-intro">Beste Kombination der 6 Fächer: 2 × Fach „S + 2 M“ · 2 × Fach „3 × M“ · 2 × Fach „2 × L“.</p>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Beste Kombination der 6 Fächer</th><th class="num-c">S</th><th class="num-c">M</th><th class="num-c">L</th></tr></thead>
+            <tbody>
+              <tr><td>2 × Fach „S + 2 M"</td><td class="num-c">18</td><td class="num-c">34</td><td class="num-c">0</td></tr>
+              <tr><td>2 × Fach „3 × M"</td><td class="num-c">0</td><td class="num-c">54</td><td class="num-c">0</td></tr>
+              <tr><td>2 × Fach „2 × L"</td><td class="num-c">0</td><td class="num-c">0</td><td class="num-c">24</td></tr>
+              <tr class="total-row"><td>Angebot gesamt</td><td class="num-c">18</td><td class="num-c">88</td><td class="num-c">24</td></tr>
+              <tr><td>Bedarf</td><td class="num-c">14</td><td class="num-c">81</td><td class="num-c">40</td></tr>
+              <tr class="total-row"><td>Differenz</td><td class="num-c">+4 ✓</td><td class="num-c">+7 ✓</td><td class="num-c">−16 ✗</td></tr>
+            </tbody>
+          </table></div>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Das ist das eigentliche Ergebnis:</strong> Die kleinen und
+        mittleren Boxen sind vollständig untergebracht. Für 16 der 40 großen
+        Boxen fehlt in 6 Fächern der Platz – große Boxen brauchen mehr Fläche,
+        deshalb sinkt die Kapazität eines L-Fachs auf 12.
+      </div>
+      <p style="margin-top:0.75rem"><strong>Drei mögliche Lösungen:</strong></p>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>A · Zwei zusätzliche Fächer</h4><p>Für die langen Schrauben – sauberste Lösung, das zweite Regalsegment ist ohnehin vorhanden.</p></div>
+        <div class="mini-karte"><h4>B · Lagermenge auf 200 Stück senken</h4><p>Dann passen viele der 40 L-Sorten in eine M-Box (siehe Seite 3, Blatt „200 Stück“).</p></div>
+        <div class="mini-karte"><h4>C · Lange Sorten zusammenlegen</h4><p>Die 6 C-Längen der ABC-Analyse in eine unterteilte Sammelbox (siehe Seite 4).</p></div>
+      </div>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Sonderfall gefunden:</strong> Die beiden 250-mm-Schrauben (M12)
+        passen in <strong>keine</strong> der drei Boxen – auch die L-Box ist mit
+        225 mm Innentiefe zu kurz. Für diese zwei Sorten wird eine separate
+        Ablage oder ein Rohrhalter gebraucht.
+      </div>
+    </section>
+
+    <section>
+      <h2>5 &middot; Dimensionierung des Trennsystems</h2>
+      <p class="section-intro">Trennstege + Spax.</p>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Bauteil</th><th class="num-c">je Fach</th><th class="num-c">6 Fächer</th><th>Maß / Bemerkung</th></tr></thead>
+            <tbody>
+              <tr><td>Längs-Trennstege (bei 3 × M)</td><td class="num-c">7</td><td class="num-c">42</td><td>je 500 mm · trennen die 8 Spalten</td></tr>
+              <tr><td>Quer-Trennstege</td><td class="num-c">2</td><td class="num-c">12</td><td>je 930 mm · trennen die 3 Reihen</td></tr>
+              <tr><td>Laufmeter Profil</td><td class="num-c">5,36 m</td><td class="num-c">32,2 m</td><td>42 × 0,5 m + 12 × 0,93 m</td></tr>
+              <tr><td>Spax-Schrauben</td><td class="num-c">29</td><td class="num-c">174</td><td>3 je Längssteg, 4 je Quersteg</td></tr>
+              <tr class="total-row"><td>Bohrungen im Regalboden</td><td class="num-c">29</td><td class="num-c">174</td><td>vorbohren (OSB-Platte)</td></tr>
+            </tbody>
+          </table></div>
+      <p style="margin-top:0.75rem">
+        Die Trennstege sind im CAD-Modell bereits als Bauteile enthalten – die
+        Mengen ergeben sich direkt aus der gewählten Fach-Variante.
+      </p>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="11-cad-konstruktion.html">
+        <span class="richtung">&larr; Zurück</span>
+        CAD-Konstruktion
+      </a>
+      <a class="naechste" href="13-bewertung-ausblick.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Bewertung &amp; Ausblick
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

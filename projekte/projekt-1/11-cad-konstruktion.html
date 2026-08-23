@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 1: CAD-Konstruktion der Fächer | Mein Praxissemester</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="inner">
+      <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-aufgabenstellung.html" class=""><span class="nr">2</span>Aufgabenstellung</a><a href="03-bestandsaufnahme.html" class=""><span class="nr">3</span>Bestandsaufnahme</a><a href="04-bestandsanalyse.html" class=""><span class="nr">4</span>Bestandsanalyse</a><a href="05-zylinderkopf.html" class=""><span class="nr">5</span>Zylinderkopf</a><a href="06-sechskant.html" class=""><span class="nr">6</span>Sechskant</a><a href="07-holzschrauben.html" class=""><span class="nr">7</span>Holzschrauben</a><a href="08-schlossschrauben.html" class=""><span class="nr">8</span>Schloßschrauben</a><a href="09-zusammenfuehrung.html" class=""><span class="nr">9</span>Zusammenführung</a><a href="10-boxen-regal-layout.html" class=""><span class="nr">10</span>Boxen & Regal</a><a href="11-cad-konstruktion.html" class="aktiv"><span class="nr">11</span>CAD-Konstruktion</a><a href="12-kapazitaetsnachweis.html" class=""><span class="nr">12</span>Kapazitätsnachweis</a><a href="13-bewertung-ausblick.html" class=""><span class="nr">13</span>Bewertung & Ausblick</a>
+    </div>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 1</a> &rsaquo; Seite 11 von 13</div>
+      <h1>CAD-Konstruktion der Fächer</h1>
+      <p class="intro">Der Konstruktionsteil des Projekts: drei Boxgrößen modelliert, fünf Fach-Varianten aufgebaut, Kapazitäten je Variante ermittelt und ein kompletter Belegungsplan für das Regal erstellt.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="kennzahlen-grid" style="background:var(--karte);padding:1rem;border-radius:var(--radius);border:1px solid var(--rand)">
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">3</strong><span style="color:var(--text-hell)">Boxgrößen S · M · L</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">5</strong><span style="color:var(--text-hell)">Fach-Varianten</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">3</strong><span style="color:var(--text-hell)">Regal-Gesamtvarianten</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">.stp</strong><span style="color:var(--text-hell)">CAD-Dateien</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>i &middot; Kopfdaten des Dokuments</h2>
+      <p class="section-intro">1:1 übernommen.</p>
+      <div class="tabelle-wrapper"><table>
+            <tbody>
+              <tr><td style="width:200px"><b>Titel</b></td><td>Schraubenlager übersichtlicher gestalten</td></tr>
+              <tr><td><b>Aufgabe N°</b></td><td>1</td></tr>
+              <tr><td><b>Besitzer/-in</b></td><td>Hussin</td></tr>
+              <tr><td><b>Datum Beginn</b></td><td>2. März 2026</td></tr>
+              <tr><td><b>Datum Ende</b></td><td>9. März 2026</td></tr>
+              <tr><td><b>Typ</b></td><td>weitere Tätigkeiten</td></tr>
+              <tr><td><b>Anhänge</b></td><td>Schraubenlager übersichtlicher gestalten.pdf · .docx · mehrere .stp-CAD-Dateien</td></tr>
+            </tbody>
+          </table></div>
+      <p style="margin-top:0.75rem">
+        Bearbeitungszeit laut Kopfdaten: 2.–9. März 2026, also rund eine
+        Arbeitswoche für den Konstruktionsteil.
+      </p>
+    </section>
+
+    <section>
+      <h2>1 &middot; Die drei Boxgrößen</h2>
+      <p class="section-intro">Originalmaße.</p>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>Box S · 102 × 74 × 115 mm</h4><p>kleine Schrauben bis 20 mm.</p></div>
+        <div class="mini-karte"><h4>Box M · 115 × 85 × 155 mm</h4><p>mittlere Längen 25 – 80 mm.</p></div>
+        <div class="mini-karte"><h4>Box L · 145 × 125 × 225 mm</h4><p>lange Schrauben ab 85 mm.</p></div>
+      </div>
+      <p style="margin-top:1rem"><strong>Rechnerische Prüfung gegen die Fachbreite 930 mm:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Box S · 102 mm</strong>→ 930 ÷ 102 = 9 Boxen je Reihe (Rest 12 mm).</span></li>
+        <li><span><strong>Box M · 115 mm</strong>→ 930 ÷ 115 = 8 Boxen je Reihe (Rest 10 mm).</span></li>
+        <li><span><strong>Box L · 145 mm</strong>→ 930 ÷ 145 = 6 Boxen je Reihe (Rest 60 mm).</span></li>
+      </ul>
+      <p style="margin-top:0.75rem">
+        ⇒ Die drei Größen sind so gewählt, dass sie die Fachbreite nahezu
+        restlos ausnutzen – genau die Aufgabenstellung aus Seite 2.
+      </p>
+    </section>
+
+    <section>
+      <h2>2 &middot; Fünf Fach-Varianten und ihre Kapazität</h2>
+      <p class="section-intro">„Kapazitäten pro Fach-Type“.</p>
+      <div class="bild-vergleich" style="margin-bottom:1rem">
+        <div class="bild-box">
+          <span class="label">CAD-Rendering</span>
+          <img src="img/cad-fach-varianten.jpg" alt="CAD-Rendering: Fach-Regal mit 3 Reihen M-Boxen aus mehreren Perspektiven" />
+          <p class="bildtext">Fach-Regal mit 3 Reihen M – eine von fünf konstruierten Fach-Varianten.</p>
+        </div>
+      </div>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Fach-Variante</th><th>Boxen-Mix</th><th class="num-c">Reihen</th><th class="num-c">Boxen je Fach</th></tr></thead>
+            <tbody><tr><td><b>Fach mit 3 Reihen M</b></td><td>3 × M</td><td class="num-c">9 + 9 + 9</td><td class="num-c"><b style="color:#b8a318">27</b></td></tr><tr><td><b>Fach mit 1 S, 1 M und 1 L</b></td><td>S + M + L</td><td class="num-c">9 + 9 + 6</td><td class="num-c"><b style="color:#2f855a">24</b></td></tr><tr><td><b>Fach mit 1 S und 2 M</b></td><td>S + M + M</td><td class="num-c">9 + 9 + 8</td><td class="num-c"><b style="color:#c0392b">26</b></td></tr><tr><td><b>Fach mit 2 Reihen L</b></td><td>L + L</td><td class="num-c">6 + 6</td><td class="num-c"><b style="color:#1f8a3d">12</b></td></tr><tr><td><b>Fach mit 1 M und 1 L</b></td><td>M + L</td><td class="num-c">9 + 6 + 0</td><td class="num-c"><b style="color:#7a6a12">15</b></td></tr></tbody>
+          </table></div>
+      <p style="margin-top:0.75rem"><strong>Was die fünf Varianten leisten:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>3 × M (27)</strong>meiste Plätze, aber nur eine Boxgröße: unflexibel für lange Schrauben.</span></li>
+        <li><span><strong>S + M + L (24)</strong>die ergonomischste Lösung: jede Länge bekommt die passende Box.</span></li>
+        <li><span><strong>S + 2 M (26)</strong>guter Kompromiss, fast so viele Plätze wie 3 × M.</span></li>
+        <li><span><strong>2 × L (12)</strong>nur für die langen Schrauben sinnvoll, halbe Kapazität.</span></li>
+        <li><span><strong>M + L (15)</strong>die dritte Reihe entfällt (im Original durchgestrichen), dadurch nur 15.</span></li>
+      </ul>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Kleine Unstimmigkeit:</strong> Bei Variante 3 × M ergäbe die
+        Rechnung 3 × 8 = 24 Boxen, notiert sind 27. Vermutlich wurden die
+        M-Boxen dort quer gestellt (85 mm statt 115 mm Breite). Am Modell kurz
+        prüfen.
+      </div>
+    </section>
+
+    <section>
+      <h2>3 &middot; Das komplette Regal – 3 Bestückungsvarianten</h2>
+      <p class="section-intro">6 Fächer.</p>
+      <div class="tabelle-wrapper"><table class="tabelle"><thead><tr><th>Regalvariante</th><th>Plätze</th><th>Bemerkung</th></tr></thead><tbody>
+<tr><td>Regal volle Boxen M</td><td>162</td><td>6 × 27 Boxplätze · Bedarf 135 → passt ✓</td></tr>
+<tr><td>Regal volle S · M · L</td><td>144</td><td>6 × 24 Boxplätze · Bedarf 135 → passt ✓</td></tr>
+<tr><td>Regal volle 1S 2M</td><td>156</td><td>6 × 26 Boxplätze · Bedarf 135 → passt ✓</td></tr>
+</tbody></table></div>
+      <p style="margin-top:0.75rem"><strong>Die entscheidende Aussage:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Alle drei Varianten reichen</strong>für die 135 benötigten Boxen – 144, 156 und 162 Plätze.</span></li>
+        <li><span><strong>Beste Reserve</strong>Variante „volle M“ mit 162 Plätzen = 27 freie Plätze (20 % Reserve).</span></li>
+        <li><span><strong>Beste Ergonomie</strong>Variante „S · M · L“ mit 144 Plätzen = 9 freie Plätze (7 % Reserve).</span></li>
+        <li><span><strong>Bester Kompromiss</strong>„1S 2M“ mit 156 Plätzen = 21 freie Plätze (16 % Reserve).</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4 &middot; Belegungsplan – „Regal gefüllt“</h2>
+      <p class="section-intro">Jede Box mit konkreter Schraube beschriftet.</p>
+      <div class="info-box">
+        <strong>Warum diese Seite die wichtigste ist:</strong> Hier wird aus dem
+        Konzept ein konkreter Stellplan: jede der 135 Sorten hat einen festen,
+        benannten Platz. Sortierlogik erkennbar: je Reihe ein Gewinde, innerhalb
+        der Reihe aufsteigende Länge. Farbcode = Boxgröße: rot = S, gelb = M,
+        grün = L. ⇒ Daraus lässt sich direkt eine Etikettenliste erzeugen.
+      </div>
+      <div class="bild-vergleich" style="margin-top:1rem">
+        <div class="bild-box">
+          <span class="label">Belegungsplan · Original</span>
+          <img src="img/belegungsplan.jpg" alt="Handschriftlicher Belegungsplan mit Schraubenbezeichnungen je Box" />
+          <p class="bildtext">Vier Fächer aus dem handschriftlichen Belegungsplan.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.75rem"><strong>Meine Lesart der Handschrift</strong> – als Beispiel zwei Fächer transkribiert. Bitte gegenlesen, bevor daraus Etiketten gedruckt werden.</p>
+      <div class="tabelle-wrapper" style="margin-top:0.5rem">
+        <table class="tabelle">
+          <thead><tr><th colspan="2">Fach 1 · gelb + rot</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Reihe 1 · gelb (M)</strong></td><td>M8×80 · M8×180 · M10×14 · M10×20 · M10×25 · M10×30 · M10×40 · M10×50</td></tr>
+            <tr><td><strong>Reihe 2 · gelb (M)</strong></td><td>M8×70 · M8×65 · M8×60 · M8×55 · M8×50 · M8×20 · M8×35 · M8×30 · M8×25</td></tr>
+            <tr><td><strong>Reihe 3 · rot (S)</strong></td><td>M5×20 · M5×25 · M6×20 · M6×25 · M6×30 · M6×35 · M6×40 · M8×12 · M8×20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabelle-wrapper" style="margin-top:0.75rem">
+        <table class="tabelle">
+          <thead><tr><th colspan="2">Fach 2 · grün</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Reihe 1 · grün (L)</strong></td><td>M16×180 · M12×125 · M12×50 · M12×35 · M12×30 · M10×120</td></tr>
+            <tr><td><strong>Reihe 2 · grün (L)</strong></td><td>M10×55 · M10×60 · M10×65 · M10×70 · M10×80 · M10×180</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-intro" style="margin-top:0.5rem">Die übrigen vier Fächer können auf Wunsch genauso transkribiert werden – dann liegt die komplette Etikettenliste als Tabelle vor.</p>
+    </section>
+
+    <section>
+      <h2>Einordnung in das Gesamtprojekt</h2>
+      <div class="tabelle-wrapper"><table class="tabelle"><thead><tr><th>Frage aus der Aufgabenstellung</th><th>Antwort aus dieser Konstruktion</th><th>Status</th></tr></thead><tbody>
+<tr><td>Welche Boxgröße?</td><td>Drei Größen: S 102 · M 115 · L 145 mm Breite</td><td><span class="prio prio--niedrig">geklärt</span></td></tr>
+<tr><td>Wie viele passen nebeneinander?</td><td>9 × S, 8 × M oder 6 × L je Reihe</td><td><span class="prio prio--niedrig">geklärt</span></td></tr>
+<tr><td>Reicht das Regal für 135 Boxen?</td><td>Ja – 144 bis 162 Plätze je nach Variante</td><td><span class="prio prio--niedrig">geklärt</span></td></tr>
+<tr><td>Wie sieht das Trennsystem aus?</td><td>Trennstege sind im CAD-Modell bereits enthalten</td><td><span class="prio prio--niedrig">geklärt</span></td></tr>
+<tr><td>Welche Schraube in welche Box?</td><td>Belegungsplan liegt handschriftlich vor</td><td><span class="prio prio--mittel">zu digitalisieren</span></td></tr>
+<tr><td>Etiketten</td><td>noch offen</td><td><span class="prio prio--hoch">offen</span></td></tr>
+</tbody></table></div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="10-boxen-regal-layout.html">
+        <span class="richtung">&larr; Zurück</span>
+        Boxen- &amp; Regallayout
+      </a>
+      <a class="naechste" href="12-kapazitaetsnachweis.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Kapazitätsnachweis
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

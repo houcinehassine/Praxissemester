@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 1: Bestandsanalyse & Kennzahlen | Mein Praxissemester</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="inner">
+      <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-aufgabenstellung.html" class=""><span class="nr">2</span>Aufgabenstellung</a><a href="03-bestandsaufnahme.html" class=""><span class="nr">3</span>Bestandsaufnahme</a><a href="04-bestandsanalyse.html" class="aktiv"><span class="nr">4</span>Bestandsanalyse</a><a href="05-zylinderkopf.html" class=""><span class="nr">5</span>Zylinderkopf</a><a href="06-sechskant.html" class=""><span class="nr">6</span>Sechskant</a><a href="07-holzschrauben.html" class=""><span class="nr">7</span>Holzschrauben</a><a href="08-schlossschrauben.html" class=""><span class="nr">8</span>Schloßschrauben</a><a href="09-zusammenfuehrung.html" class=""><span class="nr">9</span>Zusammenführung</a><a href="10-boxen-regal-layout.html" class=""><span class="nr">10</span>Boxen & Regal</a><a href="11-cad-konstruktion.html" class=""><span class="nr">11</span>CAD-Konstruktion</a><a href="12-kapazitaetsnachweis.html" class=""><span class="nr">12</span>Kapazitätsnachweis</a><a href="13-bewertung-ausblick.html" class=""><span class="nr">13</span>Bewertung & Ausblick</a>
+    </div>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 1</a> &rsaquo; Seite 4 von 13</div>
+      <h1>Bestandsanalyse &amp; Kennzahlen</h1>
+      <p class="intro">Bevor Boxen bestellt werden, muss klar sein, wie sich der Bestand verteilt. Alle Auswertungen sind aus der Bestandsmatrix gerechnet – nach Typ, nach Gewinde, nach Länge und als ABC-Analyse.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="kennzahlen-grid" style="background:var(--karte);padding:1rem;border-radius:var(--radius);border:1px solid var(--rand)">
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">135</strong><span style="color:var(--text-hell)">Sorten</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">7</strong><span style="color:var(--text-hell)">Gewinde</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">37</strong><span style="color:var(--text-hell)">Längen</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">259</strong><span style="color:var(--text-hell)">theoretisch mögliche Kombinationen</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>1 &middot; Verteilung nach Schraubentyp</h2>
+      <div class="tabelle-wrapper"><table class="tabelle"><thead><tr><th>Schraubentyp</th><th>Anzahl</th><th>Anteil</th></tr></thead><tbody>
+<tr><td>Sechskantkopf</td><td>47</td><td>35 %</td></tr>
+<tr><td>Zylinderkopfschraube</td><td>36</td><td>27 %</td></tr>
+<tr><td>Holzschrauben</td><td>29</td><td>21 %</td></tr>
+<tr><td>Schloßschrauben</td><td>23</td><td>17 %</td></tr>
+</tbody></table></div>
+      <p style="margin-top:0.75rem"><strong>Ablesbar:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Sechskantkopf ist der größte Block</strong>47 Sorten = 35 % des Bestands.</span></li>
+        <li><span><strong>Zylinderkopf und Sechskant zusammen</strong>machen 83 Sorten = 61 % aus.</span></li>
+        <li><span><strong>Schloßschrauben sind die kleinste Gruppe</strong>(23) – passen in eine einzige Schublade.</span></li>
+        <li><span><strong>Konsequenz</strong>Sechskantschrauben brauchen die beste Greifposition im Regal.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2 &middot; Verteilung nach Gewindegröße</h2>
+      <p class="section-intro">Alle 4 Typen zusammen.</p>
+      <div class="tabelle-wrapper"><table class="tabelle"><thead><tr><th>Gewinde</th><th>Anzahl</th><th>Anteil</th></tr></thead><tbody>
+<tr><td>M8</td><td>42</td><td>31 %</td></tr>
+<tr><td>M10</td><td>36</td><td>27 %</td></tr>
+<tr><td>M6</td><td>24</td><td>18 %</td></tr>
+<tr><td>M12</td><td>24</td><td>18 %</td></tr>
+<tr><td>M5</td><td>5</td><td>4 %</td></tr>
+<tr><td>M16</td><td>3</td><td>2 %</td></tr>
+<tr><td>M20</td><td>1</td><td>1 %</td></tr>
+</tbody></table></div>
+      <p style="margin-top:0.75rem"><strong>Ablesbar:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>M8 und M10 dominieren</strong>78 von 135 Sorten = 58 %.</span></li>
+        <li><span><strong>M6 und M12 folgen</strong>mit je 24 Sorten.</span></li>
+        <li><span><strong>M16 und M20 sind Randgrößen</strong>zusammen nur 4 Sorten = 3 %.</span></li>
+        <li><span><strong>Konsequenz</strong>M16/M20 brauchen keine eigene Schublade, sondern eine gemeinsame Sonderbox.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3 &middot; Verteilung nach Länge</h2>
+      <p class="section-intro">Anzahl Sorten je Länge, alle Typen zusammen.</p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Klare Spitze bei 40 und 60 mm</strong>mit je 13 Sorten.</span></li>
+        <li><span><strong>Der Bereich 20–80 mm</strong>enthält 96 der 135 Sorten = 71 %.</span></li>
+        <li><span><strong>Ab 125 mm wird es sehr dünn</strong>nur noch 8 Sorten auf 13 Längen.</span></li>
+        <li><span><strong>14 Längen sind komplett leer</strong>bewusst als Platzhalter mitgeführt, nicht gelöscht.</span></li>
+      </ul>
+      <p style="margin-top:0.75rem">
+        <strong>Konsequenz:</strong> der Schwerpunkt des Regals liegt eindeutig
+        bei den kurzen und mittleren Längen. Die vollständige Länge-für-Länge-Aufstellung
+        findest du in den Matrizen auf den Seiten 5–8.
+      </p>
+    </section>
+
+    <section>
+      <h2>4 &middot; ABC-Analyse der Längen</h2>
+      <p class="section-intro">Wo lohnt sich der beste Platz?</p>
+      <div class="kennzahlen-grid" style="background:var(--karte);padding:1rem;border-radius:var(--radius);border:1px solid var(--rand);margin-bottom:1rem">
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">A: 11</strong><span style="color:var(--text-hell)">von 37 Längen decken 81 % ab</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">B: 6</strong><span style="color:var(--text-hell)">von 37 Längen, weitere 13 %</span></div>
+        <div class="kennzahl" style="background:var(--hintergrund);border-color:var(--rand)"><strong style="color:var(--akzent)">C: 6</strong><span style="color:var(--text-hell)">von 37 Längen, restliche 6 %</span></div>
+      </div>
+      <div class="tabelle-wrapper"><table>
+            <thead><tr><th>Klasse</th><th>Längen</th><th class="num-c">Sorten</th><th>Platzierung im Regal</th></tr></thead>
+            <tbody>
+              <tr><td><b>A</b></td><td>40 mm · 60 mm · 50 mm · 80 mm · 30 mm · 35 mm · 20 mm · 25 mm · 70 mm · 100 mm · 90 mm</td><td class="num-c">110</td><td>Greifhöhe, vorderste Reihe</td></tr>
+              <tr><td><b>B</b></td><td>120 mm · 55 mm · 180 mm · 12 mm · 16 mm · 65 mm</td><td class="num-c">18</td><td>obere / untere Fächer</td></tr>
+              <tr><td><b>C</b></td><td>250 mm · 14 mm · 45 mm · 110 mm · 130 mm · 140 mm</td><td class="num-c">7</td><td>Sammelbox mit Unterteilung</td></tr>
+              <tr class="total-row"><td colspan="2">Summe</td><td class="num-c">135</td><td>—</td></tr>
+            </tbody>
+          </table></div>
+      <p style="margin-top:0.75rem"><strong>Die wichtigste Erkenntnis:</strong></p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>30 % der Längen decken 81 % des Bestands ab</strong>klassische ABC-Verteilung.</span></li>
+        <li><span><strong>Diese 11 Längen bekommen die ergonomisch besten Plätze</strong>Greifhöhe 80–140 cm.</span></li>
+        <li><span><strong>Die 6 C-Längen (nur 7 Sorten)</strong>können in eine gemeinsame Sammelbox – spart 6 Boxenplätze.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5 &middot; Abgeleiteter Boxenbedarf</h2>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>S &middot; klein &middot; 14</h4><p>Längen bis 20 mm · ca. 100 × 100 mm.</p></div>
+        <div class="mini-karte"><h4>M &middot; mittel &middot; 81</h4><p>25 – 75 mm · ca. 200 × 100 mm.</p></div>
+        <div class="mini-karte"><h4>L &middot; groß &middot; 40</h4><p>ab 80 mm · ca. 300 × 100 mm.</p></div>
+      </div>
+      <p style="margin-top:1rem">
+        Die Zuordnung folgt der Länge der Schraube: je länger, desto größer muss
+        die Box sein. Bei einer Lagermenge von 200 statt 500 Stück je Sorte
+        verschiebt sich das Verhältnis deutlich Richtung S und M – siehe Seite 3.
+      </p>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="03-bestandsaufnahme.html">
+        <span class="richtung">&larr; Zurück</span>
+        Bestandsaufnahme
+      </a>
+      <a class="naechste" href="05-zylinderkopf.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Zylinderkopfschrauben
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>
