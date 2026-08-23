@@ -39,10 +39,25 @@ html {
 
 body {
   margin: 0;
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: var(--hintergrund);
   color: var(--text);
   line-height: 1.65;
+}
+
+h1, h2, h3, h4,
+.logo,
+.hero .stat strong,
+.kennzahl strong,
+.karte-nummer,
+.schritt-titel,
+.projekt-subnav a,
+.seiten-menu summary {
+  font-family: "Space Grotesk", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
 }
 
 a {
@@ -1335,4 +1350,134 @@ footer.site-footer {
   padding: 1.5rem;
   color: var(--text-hell);
   font-size: 0.85rem;
+}
+
+/* ---------- Druckstil ---------- */
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Navigations- und Interaktionselemente ausblenden – auf Papier nutzlos */
+  header.site-header,
+  .projekt-subnav,
+  .floating-nav,
+  .filter-bar,
+  .zurueck-link,
+  .projekt-nav,
+  footer.site-footer,
+  .schritt-pfeil {
+    display: none !important;
+  }
+
+  html, body {
+    background: #fff;
+  }
+
+  main {
+    max-width: none;
+    padding: 0 0.5cm;
+  }
+
+  /* Alles sichtbar drucken, auch was per JS erst beim Scrollen eingeblendet wird */
+  .projekt-detail section.reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Ablauf-Schritte komplett ausgeklappt drucken statt eingeklappt */
+  .schritt-inhalt {
+    max-height: none !important;
+  }
+
+  .schritt-nummer {
+    background: var(--kat) !important;
+    border-color: var(--kat) !important;
+    color: #fff !important;
+  }
+
+  /* Dunkle Flächen für den Druck aufhellen und Kontur statt Farbfläche */
+  .projekt-kopf,
+  .seiten-kopf {
+    background: #fff !important;
+    color: var(--text) !important;
+    border: 1px solid var(--rand);
+    border-top: 4px solid var(--kat) !important;
+    margin: 0 0 1cm !important;
+    box-shadow: none !important;
+  }
+
+  .projekt-kopf .intro,
+  .projekt-kopf .meta,
+  .projekt-kopf .zurueck-link,
+  .seiten-kopf .intro { color: var(--text-hell) !important; }
+
+  .projekt-kopf .kennzahl {
+    background: var(--hintergrund) !important;
+    border-color: var(--rand) !important;
+  }
+
+  .projekt-kopf .kennzahl strong { color: var(--kat) !important; }
+  .projekt-kopf .kennzahl span { color: var(--text-hell) !important; }
+
+  .nutzen-box {
+    background: #fff !important;
+    color: var(--text) !important;
+    border: 1px solid var(--rand);
+  }
+
+  .nutzen-box .wert strong { color: var(--kat) !important; }
+  .nutzen-box .wert span,
+  .nutzen-box .pfeil,
+  .nutzen-box .fussnote { color: var(--text-hell) !important; }
+
+  .hero {
+    background: #fff !important;
+    color: var(--text) !important;
+    border-bottom: 2px solid var(--rand);
+  }
+
+  .hero::after { display: none; }
+  .hero p { color: var(--text-hell) !important; }
+  .hero .stat strong { color: var(--kat) !important; }
+  .hero .stat span { color: var(--text-hell) !important; }
+  .rahmendaten { border-top-color: var(--rand) !important; }
+  .rahmendaten span { color: var(--text-hell) !important; }
+  .rahmendaten strong { color: var(--text) !important; }
+
+  /* Seitenumbrüche an sinnvollen Stellen */
+  .projekt-detail section,
+  .mini-karte,
+  .kennzahl,
+  .ergebnis-liste li,
+  .toc-karte,
+  .fazit-grid .karte,
+  .schritt,
+  .bild-box,
+  .zitat-box {
+    break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+
+  /* Bei Tabellen, die über eine Seite hinausgehen, die Kopfzeile wiederholen */
+  table.mx thead,
+  table.tabelle thead {
+    display: table-header-group;
+  }
+
+  a[href]::after {
+    content: "";
+  }
+
+  .bild-box img {
+    max-height: 9cm;
+    object-fit: contain;
+  }
 }
