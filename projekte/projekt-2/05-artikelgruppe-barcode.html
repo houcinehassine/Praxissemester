@@ -23,24 +23,24 @@
   </header>
   <nav class="projekt-subnav">
     <div class="fortschritt">
-      <span>5/9</span>
-      <span class="balken"><span style="width:56%"></span></span>
+      <span>5/10</span>
+      <span class="balken"><span style="width:50%"></span></span>
     </div>
     <div class="scroll-bereich">
       <div class="inner">
-        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class="aktiv"><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class="aktiv"><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class=""><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
       </div>
     </div>
     <details class="seiten-menu">
       <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
       <div class="seiten-menu-liste">
-        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class="aktiv"><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class="aktiv"><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class=""><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
       </div>
     </details>
   </nav>
   <header class="seiten-kopf">
     <div class="inner">
-      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 5 von 9</div>
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 5 von 10</div>
       <h1>Artikelgruppe &amp; Barcode</h1>
       <p class="intro">Ein zweistufiges Barcode-System: Ein Barcode je Artikelgruppe (z. B. „Vierkantrohr 80×80×3 aus Baustahl“), darunter ein individueller Stück-Barcode für jedes einzelne Lagerteil.</p>
     </div>
@@ -82,6 +82,13 @@
         </div>
       </div>
       <p style="margin-top:0.75rem"><strong>Ablauf:</strong> Profil und Material werden aus vorbereiteten Listen in den Einstellungen ausgewählt (ComboBox), das Maß frei eingegeben. Bezeichnung und Barcode werden danach automatisch zusammengesetzt.</p>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Duplikatsprüfung:</strong> Bevor eine neue Artikelgruppe angelegt
+        wird, prüft das Makro, ob die Bezeichnung bereits existiert. Gibt es
+        einen Treffer, erscheint „Dieser Artikel existiert bereits!“ und die
+        Erstellung wird abgebrochen – so entstehen keine doppelten Gruppen für
+        dieselbe Kombination aus Profil, Maß und Material.
+      </div>
       <pre class="code-block">&#39; Barcode einer Artikelgruppe generieren (gekürzt)
 prefix = Abzeichnung_Profil &amp; Abzeichnung_Material
 
@@ -135,6 +142,35 @@ BarcodeOne = prefix &amp; Format(Max_Nummer + 1, &quot;0000&quot;)
           <div class="schritt-inhalt"><p>Neue Zeile mit Datum, beiden Barcodes, allen Stammdaten aus Gruppe und Formular sowie Ort, Type und Menge anlegen – mit Fehlerbehandlung, falls etwas schiefgeht.</p></div>
         </div>
       </div>
+      <p style="margin-top:0.75rem">
+        Praktischer Nebeneffekt: Dieselbe Funktion bedient über einen
+        zusätzlichen Parameter („Voll“ oder „Rest“) sowohl den Button
+        „Artikel hinzufügen“ als auch „Reste hinzufügen“ – der Unterschied
+        entsteht nur dadurch, in welches Blatt geschrieben wird.
+      </p>
+    </section>
+
+    <section>
+      <h2>Bearbeiten &amp; Löschen: clevere Barcode-Erkennung</h2>
+      <p>
+        Beim Bearbeiten oder Löschen eines Stücks genügt oft der
+        Gruppen-Barcode: Enthält der gescannte Code keinen Bindestrich,
+        erkennt das Makro automatisch, dass es sich um einen
+        <strong>Hauptbarcode</strong> handelt, und fragt gezielt nach, welches
+        Stück genau gemeint ist.
+      </p>
+      <div class="zitat-box">
+        „Haupt-Barcode ‚VKBS0001‘ erkannt. Welches genaue Stück möchten Sie
+        bearbeiten? (z. B. ‚1‘)“
+        <span class="quelle">Original-Meldung aus dem Makro</span>
+      </div>
+      <p style="margin-top:0.75rem">
+        Beim Löschen kommt zusätzlich eine Sicherheitsabfrage
+        („WIRKLICH unwiderruflich löschen?“), und beim Bearbeiten wird das
+        Formular vorab mit den bestehenden Werten des gefundenen Stücks
+        befüllt – geänderte Daten werden zusätzlich automatisch im
+        „Verlauf“ protokolliert.
+      </p>
     </section>
 
     <nav class="projekt-nav">

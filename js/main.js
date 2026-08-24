@@ -71,9 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+      { rootMargin: "600px 0px 600px 0px", threshold: 0 }
     );
     abschnitte.forEach((a) => beobachter.observe(a));
+
+    // Sicherheitsnetz: Screenshot-/Export-Werkzeuge scrollen teils nicht
+    // "echt", wodurch IntersectionObserver nie auslöst. Nach kurzer Zeit
+    // wird deshalb ohnehin alles sichtbar geschaltet.
+    setTimeout(() => {
+      abschnitte.forEach((a) => a.classList.add("sichtbar"));
+    }, 1200);
   }
 
   // --- Schwebende Vor/Zurück-Buttons aus der vorhandenen Projekt-Navigation erzeugen ---

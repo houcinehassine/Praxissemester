@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 2: Material-Entnahme & Reste | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>9/10</span>
+      <span class="balken"><span style="width:90%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class="aktiv"><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class="aktiv"><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 9 von 10</div>
+      <h1>Material-Entnahme &amp; Reste-Automatik</h1>
+      <p class="intro">Das eigentliche Herzstück für die Aufgabe „Reste besser nutzen“: Beim Zuschnitt eines Artikels berechnet das System live die Restlänge und entscheidet automatisch, ob sie sich lohnt aufzuheben.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Quelle</strong>
+        05Lagerbestand_Excel_Datei_Stand_14.08.26.pdf &middot; Modul G7_MaterialEntnahme_Logik &middot; Formular frmMaterialEntnahme
+      </div>
+    </section>
+
+    <section>
+      <h2>Warum diese Seite eine eigene braucht</h2>
+      <p>
+        Auf den ersten Blick klingt „Reste“ nur nach einem zusätzlichen
+        Excel-Blatt. Tatsächlich steckt dahinter eine eigene kleine
+        Entscheidungslogik: Wird ein Stück Material teilweise verbraucht
+        (z. B. ein 2 m langes Rohr, von dem nur 1,3 m gebraucht werden),
+        berechnet das System die Restlänge automatisch, fragt bei sehr
+        kurzen Resten nach, ob sie überhaupt noch lohnenswert sind, und
+        bucht brauchbare Reste selbstständig in die Restebestand-Liste ein –
+        ohne dass jemand von Hand nachträgt.
+      </p>
+    </section>
+
+    <section>
+      <h2>Der Dialog: Barcode scannen, Länge eingeben</h2>
+      <div class="stepper">
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">1</span>
+            <span class="schritt-titel">Barcode scannen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Wird ein Stück-Barcode gescannt (mit Bindestrich, z. B. „VKBS0001-2“), lädt das Formular direkt dessen Länge. Wird nur der Gruppen-Barcode gescannt, füllt sich ein Dropdown mit allen verfügbaren Stücken dieser Gruppe zur Auswahl.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">2</span>
+            <span class="schritt-titel">Genutzte Länge eingeben</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Sobald eine Zahl eingetippt wird, berechnet das Formular live die Restlänge (Ausgangslänge − genutzte Länge) und zeigt sie sofort an.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">3</span>
+            <span class="schritt-titel">Schrott-Abfrage bei kurzen Resten</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Ist der berechnete Rest kleiner als 1000 mm, fragt eine MsgBox gezielt nach, ob das Stück in den Schrott soll – oder ob es sich noch lohnt, es in die Reste-Liste aufzunehmen.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">4</span>
+            <span class="schritt-titel">Verbuchen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Ein Klick auf „Material entnehmen“ übergibt alle Werte an die eigentliche Logik im Modul G7 – das Formular selbst kennt die Lagerlogik gar nicht, es sammelt nur die Eingaben.</p></div>
+        </div>
+      </div>
+      <pre class="code-block">&#39; Live-Berechnung, sobald der Nutzer die genutzte Länge eingibt
+Private Sub txtGenutzt_Change()
+    On Error Resume Next
+    initLaenge = CDbl(txtInitialeLaenge.Value)
+    genLaenge  = CDbl(txtGenutzt.Value)
+    rest = initLaenge - genLaenge
+    If rest &gt;= 0 Then
+        txtRestlaenge.Value = rest
+    Else
+        txtRestlaenge.Value = &quot;Fehler (Genutzt &gt; Initial)&quot;
+    End If
+End Sub</pre>
+    </section>
+
+    <section>
+      <h2>Die Schrott-Grenze</h2>
+      <p>
+        Ein fest im Code hinterlegter Schwellenwert (1000 mm) unterscheidet
+        automatisch zwischen einem Reststück, das sich noch zu lagern lohnt,
+        und einem Abschnitt, der ohnehin im Müll landet. Erst unterhalb
+        dieser Grenze wird überhaupt nachgefragt – bei längeren Resten
+        landet das Stück ohne Rückfrage direkt in der Reste-Liste.
+      </p>
+      <pre class="code-block">&#39; SCHROTT-PRÜFUNG – nur wenn ein kleiner Rest übrig bleibt
+IstSchrott = False
+If restL &gt; 0 And restL &lt; 1000 Then
+    If MsgBox(&quot;Das berechnete Reststück ist nur &quot; &amp; restL &amp; &quot; mm lang.&quot; &amp; vbCrLf &amp; _
+        &quot;Soll es in den MÜLL/SCHROTT geworfen werden?&quot; &amp; vbCrLf &amp; vbCrLf &amp; _
+        &quot;(Klicken Sie 'Nein', um es in die Reste-Liste zu legen)&quot;, _
+        vbYesNo + vbQuestion, &quot;Schrott-Grenze unterschritten&quot;) = vbYes Then
+        IstSchrott = True
+    End If
+End If</pre>
+    </section>
+
+    <section>
+      <h2>Was im Hintergrund passiert (ProzessMaterialEntnahme)</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Schritt</th><th>Was passiert</th></tr></thead>
+          <tbody>
+            <tr><td>1 &middot; Original-Stück finden</td><td>Über die zentrale Suchfunktion (Modul D) in der Ursprungstabelle lokalisieren.</td></tr>
+            <tr><td>2 &middot; Menge reduzieren</td><td>Ist mehr als 1 Stück vorhanden, wird die Menge um 1 verringert; war es das letzte Stück, wird die ganze Zeile gelöscht.</td></tr>
+            <tr><td>3 &middot; Reststück einbuchen (falls kein Schrott)</td><td>Existiert bereits ein Reststück derselben Gruppe mit exakt gleicher Länge, wird nur dessen Menge um 1 erhöht – sonst wird eine komplett neue Zeile mit eigenem Barcode angelegt.</td></tr>
+            <tr><td>4 &middot; Verlauf protokollieren</td><td>Ein Eintrag mit Typ „Verbrauch“ und der genutzten Länge (als negativer Wert) wird automatisch im Blatt „Verlauf“ ergänzt.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Gleiche Reste werden zusammengeführt statt dupliziert:</strong>
+        Schneidet man zweimal ein 300-mm-Reststück vom selben Profil ab,
+        landet das nicht als zwei Zeilen im System, sondern als eine Zeile
+        mit Menge 2 – die Reste-Liste bleibt dadurch übersichtlich, auch wenn
+        immer wieder ähnliche Reste anfallen.
+      </div>
+    </section>
+
+    <section>
+      <h2>Einordnung: die Buttons, die diese Logik auslösen</h2>
+      <p>
+        Auf dem Dashboard (siehe Tablet-Modus, Seite 8) gibt es getrennte
+        Buttons für „Reste hinzufügen/löschen/bearbeiten“ – sie rufen exakt
+        dieselben Funktionen wie bei vollständigen Artikeln auf, nur mit dem
+        Parameter „Rest“ statt „Voll“ und dem Zielblatt „Reste“ statt
+        „Artikel Liste“. Die Material-Entnahme-Logik auf dieser Seite ist der
+        einzige Weg, wie automatisch – ohne manuellen Button-Klick auf
+        „Reste hinzufügen“ – neue Resteinträge entstehen.
+      </p>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="08-aktueller-stand.html">
+        <span class="richtung">&larr; Zurück</span>
+        Aktueller Stand
+      </a>
+      <a class="naechste" href="10-fazit.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Fazit &amp; Ausblick
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -23,24 +23,24 @@
   </header>
   <nav class="projekt-subnav">
     <div class="fortschritt">
-      <span>6/9</span>
-      <span class="balken"><span style="width:67%"></span></span>
+      <span>6/10</span>
+      <span class="balken"><span style="width:60%"></span></span>
     </div>
     <div class="scroll-bereich">
       <div class="inner">
-        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class=""><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
       </div>
     </div>
     <details class="seiten-menu">
       <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
       <div class="seiten-menu-liste">
-        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-material-entnahme.html" class=""><span class="nr">9</span>Material-Entnahme & Reste</a><a href="10-fazit.html" class=""><span class="nr">10</span>Fazit & Ausblick</a>
       </div>
     </details>
   </nav>
   <header class="seiten-kopf">
     <div class="inner">
-      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 6 von 9</div>
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 6 von 10</div>
       <h1>Filtern &amp; Speichern</h1>
       <p class="intro">Eine universelle Filterfunktion, die für jede Tabelle wiederverwendet werden kann, sowie der Export- und Versand-Mechanismus, der Dashboard-Auswahl in fertige PDF-/Excel-Dateien und E-Mails verwandelt.</p>
     </div>
@@ -126,6 +126,28 @@ End Function</pre>
           <div class="schritt-inhalt"><p>Für jedes ausgewählte Blatt: PDF exportieren (falls gewünscht) und/oder als eigene Excel-Datei speichern – Dateiname automatisch mit Zeitstempel versehen.</p></div>
         </div>
       </div>
+    </section>
+
+    <section>
+      <h2>E-Mail-Versand mit Wahl des Mailprogramms</h2>
+      <p class="section-intro">Der Export lässt sich direkt im Anschluss automatisch per E-Mail verschicken – inklusive Anhängen.</p>
+      <p>
+        Statt sich auf ein einziges Mailprogramm festzulegen, prüft das
+        Modul, welcher Client gewünscht ist, und initialisiert das passende
+        Objekt:
+      </p>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>Outlook</h4><p>Standardfall: Outlook wird per COM-Automatisierung direkt angesteuert (<code>CreateObject("Outlook.Application")</code>).</p></div>
+        <div class="mini-karte"><h4>Gmail</h4><p>Als Workaround wird das Gmail-Fenster im Browser aktiviert – im Code selbst als „Hack-Vorschlag“ kommentiert, da VBA Web-Gmail nicht direkt steuern kann.</p></div>
+        <div class="mini-karte"><h4>Apple Mail</h4><p>Auf Mac-Rechnern wird stattdessen <code>Mail.Application</code> angesprochen.</p></div>
+      </div>
+      <p style="margin-top:0.75rem"><strong>Betreff und Text werden automatisch erzeugt</strong> – kein manuelles Tippen nötig:</p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Betreff</strong>setzt sich aus den exportierten Blattnamen und dem heutigen Datum zusammen, z. B. „Lager_System - Stand: 05.05.2026“.</span></li>
+        <li><span><strong>Text</strong>enthält eine Liste der exportierten Blätter, Erstellungsdatum/-uhrzeit und den Windows-Benutzernamen als Unterschrift.</span></li>
+        <li><span><strong>Anhänge</strong>werden automatisch anhand des generierten Dateinamens im Zielordner gesucht und angehängt (PDF und/oder Excel).</span></li>
+        <li><span><strong>Entwurf oder Direktversand</strong>eine Checkbox „Check_Direktversand“ entscheidet, ob die Mail nur zur Kontrolle geöffnet (<code>.Display</code>) oder sofort verschickt wird (<code>.Send</code>).</span></li>
+      </ul>
     </section>
 
     <section>
