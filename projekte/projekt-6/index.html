@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projekt 6: Schweißwagen mit Werkzeugordnung | Mein Praxissemester</title>
+  <title>Projekt 6: Schweißmaschinenwagen – Überblick | Mein Praxissemester</title>
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,147 +21,221 @@
       </nav>
     </div>
   </header>
-
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>1/7</span>
+      <span class="balken"><span style="width:14%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-anforderungen.html" class=""><span class="nr">2</span>Anforderungen</a><a href="03-masse-ergonomie.html" class=""><span class="nr">3</span>Maße & Ergonomie</a><a href="04-rahmen-werkstoff.html" class=""><span class="nr">4</span>Rahmen & Werkstoff</a><a href="05-cad-aufbau.html" class=""><span class="nr">5</span>CAD-Aufbau</a><a href="06-zeichnung-stueckliste.html" class=""><span class="nr">6</span>Zeichnung & Stückliste</a><a href="07-fazit.html" class=""><span class="nr">7</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-anforderungen.html" class=""><span class="nr">2</span>Anforderungen</a><a href="03-masse-ergonomie.html" class=""><span class="nr">3</span>Maße & Ergonomie</a><a href="04-rahmen-werkstoff.html" class=""><span class="nr">4</span>Rahmen & Werkstoff</a><a href="05-cad-aufbau.html" class=""><span class="nr">5</span>CAD-Aufbau</a><a href="06-zeichnung-stueckliste.html" class=""><span class="nr">6</span>Zeichnung & Stückliste</a><a href="07-fazit.html" class=""><span class="nr">7</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
   <main class="projekt-detail">
     <header class="projekt-kopf">
-      <div class="kopf-inner">
-        <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
-        <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
-        <h1>Projekt 6: Schweißwagen mit Werkzeugordnung</h1>
-        <p class="intro">
-          Einen Schweißwagen mit festem Einordnungsplatz für die Werkzeuge
-          hergestellt.
-        </p>
-        <div class="meta">
-          <span>Zeitraum: TT.MM.JJJJ – TT.MM.JJJJ</span>
-          <span>Bereich: Schweißen</span>
-        </div>
+    <div class="kopf-inner">
+      <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
+      <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
+      <h1>Projekt 6: Schweißmaschinenwagen</h1>
+      <p class="intro">
+        Das zweite Teilprojekt: der mobile Wagen &ndash; bringt Maschine, Gas und die
+        wichtigsten Werkzeuge zum Werkstück. Bauweise: Stahl-Rahmen, geschweißt
+        (wie der Tisch aus Projekt 5). Ablauf dieser Dokumentation: Idee &rarr;
+        Aufbau &rarr; die fünf CAD-Konstruktionsschritte &rarr; Fazit.
+      </p>
+      <div class="meta">
+        <span>Zeichnungs-Nr. SW-001</span>
+        <span>Bereich: Schweißarbeitsplatz</span>
+        <span>Werkstoff: Stahl-Kantrohr, MAG-geschweißt</span>
       </div>
+      <div class="kennzahlen-grid">
+        <div class="kennzahl"><strong>800×500</strong><span>mm Grundfläche</span></div>
+        <div class="kennzahl"><strong>1320</strong><span>mm Höhe (mit Lochraster)</span></div>
+        <div class="kennzahl"><strong>4</strong><span>Lenkrollen, 2 mit Bremse</span></div>
+        <div class="kennzahl"><strong>16</strong><span>belegte Positionen am Wagen</span></div>
+        <div class="kennzahl"><strong>2</strong><span>Ebenen mit Materialkästen</span></div>
+        <div class="kennzahl"><strong>✓</strong><span>Rahmen MAG-geschweißt fertig</span></div>
+      </div>
+    </div>
     </header>
 
     <section>
-      <h2>Ausgangssituation</h2>
-      <p>
-        Werkzeuge für die Schweißarbeit hatten keinen festen, mobilen
-        Aufbewahrungsort und mussten oft erst gesucht werden.
-        <em>(Hier noch genauer beschreiben, welche Werkzeuge betroffen
-        waren.)</em>
-      </p>
+      <h2>Idee &amp; Zweck</h2>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Warum</strong>die mobile Ebene &ndash; Maschine, Gas &amp; wichtigste Werkzeuge fahren zum Werkstück.</span></li>
+        <li><span><strong>Spart Wege</strong>und hält den Platz flexibel (teils 2 Personen gleichzeitig).</span></li>
+        <li><span><strong>Alles griffbereit</strong>Schubladen = 5S direkt am Wagen.</span></li>
+      </ul>
     </section>
 
     <section>
-      <h2>Vorgehen</h2>
-      <p class="section-intro">Klick auf einen Schritt, um Details zu sehen.</p>
-
-      <div class="stepper">
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">1</span>
-            <span class="schritt-titel">Aufgabe verstehen</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Auftrag erhalten: Einen Schweißwagen mit festen Plätzen für die Werkzeuge bauen.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">2</span>
-            <span class="schritt-titel">Ist-Situation analysieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Analysiert, welche Werkzeuge beim Schweißen regelmäßig gebraucht werden und wie viel Platz sie benötigen.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">3</span>
-            <span class="schritt-titel">Konzept &amp; Arbeitsschritte vorbereiten</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Aufbau des Wagens geplant: Anordnung der Halterungen und Einordnungsplätze für jedes Werkzeug festgelegt.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">4</span>
-            <span class="schritt-titel">Abstimmung mit dem Chef</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Konzept besprochen, Rückmeldung eingeholt und die Planung entsprechend angepasst.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">5</span>
-            <span class="schritt-titel">Umsetzung</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Den Schweißwagen gebaut und die Halterungen für die Werkzeuge angebracht; bei Bedarf zwischendurch nachjustiert.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">6</span>
-            <span class="schritt-titel">Ergebnis kontrollieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Den fertigen Wagen im Einsatz getestet und letzte Anpassungen vorgenommen.</p>
-          </div>
-        </div>
+      <h2>Aktueller CAD-Stand (CATIA)</h2>
+      <p>Erster Rahmen steht &ndash; geschweißte Vierkantrohr-Konstruktion, fahrbar.</p>
+      <ul class="ergebnis-liste">
+        <li><span>Gesamthöhe 1600 mm (mit Lochwand oben).</span></li>
+        <li><span>Lochwand hinten aufgesetzt &rarr; Werkzeuge/Haken.</span></li>
+        <li><span>2 Ebenen mit Materialkästen/Bins.</span></li>
+        <li><span>4 Lenkrollen (fahrbar).</span></li>
+        <li><span>Rahmen aus Kantrohr, MAG-geschweißt ✓.</span></li>
+      </ul>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Noch offen / nächste Ausbaustufe:</strong> Ein Gerätefach mit Auszug für die
+        MIG-Maschine und die Gasflaschen-Halterung hinten sind im Modell noch nicht drin &ndash;
+        die kommen als nächste Bauteile dazu (siehe Seite 5, Anbauteile).
       </div>
     </section>
 
     <section>
-      <h2>Umsetzung &amp; Ergebnis</h2>
-      <p>
-        Die Werkzeuge haben jetzt einen festen, mobilen Platz und sind immer
-        griffbereit. <em>(Ergebnis hier noch mit konkreten Details
-        ergänzen.)</em>
-      </p>
-      <div class="bild-vergleich">
-        <div class="bild-platzhalter">
-          <span class="label">Vorher</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/vorher.jpg" alt="..."&gt;</code>
-        </div>
-        <div class="bild-platzhalter">
-          <span class="label">Nachher</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/nachher.jpg" alt="..."&gt;</code>
-        </div>
+      <h2>Aufbau &amp; Inhalt &ndash; warum was drauf ist</h2>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Stromquelle</strong>vorhandene MIG-Maschine im Gerätefach.</span></li>
+        <li><span><strong>Gasflasche</strong>hinten am Wagen, angekettet (Standsicherheit).</span></li>
+        <li><span><strong>Schubladen, Werkzeughalter, Kabel-/Schlauchhaspel, Feuerlöscher</strong>&ndash; alles am Mann.</span></li>
+      </ul>
+      <div class="tabelle-wrapper" style="margin-top:0.75rem">
+        <table class="tabelle">
+          <thead><tr><th>Nr.</th><th>Position</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Klappbare Stahl-Ablage</td></tr>
+            <tr><td>2</td><td>Brenner</td></tr>
+            <tr><td>3</td><td>Masse</td></tr>
+            <tr><td>4</td><td>Bürste</td></tr>
+            <tr><td>5</td><td>Hammer</td></tr>
+            <tr><td>6</td><td>Zwingen/Winkel</td></tr>
+            <tr><td>7</td><td>Schublade 1 &middot; Draht / Düsen / Ersatzteile</td></tr>
+            <tr><td>8</td><td>Schublade 2 &middot; PSA-Kleinteile / Trennspray</td></tr>
+            <tr><td>9</td><td>Schublade 3 &middot; Trenn-/Schleifscheiben</td></tr>
+            <tr><td>10</td><td>Vorhandene MIG-Maschine (MIG/MAG · E-Hand, Zusatz-Inverter optional)</td></tr>
+            <tr><td>11</td><td>Gas &ndash; hinten am Wagen, gekettet</td></tr>
+            <tr><td>12</td><td>Kabel-/Schlauchhaspel</td></tr>
+            <tr><td>13</td><td>Schleifer</td></tr>
+            <tr><td>14</td><td>Löscher</td></tr>
+            <tr><td>15</td><td>Helm-Haken</td></tr>
+            <tr><td>16</td><td>Handschuhe</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
     <section>
-      <h2>Fazit</h2>
-      <p>
-        <em>(Was hast du aus diesem Projekt mitgenommen?)</em>
+      <h2>Technische Zeichnung &ndash; Hauptmaße</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Maß</th><th>Wert</th><th>Bemerkung</th></tr></thead>
+          <tbody>
+            <tr><td>Grundfläche</td><td>800 × 500</td><td>kompakt, fahrbar</td></tr>
+            <tr><td>Höhe</td><td>1320 (mit Flasche ~1350)</td><td>inkl. Lochraster-Panel</td></tr>
+            <tr><td>Gerätefach</td><td>Höhe 430</td><td>vorhandene MIG-Maschine</td></tr>
+            <tr><td>Gasflasche</td><td>Ø200 × ~1150</td><td>stehend, hinten, angekettet</td></tr>
+            <tr><td>Rollen</td><td>Ø125</td><td>4×, 2 mit Feststellbremse</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:0.75rem">
+        Ansichten (Vorder-/Seiten-/Draufsicht), Projektion 1. Winkel (ISO-E), Maßstab 1:10.
+        Zeichnungs-Nr. SW-001, Blatt 1/1, Werkstoff Stahl, Allg.-Tol. ISO 2768-m &ndash;
+        Konzept-Zeichnung, Maße sind Richtwerte und vor Fertigung im CAD zu prüfen.
       </p>
+    </section>
+
+    <section>
+      <h2>Standsicherheit (Flasche am Wagen)</h2>
+      <ul class="ergebnis-liste">
+        <li><span>Flasche über der Hinterachse (über den Rollen), tiefer Schwerpunkt.</span></li>
+        <li><span>2 Ketten/Gurte (oben &amp; unten), Fuß in Mulde/Ring.</span></li>
+        <li><span>Feststellbremsen beim Schweißen arretieren; kräftige Lenkrollen.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Teileliste (Übersicht)</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <tbody>
+            <tr><td>Stahl-Kantrohr 40×40×2</td><td>Wagen-Rahmen (geschweißt)</td><td>~14 m</td></tr>
+            <tr><td>Bleche/Verstrebungen (Stahl)</td><td>Rahmen aussteifen (geschweißt)</td><td>Set</td></tr>
+            <tr><td>Lenkrollen Ø125 (2 mit Bremse)</td><td>fahrbar</td><td>4×</td></tr>
+            <tr><td>Gasflaschenhalter + Kette/Gurt</td><td>Flasche hinten am Wagen sichern</td><td>1×</td></tr>
+            <tr><td>Schlauchpaket (passende Länge)</td><td>Flasche &rarr; Maschine</td><td>1×</td></tr>
+            <tr><td>Kabel-/Schlauchhaspel</td><td>Ordnung, kein Schleifen am Boden</td><td>1×</td></tr>
+            <tr><td>Bodenplatte + Schubladenblock</td><td>Maschine + Kleinteile</td><td>1×</td></tr>
+            <tr><td>Werkzeughalter, Haken, klappbare Ablage</td><td>Brenner, Kabel, Werkzeuge</td><td>Set</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Technik &amp; Sicherheit</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Thema</th><th>Umsetzung</th></tr></thead>
+          <tbody>
+            <tr><td>Erdung / Masse</td><td>Masseklemme am Stahltisch; da fahrbar &rarr; sichere Masse-/Erdungsverbindung, Schutzleiter prüfen</td></tr>
+            <tr><td>Kabel &amp; Schlauch</td><td>Kabel-/Schlauchhaspel; sauber führen, nicht über Boden/heiße Zonen</td></tr>
+            <tr><td>Gas</td><td>Flasche angekettet, Druckminderer, dichte Verbindungen; Flasche nie ungesichert</td></tr>
+            <tr><td>Absaugung</td><td>FES-200-Absaugarm über Tischmitte</td></tr>
+            <tr><td>Elektrik</td><td>Anschluss 400 V / 230 V (CEE) am Platz klären</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Alle Seiten dieses Projekts</h2>
+      <div class="toc-grid">
+      <a class="toc-karte" href="02-anforderungen.html">
+        <span class="toc-nr">2</span>
+        <h3>1 · Anforderungen</h3>
+        <p>Was der Wagen tragen und können muss – die Basis für Größe, Aufbau und Kantrohr-Wahl.</p>
+      </a>
+      <a class="toc-karte" href="03-masse-ergonomie.html">
+        <span class="toc-nr">3</span>
+        <h3>2 · Maße & Ergonomie</h3>
+        <p>Grundfläche, Höhen und Positionen mit typischen Startwerten – die Maschine sitzt auf einem Auszug.</p>
+      </a>
+      <a class="toc-karte" href="04-rahmen-werkstoff.html">
+        <span class="toc-nr">4</span>
+        <h3>3 · Rahmen & Werkstoff</h3>
+        <p>Stahl-Vierkantrohr, MAG-geschweißt – Profile, Verbindungen, Rahmen-Skelett.</p>
+      </a>
+      <a class="toc-karte" href="05-cad-aufbau.html">
+        <span class="toc-nr">5</span>
+        <h3>4 · CAD-Aufbau</h3>
+        <p>Die Modellier-Reihenfolge: Skelett → Rahmen → Streben → Anbauteile → Baugruppe.</p>
+      </a>
+      <a class="toc-karte" href="06-zeichnung-stueckliste.html">
+        <span class="toc-nr">6</span>
+        <h3>5 · Zeichnung & Stückliste</h3>
+        <p>Ansichten, Schnitt, Bemaßung, Schweißsymbole und die komplette Stückliste (BOM).</p>
+      </a>
+      <a class="toc-karte" href="07-fazit.html">
+        <span class="toc-nr">7</span>
+        <h3>Fazit & Ausblick</h3>
+        <p>Was am Wagen noch offen ist – Gerätefach und Gasflaschenhalter als nächste Ausbaustufe.</p>
+      </a>
+      </div>
     </section>
 
     <nav class="projekt-nav">
-      <a href="../projekt-5/index.html">
-        <span class="richtung">&larr; Vorheriges Projekt</span>
-        Neues Schweißtisch-Konzept
+      <a href="../projekt-5/05-zeichnungssatz-fazit.html">
+        <span class="richtung">&larr; Zurück</span>
+        Projekt 5: Schweißtisch
       </a>
-      <a class="naechste" href="../projekt-7/index.html">
-        <span class="richtung">Nächstes Projekt &rarr;</span>
-        Zerspanarbeitsplatz nach 5S
+      <a class="naechste" href="02-anforderungen.html">
+        <span class="richtung">Weiter &rarr;</span>
+        1 · Anforderungen
       </a>
     </nav>
-  </main>
 
+  </main>
   <footer class="site-footer">
     Praxissemester-Dokumentation
   </footer>

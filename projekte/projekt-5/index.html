@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projekt 5: Neues Schweißtisch-Konzept | Mein Praxissemester</title>
+  <title>Projekt 5: Schweißtisch – Überblick | Mein Praxissemester</title>
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,144 +21,119 @@
       </nav>
     </div>
   </header>
-
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>1/5</span>
+      <span class="balken"><span style="width:20%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-komponenten.html" class=""><span class="nr">2</span>Gewählte Komponenten</a><a href="03-konstruktion-werkstoffe.html" class=""><span class="nr">3</span>Konstruktion & Werkstoffe</a><a href="04-stueckliste.html" class=""><span class="nr">4</span>Stückliste</a><a href="05-zeichnungssatz-fazit.html" class=""><span class="nr">5</span>Zeichnungssatz & Fazit</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-komponenten.html" class=""><span class="nr">2</span>Gewählte Komponenten</a><a href="03-konstruktion-werkstoffe.html" class=""><span class="nr">3</span>Konstruktion & Werkstoffe</a><a href="04-stueckliste.html" class=""><span class="nr">4</span>Stückliste</a><a href="05-zeichnungssatz-fazit.html" class=""><span class="nr">5</span>Zeichnungssatz & Fazit</a>
+      </div>
+    </details>
+  </nav>
   <main class="projekt-detail">
     <header class="projekt-kopf">
-      <div class="kopf-inner">
-        <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
-        <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
-        <h1>Projekt 5: Neues Schweißtisch-Konzept</h1>
-        <p class="intro">
-          Ein neues Konzept für den Schweißtisch entwickelt und hergestellt.
-        </p>
-        <div class="meta">
-          <span>Zeitraum: TT.MM.JJJJ – TT.MM.JJJJ</span>
-          <span>Bereich: Schweißen</span>
-        </div>
+    <div class="kopf-inner">
+      <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
+      <span class="tag tag--schweiss">Schweißarbeitsplatz</span>
+      <h1>Projekt 5: Neues Schweißtisch-Konzept</h1>
+      <p class="intro">
+        Die fertige CAD-Konstruktion: ein ausziehbarer, fahrbarer Schweißtisch mit
+        D16-Lochplatten-Spannsystem. Entwickelt aus einem YouTube-Video als
+        Ausgangsidee, dann eigenständig zu einer vollständigen Stahlkonstruktion
+        mit kompletter Stückliste weiterentwickelt.
+      </p>
+      <div class="meta">
+        <span>Zeichnungs-Nr. 000-005-200-2</span>
+        <span>Bereich: Schweißarbeitsplatz</span>
+        <span>Werkstoff: Stahl-Kantrohr, geschweißt</span>
       </div>
+      <div class="kennzahlen-grid">
+        <div class="kennzahl"><strong>1700&ndash;2860</strong><span>mm, ausziehbar</span></div>
+        <div class="kennzahl"><strong>980</strong><span>mm Breite</span></div>
+        <div class="kennzahl"><strong>~950</strong><span>mm Arbeitshöhe</span></div>
+        <div class="kennzahl"><strong>3×</strong><span>Lochplatte D16, 800×500×12</span></div>
+        <div class="kennzahl"><strong>4</strong><span>Lenkrollen mit Feststeller</span></div>
+        <div class="kennzahl"><strong>32,98</strong><span>kg laut Zeichnung</span></div>
+      </div>
+    </div>
     </header>
 
     <section>
-      <h2>Ausgangssituation</h2>
-      <p>
-        Der bisherige Schweißtisch war für den Arbeitsablauf nicht optimal
-        gestaltet. <em>(Hier noch genauer beschreiben, welches konkrete
-        Problem der alte Tisch hatte.)</em>
-      </p>
+      <h2>Idee &amp; Inspiration</h2>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Konzept</strong>mobiler Lochplatten-Schweißtisch, per Erweiterungssystem ausziehbar.</span></li>
+        <li><span><strong>Spannsystem D16</strong>(System 16) für flexibles Spannen mit Bolzen, Zwingen, Winkeln.</span></li>
+        <li><span><strong>Inspiration</strong>ein YouTube-Video als Ausgangsidee, dann eigenständig weiterentwickelt.</span></li>
+      </ul>
     </section>
 
     <section>
-      <h2>Vorgehen</h2>
-      <p class="section-intro">Klick auf einen Schritt, um Details zu sehen.</p>
-
-      <div class="stepper">
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">1</span>
-            <span class="schritt-titel">Aufgabe verstehen</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Auftrag erhalten: Ein neues, praktischeres Konzept für den Schweißtisch entwickeln.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">2</span>
-            <span class="schritt-titel">Ist-Situation analysieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Den vorhandenen Tisch und den Arbeitsablauf beim Schweißen genau angeschaut, um Schwachstellen zu erkennen.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">3</span>
-            <span class="schritt-titel">Konzept &amp; Arbeitsschritte vorbereiten</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Ein neues Konzept für den Aufbau des Tisches entworfen und die notwendigen Arbeitsschritte zur Herstellung geplant.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">4</span>
-            <span class="schritt-titel">Abstimmung mit dem Chef</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Konzept vorgestellt, Rückmeldung eingeholt und die Planung entsprechend angepasst.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">5</span>
-            <span class="schritt-titel">Umsetzung</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Den neuen Schweißtisch nach Konzept gefertigt; bei offenen Fragen während der Arbeit erneut Rücksprache gehalten.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">6</span>
-            <span class="schritt-titel">Ergebnis kontrollieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Den fertigen Tisch getestet und letzte Anpassungen vorgenommen.</p>
-          </div>
-        </div>
+      <h2>Das CAD-Grundkonzept</h2>
+      <p class="section-intro">Eckdaten &amp; Ausziehfunktion.</p>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <tbody>
+            <tr><td>Länge</td><td>geschlossen ~1700 mm &rarr; offen 2860 mm</td></tr>
+            <tr><td>Breite</td><td>980 mm</td></tr>
+            <tr><td>Höhe</td><td>~950 mm</td></tr>
+            <tr><td>Oberfläche</td><td>3× Lochplatte D16 (800×500×12)</td></tr>
+            <tr><td>Mobil</td><td>4 Lenkrollen mit Feststeller</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p style="margin-top:0.75rem">
+        Die Ausziehfunktion wächst in zwei Stufen von je 600 mm: geschlossen kompakt für den
+        Alltag, bei Bedarf um insgesamt 1160 mm länger für lange Werkstücke &ndash; ohne dass der
+        Tisch dauerhaft die volle Tiefe der Halle beansprucht (siehe Projekt 4, Rahmenbedingungen).
+      </p>
     </section>
 
     <section>
-      <h2>Umsetzung &amp; Ergebnis</h2>
-      <p>
-        Der neue Schweißtisch ist jetzt praktischer für den Arbeitsalltag.
-        <em>(Ergebnis hier noch mit konkreten Details ergänzen.)</em>
-      </p>
-      <div class="bild-vergleich">
-        <div class="bild-platzhalter">
-          <span class="label">Vorher</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/vorher.jpg" alt="..."&gt;</code>
-        </div>
-        <div class="bild-platzhalter">
-          <span class="label">Nachher</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/nachher.jpg" alt="..."&gt;</code>
-        </div>
+      <h2>Alle Seiten dieses Projekts</h2>
+      <div class="toc-grid">
+      <a class="toc-karte" href="02-komponenten.html">
+        <span class="toc-nr">2</span>
+        <h3>Gewählte Komponenten</h3>
+        <p>Lochplatte D16 (12 mm) und Torwegge-Lenkrollen 160 mm – mit echten Artikelnummern und Preisen.</p>
+      </a>
+      <a class="toc-karte" href="03-konstruktion-werkstoffe.html">
+        <span class="toc-nr">3</span>
+        <h3>Konstruktion & Werkstoffe</h3>
+        <p>Rahmen, Erweiterungssystem, Fußplatten und Verbindungen – die Werkstoffwahl im Detail.</p>
+      </a>
+      <a class="toc-karte" href="04-stueckliste.html">
+        <span class="toc-nr">4</span>
+        <h3>Stückliste</h3>
+        <p>Die komplette, mehrstufige Stückliste aus dem CAD: Gesamtzusammenbau bis zum letzten Kantrohr-Zuschnitt.</p>
+      </a>
+      <a class="toc-karte" href="05-zeichnungssatz-fazit.html">
+        <span class="toc-nr">5</span>
+        <h3>Zeichnungssatz & Fazit</h3>
+        <p>Alle abgeleiteten Zeichnungs-PDFs und ein kurzes Fazit.</p>
+      </a>
       </div>
-    </section>
-
-    <section>
-      <h2>Fazit</h2>
-      <p>
-        <em>(Was hast du aus diesem Projekt mitgenommen?)</em>
-      </p>
     </section>
 
     <nav class="projekt-nav">
-      <a href="../projekt-4/index.html">
-        <span class="richtung">&larr; Vorheriges Projekt</span>
-        Schweißarbeitsplatz nach 5S
+      <a href="../projekt-4/13-fazit-quellen.html">
+        <span class="richtung">&larr; Zurück</span>
+        Projekt 4: Fazit
       </a>
-      <a class="naechste" href="../projekt-6/index.html">
-        <span class="richtung">Nächstes Projekt &rarr;</span>
-        Schweißwagen mit Werkzeugordnung
+      <a class="naechste" href="02-komponenten.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Gewählte Komponenten
       </a>
     </nav>
-  </main>
 
+  </main>
   <footer class="site-footer">
     Praxissemester-Dokumentation
   </footer>
