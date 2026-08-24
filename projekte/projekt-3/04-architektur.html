@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 3: Architektur | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>4/13</span>
+      <span class="balken"><span style="width:31%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class="aktiv"><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class="aktiv"><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 3</a> &rsaquo; Seite 4 von 13</div>
+      <h1>Architekturentscheidung: Weg von Excel</h1>
+      <p class="intro">Nach der vollständigen Analyse des Originalsystems fiel die bewusste Entscheidung, die Lösung als eigenständige Web-Anwendung neu aufzubauen &ndash; unter der ausdrücklichen Vorgabe, sie so einfach wie möglich zu halten.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <h2>Die Entscheidung</h2>
+      <p>
+        Über Alternativen zur Weiternutzung von Excel wurde diskutiert. Nach
+        Abwägung verschiedener Optionen fiel die bewusste Entscheidung,
+        <strong>nicht</strong> bei Excel zu bleiben, sondern das System als
+        eigenständige Web-Anwendung mit einer robusteren Datenbank im
+        Hintergrund neu aufzubauen &ndash; unter der ausdrücklichen Vorgabe,
+        die Lösung <strong>so einfach wie möglich</strong> zu halten und das
+        Projekt <strong>Schritt für Schritt</strong> gemeinsam zu entwickeln.
+      </p>
+    </section>
+
+    <section>
+      <h2>Die Zielarchitektur: Python + Streamlit + SQLite</h2>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>Streamlit</h4><p>Erzeugt aus reinem Python-Code eine vollständige, plattformunabhängige Web-Oberfläche &ndash; kein Frontend-Framework, kein manuelles HTML/CSS/JavaScript, keine Mac/Windows-Verzweigungen mehr nötig.</p></div>
+        <div class="mini-karte"><h4>SQLite</h4><p>Speichert die gesamte Datenbank in einer einzigen Datei, läuft aber &ndash; anders als Excel &ndash; mehrbenutzerfähig im WAL-Modus.</p></div>
+        <div class="mini-karte"><h4>Lokaler Webserver</h4><p>Von jedem Gerät im selben Netzwerk per Browser erreichbar, ohne dass irgendetwas installiert werden muss.</p></div>
+        <div class="mini-karte"><h4>Einfachheit als Leitprinzip</h4><p>Bewusst gegen zusätzliche Komplexität (eigenes Frontend, Login-System, externe Services) entschieden, solange sie nicht nötig war.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Drei klar getrennte Schichten</h2>
+      <p class="section-intro">Diese Aufteilung hat sich durch das gesamte Projekt hindurch bewährt.</p>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Datei</th><th>Verantwortung</th></tr></thead>
+          <tbody>
+            <tr><td><code>app.py</code></td><td>Streamlit-Oberfläche: alle Seiten, Formulare, Dialoge und die Navigation. Ersetzt die Excel-Blätter + UserForms.</td></tr>
+            <tr><td><code>logic.py</code></td><td>Fachliche Geschäftslogik: Barcode-Vergabe, Materialentnahme-Logik, Suche, Export. Portierung der VBA-Module E/F/G/H/B/C.</td></tr>
+            <tr><td><code>db.py</code></td><td>Datenzugriffsschicht: kapselt sämtliche SQL-Zugriffe hinter generischen Funktionen, verbindet wahlweise mit SQLite oder Postgres.</td></tr>
+            <tr><td><code>schema.sql</code> / <code>schema_postgres.sql</code></td><td>Das Datenbankschema, 1:1 an die ursprünglichen Excel-Tabellen angelehnt.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Klarer Schnitt als im VBA-System:</strong> Im Original waren UserForm-Code,
+        Fachlogik und Tabellenzugriff oft im selben Modul vermischt. Hier ruft <code>app.py</code>
+        ausschließlich Funktionen aus <code>logic.py</code> auf, diese wiederum liest/schreibt
+        über <code>db.py</code> &ndash; nie direktes SQL an der Datenbank vorbei. So bleibt jede
+        Schicht unabhängig testbar und austauschbar (z. B. SQLite lokal, Postgres in der Cloud),
+        ohne dass die anderen beiden Schichten etwas davon merken.
+      </div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="03-schwachstellen.html">
+        <span class="richtung">&larr; Zurück</span>
+        Schwachstellen
+      </a>
+      <a class="naechste" href="05-vba-python-portierung.html">
+        <span class="richtung">Weiter &rarr;</span>
+        VBA → Python
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

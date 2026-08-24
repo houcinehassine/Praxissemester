@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 3: Schwachstellen | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>3/13</span>
+      <span class="balken"><span style="width:23%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class="aktiv"><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class="aktiv"><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 3</a> &rsaquo; Seite 3 von 13</div>
+      <h1>Erkannte Schwachstellen als Ausgangspunkt</h1>
+      <p class="intro">Die detaillierte Durchsicht des Codes machte mehrere strukturelle Schwachpunkte sichtbar, die die Entscheidung für eine Neuentwicklung zusätzlich untermauerten.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <h2>Sechs konkrete Schwachpunkte</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Schwachpunkt</th><th>Konkret</th></tr></thead>
+          <tbody>
+            <tr><td><span class="prio prio--hoch">Kein Mehrbenutzerbetrieb</span></td><td>Eine Excel-Datei kann von mehreren Personen nur eingeschränkt gleichzeitig bearbeitet werden &ndash; im Original gar nicht vorgesehen.</td></tr>
+            <tr><td><span class="prio prio--mittel">Durchgängige Plattformweichen</span></td><td>Fast jede Datei-, Ordner- und E-Mail-Operation brauchte eigenen Code für Mac (<code>#If Mac</code>, AppleScript) und Windows (FileDialog, Outlook-COM) &ndash; jede Änderung musste zweimal gepflegt werden.</td></tr>
+            <tr><td><span class="prio prio--mittel">Gmail nie wirklich unterstützt</span></td><td>Der entsprechende Code-Pfad öffnet im Zweifel nur ein leeres Programmfenster und gibt sonst nichts zurück.</td></tr>
+            <tr><td><span class="prio prio--mittel">Unvollständiger Code an zentraler Stelle</span></td><td>Die Validierung der Dashboard-Suche (<code>H1_Suchen_Funktionen</code>) enthielt noch Platzhalter- und auskommentierten Code für eine nie fertiggestellte Zusatzfunktion.</td></tr>
+            <tr><td><span class="prio prio--hoch">Sicherheitsschwache Absicherung</span></td><td>Der Blattschutz nutzte ein kurzes, im Klartext im Quellcode hinterlegtes Passwort.</td></tr>
+            <tr><td><span class="prio prio--hoch">Fehlende Nachvollziehbarkeit von Löschvorgängen</span></td><td>Ein gelöschtes Artikel-Stück (<code>Del_ArtikelStueck</code>) war sofort und ohne jede Wiederherstellungsmöglichkeit weg.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Was direkt in die Anforderungen einfloss</h2>
+      <p>
+        Diese Beobachtungen wurden nicht nur zur Kenntnis genommen, sondern
+        flossen unmittelbar in die Anforderungen an die Neuentwicklung ein:
+      </p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Mehrbenutzerfähigkeit von Anfang an</strong>statt sie nachträglich zu ergänzen (siehe Seite 5).</span></li>
+        <li><span><strong>Eine einzige Codebasis ohne Plattformweichen</strong>Python/Streamlit läuft identisch auf Mac und Windows.</span></li>
+        <li><span><strong>Eine bewusst einfach gehaltene E-Mail-Lösung</strong>mailto-Links statt fragiler Client-Automatisierung &ndash; funktioniert dadurch auch mit Gmail zuverlässig.</span></li>
+        <li><span><strong>Eine Papierkorb-Funktion mit Wiederherstellungsmöglichkeit</strong>später im Projekt gezielt ergänzt (siehe Seite 8).</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="warn-box">
+        <strong>Wichtig für die Einordnung:</strong> Keiner dieser Punkte bedeutet, dass das
+        Original-System &bdquo;schlecht&ldquo; war &ndash; es hat seinen Zweck über Monate
+        zuverlässig erfüllt (siehe Projekt 2). Es zeigt lediglich die Grenzen von Excel/VBA
+        für ein System, das mehrbenutzerfähig, plattformunabhängig und langfristig wartbar
+        sein soll.
+      </div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="02-original-system.html">
+        <span class="richtung">&larr; Zurück</span>
+        Das Original-System
+      </a>
+      <a class="naechste" href="04-architektur.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Architektur
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

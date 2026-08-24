@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 3: Code-Vertiefung | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>12/13</span>
+      <span class="balken"><span style="width:92%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class="aktiv"><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class="aktiv"><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 3</a> &rsaquo; Seite 12 von 13</div>
+      <h1>Code-Vertiefung</h1>
+      <p class="intro">Drei Ausschnitte aus dem echten Quellcode, die zeigen, wie robust statt notdürftig auf die in dieser Dokumentation beschriebenen Probleme reagiert wurde.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Quelle</strong>
+        Vollständige Code-Dokumentation der Anwendung (db.py, logic.py, app.py, Migrations- und
+        Betriebs-Skripte) &ndash; Repository <code>github.com/houcinehassine/lagersystem</code> (privat).
+      </div>
+    </section>
+
+    <section>
+      <h2>Die <code>_Zeile</code>-Klasse: eine Postgres-Eigenheit robust gelöst</h2>
+      <p>
+        Postgres faltet unquotierte Bezeichner (Tabellen/Spalten) automatisch auf
+        Kleinschreibung &ndash; „LaengeMM“ kommt als „laengemm“ zurück. <code>sqlite3.Row</code>
+        erlaubt dagegen Zugriff per Position UND per Name in der im Schema definierten
+        Groß-/Kleinschreibung. <code>_Zeile</code> bildet das für Postgres nach &ndash; und zwar,
+        indem die Schlüssel schon beim Erstellen umbenannt werden (nicht erst bei
+        <code>row["Spalte"]</code>), damit auch <code>dict(row)</code> die richtige Schreibweise
+        behält.
+      </p>
+      <pre class="code-block">class _Zeile(dict):
+    def __init__(self, mapping):
+        self._werte = list(mapping.values())
+        super().__init__(
+            (_SCHEMA_SPALTEN.get(k.lower(), k), v) for k, v in mapping.items()
+        )
+
+    def __getitem__(self, schluessel):
+        if isinstance(schluessel, int):
+            return self._werte[schluessel]
+        return super().__getitem__(schluessel)</pre>
+    </section>
+
+    <section>
+      <h2>Der Schreib-Lock: Barcode-Vergabe ohne Kollisionen</h2>
+      <p>
+        Jede Stelle, die eine neue Barcode-Nummer vergibt, tut das innerhalb desselben
+        <code>threading.Lock</code> &ndash; „höchste vorhandene Nummer suchen“ und „neue Zeile mit
+        dieser Nummer einfügen“ laufen dadurch als eine ununterbrechbare Einheit, auch wenn zwei
+        Nutzer im selben Moment auf denselben Streamlit-Prozess zugreifen.
+      </p>
+      <pre class="code-block"># Schützt &quot;Höchste Nummer suchen + neuen Barcode einfügen&quot; vor Race-Conditions,
+# wenn mehrere Nutzer im Netzwerk gleichzeitig auf denselben Streamlit-Prozess zugreifen.
+_SCHREIB_LOCK = threading.Lock()
+
+def create_artikel_gruppe(profil: str, mass: str, material: str) -&gt; str:
+    bezeichnung = f&quot;{profil}-{mass}-{material}&quot;
+    with _SCHREIB_LOCK:
+        if db.value_exists(&quot;Artikel_Gruppe&quot;, &quot;Bezeichnung&quot;, bezeichnung):
+            raise LagerFehler(f&quot;Dieser Artikel existiert bereits: {bezeichnung}&quot;)
+        barcode = make_barcode_ag(profil, mass, material)
+        db.execute(
+            &quot;INSERT INTO Artikel_Gruppe (Barcode, Bezeichnung, Profil, Mass, Material) &quot;
+            &quot;VALUES (?, ?, ?, ?, ?)&quot;,
+            (barcode, bezeichnung, profil, mass, material),
+        )
+    return barcode</pre>
+    </section>
+
+    <section>
+      <h2>Das Migrationsskript: wiederholbar statt einmalig gedacht</h2>
+      <p>
+        <code>migrate_sqlite_to_postgres.py</code> löscht vor jeder Tabelle deren Zieldaten, bevor
+        die aktuellen Daten aus SQLite eingespielt werden &ndash; es kann dadurch gefahrlos
+        mehrfach ausgeführt werden, falls sich die lokalen Daten vor dem endgültigen Umzug noch
+        ändern. Nach dem Kopieren wird für jede Tabelle mit automatisch vergebenen IDs zusätzlich
+        die interne Postgres-Sequenz auf den höchsten übertragenen Wert gesetzt.
+      </p>
+      <pre class="code-block">for tabelle in TABELLEN:
+    zeilen = quelle.execute(f&quot;SELECT * FROM {tabelle}&quot;).fetchall()
+    cur.execute(f&quot;DELETE FROM {tabelle}&quot;)
+    ...
+    for zeile in zeilen:
+        werte = [zeile[s] for s in spalten]
+        cur.execute(f&quot;INSERT INTO {tabelle} ({spalten_liste}) VALUES ({platzhalter})&quot;, werte)
+
+    if tabelle in SERIAL_PKS:
+        pk = SERIAL_PKS[tabelle]
+        # pg_get_serial_sequence() erwartet Tabellen-/Spaltennamen als Text-Literal
+        cur.execute(
+            f&quot;SELECT setval(pg_get_serial_sequence('{tabelle.lower()}', '{pk.lower()}'), &quot;
+            f&quot;COALESCE((SELECT MAX({pk}) FROM {tabelle}), 1))&quot;
+        )</pre>
+    </section>
+
+    <section>
+      <h2>Betriebs-Skripte im Überblick</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Datei</th><th>Zweck</th></tr></thead>
+          <tbody>
+            <tr><td><code>backup.sh</code> / <code>windows-setup/backup.py</code></td><td>Täglicher Backup-Job (Mac/Linux per Shell, Windows per Python, da dort kein natives cron existiert).</td></tr>
+            <tr><td><code>server.sh</code> / <code>windows-setup/start_server.bat</code></td><td>Startet den Streamlit-Server im Hintergrundbetrieb, ruft vorher das Backup auf.</td></tr>
+            <tr><td><code>start.command</code> / <code>windows-setup/start.bat</code></td><td>Doppelklick-Fallback: prüft, ob der Dienst schon läuft (dann nur Browser öffnen), sonst Direktstart.</td></tr>
+            <tr><td><code>windows-setup/start_hidden.vbs</code></td><td>Startet den Server unsichtbar im Hintergrund für die Windows-Aufgabenplanung, ohne sichtbares Konsolenfenster.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="11-go-live.html">
+        <span class="richtung">&larr; Zurück</span>
+        Go-Live
+      </a>
+      <a class="naechste" href="13-fazit.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Fazit & Ausblick
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

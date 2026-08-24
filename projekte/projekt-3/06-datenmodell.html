@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 3: Datenmodell & Import | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>6/13</span>
+      <span class="balken"><span style="width:46%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class="aktiv"><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class="aktiv"><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 3</a> &rsaquo; Seite 6 von 13</div>
+      <h1>Datenmodell &amp; Import</h1>
+      <p class="intro">Das Datenbankschema wurde bewusst nah an der Struktur der ursprünglichen Excel-Tabellen gehalten &ndash; und die realen Lagerbestände wurden erst nach einer eigenen Kontrollrunde übernommen.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <h2>Das Datenbankschema</h2>
+      <p>
+        <strong>Lager</strong> (Lagerorte), <strong>Typ</strong>, <strong>Einheit</strong>,
+        <strong>Profil_Abk</strong> und <strong>Material_Gruppe</strong> als Stammdaten,
+        <strong>Artikel_Gruppe</strong> als Artikel-Stammsatz (erzeugt den Haupt-Barcode), sowie
+        die drei identisch aufgebauten Tabellen <strong>Artikel_Liste</strong> (volle Stücke),
+        <strong>Reste</strong> (kurze Stücke) und <strong>Verlauf</strong> (unveränderliches
+        Buchungsprotokoll) &ndash; plus eine neu hinzugekommene <strong>Papierkorb</strong>-Tabelle
+        (siehe Seite 8) und eine <strong>Konfiguration</strong>-Tabelle für einstellbare
+        Schwellenwerte wie die Schrott-Grenze.
+      </p>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Zwei Schema-Dateien, ein Inhalt:</strong> <code>schema.sql</code> (SQLite) und
+        <code>schema_postgres.sql</code> (Postgres/Cloud) sind inhaltlich identisch &ndash; gleiche
+        Tabellen, gleiche Spalten, gleiche Reihenfolge &ndash; und unterscheiden sich nur in
+        Postgres-spezifischer Syntax (<code>SERIAL</code> statt <code>AUTOINCREMENT</code>, keine
+        <code>PRAGMA</code>-Zeilen). <code>db.py</code> wählt beim Start automatisch die passende
+        Datei, abhängig davon, ob eine <code>DATABASE_URL</code> konfiguriert ist.
+      </div>
+    </section>
+
+    <section>
+      <h2>Das Barcode-Schema &ndash; unverändert übernommen</h2>
+      <p>
+        Das Barcode-Schema unterscheidet zwischen dem <strong>Haupt-Barcode</strong> einer
+        Artikelgruppe (z. B. „FLS370001“, zusammengesetzt aus Profil- und Material-Kürzel plus
+        laufender Nummer) und dem <strong>Stück-Barcode</strong> eines einzelnen physischen
+        Stücks (z. B. „FLS370001-2“). Damit lässt sich sowohl ein gescannter Gruppen-Code als
+        auch ein gescannter Stück-Code eindeutig zuordnen &ndash; genau wie im VBA-Original.
+      </p>
+    </section>
+
+    <section>
+      <h2>Digitalisierung der Bestandsdaten</h2>
+      <p class="section-intro">Vier Fotos handbeschriebener Listen &ndash; und der bewusst vorsichtige Weg von dort in die Produktivdatenbank.</p>
+      <div class="stepper">
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">1</span>
+            <span class="schritt-titel">Fotos handschriftlicher Listen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Die realen Lagerbestände lagen zunächst nur als vier Fotos handbeschriebener Listen vor.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">2</span>
+            <span class="schritt-titel">Kontroll-Tabelle statt direkter Übernahme</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Um Fehler bei der Übertragung zu vermeiden, wurde keine direkte Übernahme in die Produktivdatenbank vorgenommen. Stattdessen entstand eine Kontroll-Tabelle „Bestandsaufnahme_Kontrolle.xlsx“ mit allen erkannten Werten samt unsicherer/unleserlicher Stellen.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">3</span>
+            <span class="schritt-titel">Bestätigung durch den Auftraggeber</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Diese Kontroll-Tabelle wurde vollständig durchgesehen und korrigiert &ndash; inklusive expliziter Kennzeichnung unbekannter Materialangaben mit „---“.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">4</span>
+            <span class="schritt-titel">Import per Skript</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Erst auf Basis der final bestätigten Tabelle wurden die Daten per <code>import_bestand.py</code> in die echte Datenbank übernommen.</p></div>
+        </div>
+      </div>
+      <div class="kennzahlen-grid" style="margin-top:1rem">
+        <div class="kennzahl"><strong>86</strong><span>Artikel-Datensätze importiert</span></div>
+        <div class="kennzahl"><strong>50</strong><span>Artikelgruppen</span></div>
+        <div class="kennzahl"><strong>4</strong><span>Fotos als Ausgangsmaterial</span></div>
+      </div>
+      <div class="info-box" style="margin-top:0.75rem">
+        Diese 86 Datensätze bildeten von diesem Zeitpunkt an durchgehend die reale
+        Produktivgrundlage, gegen die jede weitere Änderung getestet wurde.
+      </div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="05-vba-python-portierung.html">
+        <span class="richtung">&larr; Zurück</span>
+        VBA → Python
+      </a>
+      <a class="naechste" href="07-oberflaeche.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Oberfläche
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

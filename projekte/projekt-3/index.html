@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projekt 3: Lagersystem als Webseite | Mein Praxissemester</title>
+  <title>Projekt 3: Cloud-Lagersystem – Überblick | Mein Praxissemester</title>
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,152 +17,184 @@
       <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
       <nav>
         <a href="../../index.html">Start</a>
-        <a href="../index.html#projekte">Projekte</a>
+        <a href="../../index.html#projekte">Projekte</a>
       </nav>
     </div>
   </header>
-
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>1/13</span>
+      <span class="balken"><span style="width:8%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class="aktiv"><span class="nr">1</span>Überblick</a><a href="02-original-system.html" class=""><span class="nr">2</span>Das Original-System</a><a href="03-schwachstellen.html" class=""><span class="nr">3</span>Schwachstellen</a><a href="04-architektur.html" class=""><span class="nr">4</span>Architektur</a><a href="05-vba-python-portierung.html" class=""><span class="nr">5</span>VBA → Python</a><a href="06-datenmodell.html" class=""><span class="nr">6</span>Datenmodell & Import</a><a href="07-oberflaeche.html" class=""><span class="nr">7</span>Oberfläche</a><a href="08-papierkorb.html" class=""><span class="nr">8</span>Papierkorb</a><a href="09-produktionsreife.html" class=""><span class="nr">9</span>Produktionsreife</a><a href="10-cloud-migration.html" class=""><span class="nr">10</span>Cloud-Migration</a><a href="11-go-live.html" class=""><span class="nr">11</span>Go-Live</a><a href="12-code-vertiefung.html" class=""><span class="nr">12</span>Code-Vertiefung</a><a href="13-fazit.html" class=""><span class="nr">13</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
   <main class="projekt-detail">
     <header class="projekt-kopf">
-      <div class="kopf-inner">
-        <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
-        <span class="tag tag--lager">Lager &amp; Organisation</span>
-        <h1>Projekt 3: Lagersystem als Webseite</h1>
-        <p class="intro">
-          Das bestehende Excel-Lagersystem in eine Webseite umgewandelt, um
-          es einfacher zugänglich und nutzbar zu machen.
-        </p>
-        <div class="meta">
-          <span>Zeitraum: TT.MM.JJJJ – TT.MM.JJJJ</span>
-          <span>Bereich: Lager</span>
-          <span>Werkzeug: HTML/CSS/JavaScript</span>
-        </div>
+    <div class="kopf-inner">
+      <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
+      <span class="tag tag--lager">Lager &amp; Organisation</span>
+      <h1>Projekt 3: Vom Excel-Lagersystem zur Cloud-Anwendung</h1>
+      <p class="intro">
+        Das Lagerbestand-System aus Projekt 2 lief zuverlässig, war aber an
+        eine Excel-Datei auf einem einzelnen Rechner gebunden. In diesem
+        Projekt wurde es komplett neu aufgebaut: als eigenständige
+        Python/Streamlit-Webanwendung mit Datenbank im Hintergrund – vom
+        lokalen Einzelplatzbetrieb bis zu einer privat erreichbaren
+        Cloud-Version, die unabhängig von jedem einzelnen Gerät oder jeder
+        einzelnen Person läuft.
+      </p>
+      <div class="meta">
+        <span>Stand: 16.08.2026</span>
+        <span>Bereich: Lager</span>
+        <span>Werkzeug: Python · Streamlit · SQLite/Postgres</span>
       </div>
+      <div class="kennzahlen-grid">
+        <div class="kennzahl"><strong>3</strong><span>Code-Schichten (app/logic/db)</span></div>
+        <div class="kennzahl"><strong>86</strong><span>echte Artikel-Datensätze übernommen</span></div>
+        <div class="kennzahl"><strong>50</strong><span>Artikelgruppen</span></div>
+        <div class="kennzahl"><strong>4</strong><span>Postgres-Fallstricke gelöst</span></div>
+        <div class="kennzahl"><strong>100</strong><span>gleichzeitige Schreibzugriffe im Lasttest</span></div>
+        <div class="kennzahl"><strong>13</strong><span>Seiten dieser Dokumentation</span></div>
+      </div>
+    </div>
     </header>
 
     <section>
-      <h2>Ausgangssituation</h2>
-      <p>
-        Das Excel-Lagersystem aus Projekt 2 funktionierte, war aber nicht
-        überall bequem zugänglich und wirkte im Alltag etwas umständlich.
-        <em>(Hier noch genauer beschreiben, welche Einschränkung genau den
-        Anstoß gegeben hat.)</em>
-      </p>
-    </section>
-
-    <section>
-      <h2>Vorgehen</h2>
-      <p class="section-intro">Klick auf einen Schritt, um Details zu sehen.</p>
-
-      <div class="stepper">
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">1</span>
-            <span class="schritt-titel">Aufgabe verstehen</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Auftrag erhalten, das Excel-Lagersystem als Webseite umzusetzen, damit es einfacher nutzbar ist.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">2</span>
-            <span class="schritt-titel">Ist-Situation analysieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Die Excel-Lösung angeschaut und überlegt, welche Funktionen und Daten auf die Webseite übertragen werden müssen.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">3</span>
-            <span class="schritt-titel">Konzept &amp; Arbeitsschritte vorbereiten</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Aufbau der Webseite geplant: Seitenstruktur, Ansicht der Materialliste und Funktionen skizziert.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">4</span>
-            <span class="schritt-titel">Abstimmung mit dem Chef</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Konzept vorgestellt, Rückmeldung eingeholt und die Planung entsprechend angepasst.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">5</span>
-            <span class="schritt-titel">Umsetzung</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Die Webseite programmiert und die Daten aus dem Excel-System übernommen und getestet.</p>
-          </div>
-        </div>
-
-        <div class="schritt">
-          <button class="schritt-button" aria-expanded="false">
-            <span class="schritt-nummer">6</span>
-            <span class="schritt-titel">Ergebnis kontrollieren</span>
-            <span class="schritt-pfeil">&#9662;</span>
-          </button>
-          <div class="schritt-inhalt">
-            <p>Die fertige Webseite getestet und letzte Anpassungen vorgenommen.</p>
-          </div>
-        </div>
+      <h2>Die Ausgangslage in einem Satz</h2>
+      <div class="zitat-box">
+        Ein System, das an den privaten Rechner einer einzelnen Person
+        gebunden ist, ist nicht betriebsfähig, sobald diese Person das
+        Unternehmen verlässt.
+        <span class="quelle">Kernproblem, das die Cloud-Entscheidung ausgelöst hat – Details auf Seite 10</span>
       </div>
     </section>
 
     <section>
-      <h2>Umsetzung &amp; Ergebnis</h2>
+      <h2>Warum diese Seite nötig war</h2>
       <p>
-        Aus dem Excel-System ist eine Webseite entstanden, die den
-        Materialbestand übersichtlich darstellt und einfacher zugänglich ist.
-        <em>(Ergebnis hier noch mit Screenshots/Link ergänzen.)</em>
+        Punkt 3 der ursprünglichen Aufgabenliste lautete: das Excel-Lagersystem
+        „in eine Webseite umwandeln“. Am Ende wurde daraus mehr als eine reine
+        Webseite – eine vollwertige, mehrbenutzerfähige Anwendung mit
+        eigener Datenbank, automatischem Backup, Papierkorb-Funktion und
+        einer öffentlich (im privaten, eingeladenen Sinn) erreichbaren
+        Cloud-Version. Diese Dokumentation zeigt den kompletten Weg dorthin –
+        inklusive der Stellen, an denen es nicht auf Anhieb funktioniert hat.
       </p>
-      <div class="bild-vergleich">
-        <div class="bild-platzhalter">
-          <span class="label">Vorher (Excel)</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/vorher.jpg" alt="..."&gt;</code>
-        </div>
-        <div class="bild-platzhalter">
-          <span class="label">Nachher (Webseite)</span>
-          Screenshot/Foto einfügen
-          <code>&lt;img src="img/nachher.jpg" alt="..."&gt;</code>
-        </div>
+    </section>
+
+    <section>
+      <h2>Eingesetzte Methoden &amp; Werkzeuge</h2>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>Python + Streamlit</h4><p>Komplette Web-Oberfläche aus reinem Python-Code, ohne separates Frontend-Framework.</p></div>
+        <div class="mini-karte"><h4>SQLite (lokal) / Postgres (Cloud)</h4><p>Eine Datenzugriffsschicht, die automatisch zwischen beiden Datenbanktypen wechselt.</p></div>
+        <div class="mini-karte"><h4>Drei-Schichten-Architektur</h4><p>Oberfläche, Geschäftslogik und Datenzugriff strikt getrennt – austauschbar und einzeln testbar.</p></div>
+        <div class="mini-karte"><h4>Mehrbenutzerbetrieb</h4><p>WAL-Modus plus anwendungsinterner Lock, mit einem echten Lasttest verifiziert.</p></div>
+        <div class="mini-karte"><h4>Papierkorb-Prinzip</h4><p>Löschen wird zweistufig abgesichert und ist wiederherstellbar statt endgültig.</p></div>
+        <div class="mini-karte"><h4>Cloud-Deployment</h4><p>GitHub, Neon-Postgres und Streamlit Community Cloud – alle drei kostenlos, aber mit privatem Zugriff.</p></div>
       </div>
     </section>
 
     <section>
-      <h2>Fazit</h2>
-      <p>
-        <em>(Was hast du aus diesem Projekt mitgenommen?)</em>
-      </p>
+      <h2>Ergebnisse auf einen Blick</h2>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Vollständige Portierung</strong>jede Funktion des Original-Excel-Systems (Barcode-Vergabe, Materialentnahme, Suche, Export) existiert 1:1 in der neuen Anwendung wieder.</span></li>
+        <li><span><strong>Keine Plattformweichen mehr</strong>die durchgängigen Mac/Windows-Verzweigungen des VBA-Codes sind komplett entfallen.</span></li>
+        <li><span><strong>Echter Mehrbenutzerbetrieb</strong>WAL-Modus plus Lock, verifiziert mit 100 gleichzeitigen Schreibzugriffen ohne einen einzigen Konflikt.</span></li>
+        <li><span><strong>Datensicherheit durch Papierkorb</strong>ein direkter, bewusster Gegenentwurf zum sofortigen, endgültigen Löschen im Original.</span></li>
+        <li><span><strong>Von einem Rechner unabhängig</strong>eine privat erreichbare Cloud-Version läuft parallel zum weiterhin aktiven lokalen Mac-Betrieb.</span></li>
+        <li><span><strong>86 reale Datensätze</strong>sorgfältig aus handschriftlichen Listen digitalisiert und vom Auftraggeber vor der Übernahme bestätigt.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Alle Seiten dieses Projekts</h2>
+      <p class="section-intro">Vom Original-System über die Neuentwicklung bis in die Cloud – jede Seite ist auch einzeln über die Leiste oben erreichbar.</p>
+      <div class="toc-grid">
+      <a class="toc-karte" href="02-original-system.html">
+        <span class="toc-nr">2</span>
+        <h3>Das Original-System verstehen</h3>
+        <p>Tablet- und Entwickler-Modus, die sechs Tabellenblätter, die vier UserForms und die 24 VBA-Module A–H – die Grundlage, die vor jeder Neuentwicklung komplett durchgearbeitet wurde.</p>
+      </a>
+      <a class="toc-karte" href="03-schwachstellen.html">
+        <span class="toc-nr">3</span>
+        <h3>Erkannte Schwachstellen</h3>
+        <p>Kein Mehrbenutzerbetrieb, doppelte Mac/Windows-Codepfade, eine nie fertig unterstützte Gmail-Anbindung und mehr – die konkreten Gründe für die Neuentwicklung.</p>
+      </a>
+      <a class="toc-karte" href="04-architektur.html">
+        <span class="toc-nr">4</span>
+        <h3>Architekturentscheidung</h3>
+        <p>Warum die Wahl auf Python, Streamlit und SQLite fiel und wie die Anwendung in drei Schichten (app.py, logic.py, db.py) aufgeteilt wurde.</p>
+      </a>
+      <a class="toc-karte" href="05-vba-python-portierung.html">
+        <span class="toc-nr">5</span>
+        <h3>VBA → Python</h3>
+        <p>Wie zentrale VBA-Funktionen wie ProzessMaterialEntnahme 1:1 nach Python übertragen wurden – inklusive Mehrbenutzerbetrieb mit WAL-Modus und Lasttest.</p>
+      </a>
+      <a class="toc-karte" href="06-datenmodell.html">
+        <span class="toc-nr">6</span>
+        <h3>Datenmodell & Import</h3>
+        <p>Das Datenbankschema, bewusst nah an den alten Excel-Tabellen gehalten, sowie die kontrollierte Digitalisierung von 86 echten Artikel-Datensätzen aus handschriftlichen Listen.</p>
+      </a>
+      <a class="toc-karte" href="07-oberflaeche.html">
+        <span class="toc-nr">7</span>
+        <h3>Iterative Oberfläche</h3>
+        <p>PDF-Export, modale Dialoge statt Seitenwechsel, automatische Voll/Rest-Erkennung und eine einstellbare Schrott-Grenze – Schritt für Schritt im Browser getestet.</p>
+      </a>
+      <a class="toc-karte" href="08-papierkorb.html">
+        <span class="toc-nr">8</span>
+        <h3>Papierkorb & Löschsicherheit</h3>
+        <p>Wie aus einem endgültigen Löschvorgang eine zweistufig abgesicherte, wiederherstellbare Aktion wurde.</p>
+      </a>
+      <a class="toc-karte" href="09-produktionsreife.html">
+        <span class="toc-nr">9</span>
+        <h3>Produktionsreife</h3>
+        <p>Automatisches Backup, Hintergrunddienst, der Umzug aus iCloud Drive und ein fertiges Windows-Setup-Paket für den Firmenrechner.</p>
+      </a>
+      <a class="toc-karte" href="10-cloud-migration.html">
+        <span class="toc-nr">10</span>
+        <h3>Cloud-Migration</h3>
+        <p>Die Entscheidung für GitHub, Neon und Streamlit Community Cloud – und die vier subtilen Postgres-Fallstricke, die dabei auftraten.</p>
+      </a>
+      <a class="toc-karte" href="11-go-live.html">
+        <span class="toc-nr">11</span>
+        <h3>Go-Live & Fehlerbehebung</h3>
+        <p>Die eigentliche Veröffentlichung sowie zwei Fehler, die kurz danach gemeldet und grundlegend behoben wurden.</p>
+      </a>
+      <a class="toc-karte" href="12-code-vertiefung.html">
+        <span class="toc-nr">12</span>
+        <h3>Code-Vertiefung</h3>
+        <p>Ein genauerer Blick in den echten Quellcode: die _Zeile-Klasse, die Materialentnahme-Logik in Python und das Migrationsskript.</p>
+      </a>
+      <a class="toc-karte" href="13-fazit.html">
+        <span class="toc-nr">13</span>
+        <h3>Fazit & Ausblick</h3>
+        <p>Was heute funktioniert, was noch offen ist und was die Cloud-Version leistet, was die Excel-Datei nie konnte.</p>
+      </a>
+      </div>
     </section>
 
     <nav class="projekt-nav">
-      <a href="../projekt-2/index.html">
-        <span class="richtung">&larr; Vorheriges Projekt</span>
-        Excel-Lagersystem
+      <a href="../../index.html">
+        <span class="richtung">&larr; Zurück</span>
+        Übersicht
       </a>
-      <a class="naechste" href="../projekt-4/index.html">
-        <span class="richtung">Nächstes Projekt &rarr;</span>
-        Schweißarbeitsplatz nach 5S
+      <a class="naechste" href="02-original-system.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Das Original-System
       </a>
     </nav>
-  </main>
 
+  </main>
   <footer class="site-footer">
     Praxissemester-Dokumentation
   </footer>
