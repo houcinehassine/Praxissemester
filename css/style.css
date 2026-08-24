@@ -157,6 +157,18 @@ header.site-header {
   padding: 4rem 1.5rem 3.5rem;
 }
 
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-grafik { display: none; }
+}
+
 .hero h1 {
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   margin: 0 0 0.75rem;
@@ -167,6 +179,54 @@ header.site-header {
   max-width: 620px;
   margin: 0;
   font-size: 1.02rem;
+}
+
+/* ---------- Hero-Grafik (dekorativ) ---------- */
+
+.hero-grafik {
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.hero-grafik svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hg-dreh {
+  transform-origin: 290px 130px;
+  animation: hg-rotieren 50s linear infinite;
+}
+
+.hg-schweben {
+  animation: hg-schweben 5s ease-in-out infinite;
+  animation-delay: var(--versatz, 0s);
+}
+
+@keyframes hg-rotieren {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hg-schweben {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-einblenden {
+  animation: hero-einblenden 0.7s ease both;
+  animation-delay: var(--verzoegerung, 0s);
+}
+
+@keyframes hero-einblenden {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-dreh, .hg-schweben, .hero-einblenden {
+    animation: none;
+  }
 }
 
 .hero .stat-reihe {
@@ -1397,11 +1457,13 @@ footer.site-footer {
     padding: 0 0.5cm;
   }
 
-  /* Alles sichtbar drucken, auch was per JS erst beim Scrollen eingeblendet wird */
-  .projekt-detail section.reveal {
+  /* Alles sichtbar drucken, auch was per JS/Animation erst zeitversetzt eingeblendet wird */
+  .projekt-detail section.reveal,
+  .hero-einblenden {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
 
   /* Ablauf-Schritte komplett ausgeklappt drucken statt eingeklappt */
@@ -1457,6 +1519,8 @@ footer.site-footer {
   }
 
   .hero::after { display: none; }
+  .hero-grafik { display: none !important; }
+  .hero-grid { grid-template-columns: 1fr !important; }
   .hero p { color: var(--text-hell) !important; }
   .hero .stat strong { color: var(--kat) !important; }
   .hero .stat span { color: var(--text-hell) !important; }
