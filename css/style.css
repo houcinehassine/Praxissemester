@@ -1321,6 +1321,23 @@ table.mx-wid tr.w8 td.ln { background: #bcdcf0; }
 .raster-grid span.gross { background: var(--kat-schweiss-bg); }
 .raster-grid span.mittel { background: #fff3cd; }
 
+/* ---------- Code-Block (VBA-Ausschnitte) ---------- */
+
+.code-block {
+  background: var(--dunkel);
+  color: #d7e0f0;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre;
+  border-left: 4px solid var(--kat);
+}
+
+.code-block .kommentar { color: #8fa0c7; }
+
 /* ---------- Info-/Warnbox ---------- */
 
 .info-box, .warn-box {

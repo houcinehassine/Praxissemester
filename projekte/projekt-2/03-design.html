@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 2: Design der Excel-Oberfläche | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>3/9</span>
+      <span class="balken"><span style="width:33%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class="aktiv"><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class="aktiv"><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class=""><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 3 von 9</div>
+      <h1>Design der Excel-Oberfläche</h1>
+      <p class="intro">Vier Grundblätter bilden das Skelett des Systems: Dashboard, Artikeln Liste, Verlauf und Einstellungen. Screenshots direkt aus der Arbeitsmappe.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Quelle</strong>
+        0102Design.pdf &middot; Beginn 24. April 2026
+      </div>
+    </section>
+
+    <section>
+      <h2>Blatt: Dashboard</h2>
+      <p class="section-intro">Scannfunktionen &middot; Suchergebnis &middot; Exportieren</p>
+      <div class="bild-vergleich">
+        <div class="bild-box">
+          <span class="label">Screenshot &middot; Dashboard</span>
+          <img src="img/design-dashboard.jpg" alt="Dashboard-Blatt mit Scannfunktionen, Suchergebnis-Feldern und Exportbereich" />
+          <p class="bildtext">Drei Bereiche: Scannfunktionen (Einbuchen/Ausbuchen/Artikel hinzufügen/löschen), Suchergebnis-Anzeige und Exportbereich mit Dateityp, Papierformat, Zielordner und E-Mail-Versand.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Blatt: Artikeln Liste</h2>
+      <p class="section-intro">Scannfeld D4 &middot; Filtern nach &middot; Tabelle Artikel/Bestand</p>
+      <div class="bild-vergleich">
+        <div class="bild-box">
+          <span class="label">Screenshot &middot; Artikeln Liste</span>
+          <img src="img/design-artikelliste.png" alt="Artikeln-Liste-Blatt mit Scanfeld, Filterfeldern und leerer Bestandstabelle" />
+          <p class="bildtext">Scanfeld in D4, ein Filterblock mit vier Kriterien (EAN/Barcode, Artikelform, Artikelmaterial, Material-Gruppe) und die Bestandstabelle mit Artikel- und Mengenspalten.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Blatt: Verlauf</h2>
+      <p class="section-intro">Scannfeld F12 &middot; Filtern nach &middot; Tabelle Artikel/Bestand</p>
+      <p>
+        Gleicher Aufbau wie „Artikeln Liste“, zusätzlich mit Zeitstempel-Spalte
+        „Datum+Uhr“ – hier wird jede Bewegung einzeln protokolliert statt nur
+        der aktuelle Bestand.
+      </p>
+    </section>
+
+    <section>
+      <h2>Blatt: Einstellungen</h2>
+      <p class="section-intro">Materialien-Gruppen als zentrale Nachschlagetabelle.</p>
+      <div class="bild-vergleich">
+        <div class="bild-box">
+          <span class="label">Screenshot &middot; Einstellungen</span>
+          <img src="img/design-einstellungen.png" alt="Einstellungen-Blatt mit Tabelle Materialien Gruppen: Baustahl BS, Vergütungsstahl VS, Automatenstahl AS, Edelstahl ES, Aluminium AL, Kunststoff KU" />
+          <p class="bildtext">Die Tabelle „Materialien Gruppen“ legt fest, welche Buchstaben-Abkürzung (Spalte „Bezeichnung“) für jede Materialgruppe im Barcode verwendet wird – Grundlage für die automatische Barcode-Erzeugung.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.75rem">
+        In späteren Versionen kommen hier weitere Nachschlagetabellen dazu:
+        Profil-Abkürzungen, Lagerorte, Einheiten und Artikeltypen (Voll/Rest) –
+        siehe Seite 7.
+      </p>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="02-ausgangslage.html">
+        <span class="richtung">&larr; Zurück</span>
+        Ausgangslage &amp; Zielbild
+      </a>
+      <a class="naechste" href="04-kernfunktionen.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Kernfunktionen
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>

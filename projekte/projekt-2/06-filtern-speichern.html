@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt 2: Filtern & Speichern | Mein Praxissemester</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="../../index.html" class="logo">Mein <span>Praxissemester</span></a>
+      <nav>
+        <a href="../../index.html">Start</a>
+        <a href="../../index.html#projekte">Projekte</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="projekt-subnav">
+    <div class="fortschritt">
+      <span>6/9</span>
+      <span class="balken"><span style="width:67%"></span></span>
+    </div>
+    <div class="scroll-bereich">
+      <div class="inner">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+      </div>
+    </div>
+    <details class="seiten-menu">
+      <summary><span class="icon">&#9776;</span><span class="text">Alle Seiten</span><span class="chevron">&#9662;</span></summary>
+      <div class="seiten-menu-liste">
+        <a href="index.html" class=""><span class="nr">1</span>Überblick</a><a href="02-ausgangslage.html" class=""><span class="nr">2</span>Ausgangslage</a><a href="03-design.html" class=""><span class="nr">3</span>Design</a><a href="04-kernfunktionen.html" class=""><span class="nr">4</span>Kernfunktionen</a><a href="05-artikelgruppe-barcode.html" class=""><span class="nr">5</span>Artikelgruppe & Barcode</a><a href="06-filtern-speichern.html" class="aktiv"><span class="nr">6</span>Filtern & Speichern</a><a href="07-versionsgeschichte.html" class=""><span class="nr">7</span>Versionsgeschichte</a><a href="08-aktueller-stand.html" class=""><span class="nr">8</span>Aktueller Stand</a><a href="09-fazit.html" class=""><span class="nr">9</span>Fazit & Ausblick</a>
+      </div>
+    </details>
+  </nav>
+  <header class="seiten-kopf">
+    <div class="inner">
+      <div class="breadcrumb"><a href="../../index.html">Start</a> &rsaquo; <a href="index.html">Projekt 2</a> &rsaquo; Seite 6 von 9</div>
+      <h1>Filtern &amp; Speichern</h1>
+      <p class="intro">Eine universelle Filterfunktion, die für jede Tabelle wiederverwendet werden kann, sowie der Export- und Versand-Mechanismus, der Dashboard-Auswahl in fertige PDF-/Excel-Dateien und E-Mails verwandelt.</p>
+    </div>
+  </header>
+
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Quellen</strong>
+        0105filternentfiltern.pdf &middot; 0106Speichern.pdf &middot; beide vom 4. Mai 2026
+      </div>
+    </section>
+
+    <section>
+      <h2>Universelle Filter-Funktion</h2>
+      <p>
+        Statt für jedes Blatt eine eigene Filterfunktion zu schreiben, nimmt
+        eine einzige Funktion Blattname, Tabellenname sowie zwei Listen
+        entgegen: die Suchbegriffe und die dazugehörigen Spaltennummern. So
+        lässt sie sich für „Artikeln Liste“, „Reste“ und „Verlauf“
+        gleichermaßen wiederverwenden.
+      </p>
+      <pre class="code-block">&#39; Universelle Filterfunktion – funktioniert für jede Tabelle
+Function TabelleFiltern(SheetName As String, TableName As String, _
+    SuchWerte() As String, SpaltenNummern() As Long) As Boolean
+
+    For i = LBound(SuchWerte) To UBound(SuchWerte)
+        If Trim(SuchWerte(i)) &lt;&gt; &quot;&quot; Then
+            &#39; &quot;*&quot; erlaubt eine Teilsuche (enthält), nicht nur exakte Treffer
+            tbl.Range.AutoFilter Field:=SpaltenNummern(i), _
+                Criteria1:=&quot;*&quot; &amp; Trim(SuchWerte(i)) &amp; &quot;*&quot;
+        End If
+    Next i
+End Function</pre>
+      <p style="margin-top:0.75rem">
+        Eine zweite Funktion („DynamischFiltern“) liest die Suchfelder direkt
+        aus benannten Zellen im Blatt aus – der Button auf dem Blatt „Artikel
+        Liste“ ruft dazu nur eine Zeile Code auf:
+      </p>
+      <pre class="code-block">Call DynamischFiltern(&quot;Artikel Liste&quot;, &quot;Artikel_Liste&quot;, _
+    &quot;E2,E4,E6,E8,E10,E12&quot;, &quot;2,4,5,6,8,9&quot;)</pre>
+      <p style="margin-top:0.75rem">
+        Das Entfiltern läuft spiegelbildlich: AutoFilter zurücksetzen und die
+        Eingabefelder wieder leeren.
+      </p>
+    </section>
+
+    <section>
+      <h2>Speichern &amp; Export</h2>
+      <p class="section-intro">Ein Button auf dem Dashboard löst den kompletten Export-Vorgang aus.</p>
+      <div class="stepper">
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">1</span>
+            <span class="schritt-titel">Zielordner &amp; Format prüfen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Ordnerpfad aus dem Dashboard lesen, prüfen ob mindestens ein Format (Excel und/oder PDF) angehakt ist.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">2</span>
+            <span class="schritt-titel">Ausgewählte Blätter sammeln</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Die drei Checkboxen (Artikel/Reste/Verlauf) auf dem Dashboard auslesen und in eine Liste der zu exportierenden Blattnamen umwandeln.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">3</span>
+            <span class="schritt-titel">PDF-Layout anwenden</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Papierformat (A3/A4) und Ausrichtung (Hoch/Quer) aus den Dashboard-Optionen übernehmen, Inhalt zwingend auf eine Seitenbreite anpassen.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">4</span>
+            <span class="schritt-titel">Export-Schleife ausführen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Für jedes ausgewählte Blatt: PDF exportieren (falls gewünscht) und/oder als eigene Excel-Datei speichern – Dateiname automatisch mit Zeitstempel versehen.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Erste funktionierende Version im Einsatz</h2>
+      <p class="section-intro">Testdaten vom 23.04.2026 – das Verlaufsblatt beim tatsächlichen Ein- und Ausbuchen.</p>
+      <div class="bild-vergleich">
+        <div class="bild-box">
+          <span class="label">Screenshot &middot; Verlauf mit echten Testbuchungen</span>
+          <img src="img/verlauf-testdaten.jpg" alt="Verlauf-Tabelle mit echten Testbuchungen: Vierkantrohr, Blech, Rolle, Stab und weitere Artikel mit Soll-/Ist-Bestand und Preisen" />
+          <p class="bildtext">Reale erste Testläufe: Vierkantrohr 80×80×3 (Baustahl), Blech 500 (Aluminium), Rolle (Kunststoff), Stab D20 (Vergütungsstahl) – jede Buchung mit Zeitstempel, Menge, Soll-/Ist-Bestand und automatisch berechnetem V-Preis.</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="projekt-nav">
+      <a href="05-artikelgruppe-barcode.html">
+        <span class="richtung">&larr; Zurück</span>
+        Artikelgruppe &amp; Barcode
+      </a>
+      <a class="naechste" href="07-versionsgeschichte.html">
+        <span class="richtung">Weiter &rarr;</span>
+        Versionsgeschichte
+      </a>
+    </nav>
+
+  </main>
+  <footer class="site-footer">
+    Praxissemester-Dokumentation
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>
