@@ -1171,6 +1171,21 @@ table.mx td.cc { width: 30px; color: var(--text-hell); }
 .mx-hol table.mx tr.ga td.ln, .mx-hol table.mx tr.ga td.xc { background: #f6dcf2; }
 .mx-hol table.mx tr.gb td.ln, .mx-hol table.mx tr.gb td.xc { background: #e3a0dc; }
 
+/* Erste Spalte (Länge) beim horizontalen Scrollen fixieren */
+table.mx thead th.lh:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  border-right: 2px solid var(--dunkel);
+}
+
+table.mx td.ln {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  border-right: 2px solid var(--rand);
+}
+
 table.mx-wid td.ln { width: 52px; }
 table.mx-wid td.cc { width: 34px; color: var(--text); font-weight: 600; }
 table.mx-wid tr.w1 td.ln { background: #ffe14d; }
