@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zerspanarbeitsplatz – Projekt (Detail)</title>
+<style>
+  :root{
+    --bg:#f5f7fa;--card:#fff;--ink:#1f2a37;--muted:#5b6b7b;--brand:#0e6ba8;--brand2:#0a4d78;
+    --accent:#f0a202;--line:#e2e8f0;--green:#2e7d32;--soft:#eef4f9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  header.top{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;padding:22px}
+  header.top h1{margin:0;font-size:23px}
+  header.top p{margin:5px 0 0;opacity:.9;font-size:14px}
+
+  .tlbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;padding:16px 22px 10px}
+  .tl{position:relative;display:flex;justify-content:space-between;max-width:900px;margin:0 auto}
+  .tl:before{content:"";position:absolute;top:16px;left:6%;right:6%;height:4px;background:#dce8f1;border-radius:2px}
+  .tl .prog{position:absolute;top:16px;left:6%;height:4px;background:var(--brand);border-radius:2px;transition:width .3s;width:0}
+  .tl .st{position:relative;z-index:1;text-align:center;width:11.5%;cursor:pointer;font-size:10.5px;color:var(--muted)}
+  .tl .dot{width:34px;height:34px;border-radius:50%;background:#fff;border:3px solid #dce8f1;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted);transition:.2s}
+  .tl .st:hover .dot{border-color:var(--brand)}
+  .tl .st.done .dot{border-color:var(--brand);background:var(--brand);color:#fff}
+  .tl .st.now .dot{border-color:var(--accent);background:#fff;color:var(--accent);box-shadow:0 0 0 5px #fceecb}
+  .tl .st.now{color:var(--brand2);font-weight:700}
+
+  main{max-width:920px;margin:0 auto;padding:26px 22px 10px}
+  .chapter{display:none;animation:fade .3s ease}
+  .chapter.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .kaphead{display:flex;align-items:center;gap:14px;margin:0 0 6px}
+  .kaphead .kn{width:46px;height:46px;border-radius:12px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex:0 0 auto}
+  .kaphead h2{margin:0;font-size:25px;color:var(--brand2)}
+  .lead{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:0 0 18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card h3{margin:0 0 12px;font-size:18px;display:flex;align-items:center;gap:10px}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-size:15px;flex:0 0 auto}
+  ul{margin:6px 0;padding-left:20px}li{margin:5px 0}
+  .tag{display:inline-block;background:var(--soft);color:var(--brand2);font-size:12px;font-weight:600;padding:3px 10px;border-radius:12px;margin-bottom:6px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .box{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+  .box.a{border-top:4px solid var(--brand)}.box.b{border-top:4px solid var(--accent)}
+  .box.g{border-top:4px solid var(--green)}.box.c{border-top:4px solid #546e7a}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:4px 0}
+  th{background:var(--brand);color:#fff;text-align:left;padding:8px 11px;font-weight:600}
+  td{padding:7px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--soft)}
+  .callout{background:#fff8e6;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:14px 0}
+  .callout.g{background:#f1f8f2;border-left-color:var(--green)}
+  .pill-green{background:#e8f5e9;color:var(--green);font-weight:600;padding:3px 10px;border-radius:12px;font-size:12px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+  .step{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;color:var(--brand2)}
+  .arrow{color:var(--muted)}
+  .s5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  @media(max-width:640px){.s5{grid-template-columns:1fr 1fr}}
+  .s5 .box{text-align:center}.s5 .box b{display:block;color:var(--brand)}.s5 .box small{color:var(--muted)}
+  .cat-head{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+  .dot2{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+  img.render{max-width:100%;height:auto;border:1px solid var(--line);border-radius:12px}
+  .pager{display:flex;justify-content:space-between;gap:10px;margin:8px 0 30px}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;transition:.15s}
+  .btn:hover{background:var(--brand2)}
+  .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .btn.ghost:hover{background:var(--soft)}
+  .btn:disabled{opacity:.35;cursor:not-allowed}
+  .subnav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+  .subnav a{font-size:12.5px;color:var(--brand2);background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:5px 12px;text-decoration:none}
+  .subnav a:hover{background:#e2ecf4}
+  .vt th{background:#eef4f9;color:var(--brand2)} /* vor/nachteil header */
+  .kosten tr.cd td{background:#eaf3fb!important}
+  .kosten tr.cf td{background:#fff4e2!important}
+  .kosten tr.cs td{background:#efeaf7!important}
+  .kosten tr.cm td{background:#eaf6ec!important}
+  .kosten tr.cn td{background:#fdecec!important}
+  .kosten tr.ch td{background:#eef1f3!important}
+  footer{max-width:920px;margin:0 auto 40px;padding:0 22px;color:var(--muted);font-size:13px;text-align:center}
+  #printBtn{position:fixed;right:18px;bottom:18px;z-index:50;background:var(--brand);color:#fff;border:none;border-radius:24px;padding:12px 18px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+  #printBtn:hover{background:var(--brand2)}
+  #lightbox{position:fixed;inset:0;background:rgba(15,20,26,.86);display:none;align-items:center;justify-content:center;z-index:100;cursor:zoom-out;padding:18px}
+  #lightbox img{max-width:95%;max-height:92%;border-radius:10px;box-shadow:0 12px 44px rgba(0,0,0,.5)}
+  #lightbox .cl{position:absolute;top:12px;right:22px;color:#fff;font-size:38px;line-height:1;cursor:pointer;font-weight:700}
+  img.render{cursor:zoom-in}
+  .cover{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;border-radius:16px;padding:32px 26px;margin:0 0 18px;text-align:center}
+  .cover .cbadge{width:62px;height:62px;border-radius:16px;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:23px;font-weight:700;margin-bottom:12px}
+  .cover .ctitle{font-size:29px;font-weight:700;font-family:'Century Schoolbook',serif;line-height:1.15}
+  .cover .csub{opacity:.92;margin-top:8px;font-size:15px}
+  .cover .cmeta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:22px}
+  .cover .cmeta label{display:flex;flex-direction:column;font-size:12px;text-align:left;gap:4px;color:#d6e6f2}
+  .cover .cmeta input{border:none;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;min-width:165px;color:var(--ink)}
+  .toclist{margin:6px 0 0;padding-left:24px}
+  .toclist li{margin:7px 0;cursor:pointer;color:var(--brand2);font-weight:600}
+  .toclist li:hover{text-decoration:underline}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+  .toolbar input[type=search]{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;min-width:180px}
+  .fbtn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--brand2)}
+  .fbtn.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .kosten input.price{width:74px;border:1px solid #cbd8e2;border-radius:6px;padding:4px 6px;font-size:13px;text-align:right;font-family:inherit}
+  .audsel{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .audsel button{border:none;background:#fff;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--muted);border-right:1px solid var(--line)}
+  .audsel button:last-child{border-right:none}
+  .audsel button.on{background:var(--brand);color:#fff}
+  .scorebig{font-size:34px;font-weight:700}
+  @media print{.toolbar,.audsel,#printBtn,.cover .cmeta input{}}
+  @media print{
+    @page{margin:14mm}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+    body{background:#fff}
+    .tlbar,.pager,#printBtn,.subnav,.ctrls,.durctrls,#u-scen{display:none !important}
+    header.top{background:#0a4d78 !important}
+    .chapter{display:block !important;page-break-after:always}
+    .chapter:last-of-type{page-break-after:auto}
+    .card{box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+    .kaphead{break-after:avoid}
+    img.render{page-break-inside:avoid}
+    table{font-size:10.5px}
+    .kaphead h2{font-size:22px}
+  }
+  .tblscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #mileWrap,#scListWrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  @media(max-width:640px){
+    main{padding:20px 14px}
+    .card{padding:16px 14px}
+    .kaphead h2{font-size:21px}
+    table{font-size:12.5px}
+    .tblscroll,#mileWrap,#scListWrap{border:1px solid var(--line);border-radius:8px}
+    .tblscroll table,#mileWrap table,#scListWrap table{margin:0}
+    .tlbar{overflow-x:auto}
+    .tl{min-width:740px}
+    .tl .st{font-size:10px}
+    .ctrls{gap:10px}
+    .grid,.grid3{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Konzeptplanung Zerspanarbeitsplatz &mdash; Detailfassung</h1>
+  <p>Praxissemester-Projekt &middot; 8 Kapitel &middot; inkl. Amortisation &amp; Gefährdungsbeurteilung</p>
+</header>
+<button id="printBtn" onclick="window.print()">&#128424; Drucken / PDF</button>
+
+<div class="tlbar">
+  <div class="tl" id="tl">
+    <div class="st" data-k="0"><div class="dot">1</div>Einführung</div>
+    <div class="st" data-k="1"><div class="dot">2</div>Analyse</div>
+    <div class="st" data-k="2"><div class="dot">3</div>5S-Ordnung</div>
+    <div class="st" data-k="3"><div class="dot">4</div>Planung</div>
+    <div class="st" data-k="4"><div class="dot">5</div>Bewertung</div>
+    <div class="st" data-k="5"><div class="dot">6</div>Wirtschaft</div>
+    <div class="st" data-k="6"><div class="dot">7</div>Sicherheit</div>
+    <div class="st" data-k="7"><div class="dot">8</div>Umsetzung</div>
+    <div class="prog" id="prog"></div>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== KAPITEL 1 ===================== -->
+<section class="chapter" id="k0">
+  <div class="cover">
+    <div class="cbadge">5S</div>
+    <div class="ctitle">Konzeptplanung Zerspanarbeitsplatz</div>
+    <div class="csub">Werkbank für Drehen &amp; Fräsen &middot; organisiert nach der 5S-Methode</div>
+    <div class="cmeta">
+      <label>Name<input type="text" id="cvName" placeholder="Vor- und Nachname"></label>
+      <label>Firma / Abteilung<input type="text" id="cvFirma" placeholder="Firma"></label>
+      <label>Datum<input type="date" id="cvDatum"></label>
+    </div>
+  </div>
+  <div class="card" id="toc">
+    <h3><span class="num">&#128209;</span> Inhaltsverzeichnis</h3>
+    <ol class="toclist">
+      <li data-k="0">Einführung &ndash; Aufgabe &amp; Rahmen</li>
+      <li data-k="1">Analyse &ndash; Werkzeugliste &amp; Kosten</li>
+      <li data-k="2">5S-Ordnung &amp; Zonen A/B/C</li>
+      <li data-k="3">Planung &ndash; Varianten, Konzepte, 3D</li>
+      <li data-k="4">Bewertung &ndash; Nutzwert &amp; Empfehlung</li>
+      <li data-k="5">Wirtschaftlichkeit &ndash; Amortisation</li>
+      <li data-k="6">Arbeitssicherheit &ndash; Gefährdungsbeurteilung</li>
+      <li data-k="7">Umsetzung &amp; Abgabe</li>
+    </ol>
+  </div>
+  <div class="kaphead"><div class="kn">1</div><h2>Einführung</h2></div>
+  <p class="lead">Aufgabe, Ziel, die bewerteten Teilaufgaben und die Rahmenbedingungen.</p>
+
+  <div class="card">
+    <h3><span class="num">&#9873;</span> Aufgabe in einem Satz</h3>
+    <p style="margin:0">Plane einen <b>Arbeitsplatz zum Zerspanen</b> (Drehen &amp; Fräsen, konventionell) mit allen Werkzeugen für Zerspan- und Nacharbeit, sauber nach <b>5S</b> organisiert &ndash; in mehreren Varianten mit technisch-wirtschaftlichem Vergleich.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#9776;</span> Die 5 bewerteten Teilaufgaben</h3>
+    <table>
+      <tr><th>#</th><th>Teilaufgabe</th><th>Inhalt</th></tr>
+      <tr><td>A</td><td>Werkzeuge aufnehmen</td><td>Alle Werkzeuge für Drehen, Fräsen &amp; Nacharbeit erfassen</td></tr>
+      <tr><td>B</td><td>Werkbank planen</td><td>Aufbau, Maße, Schubladen, Lochwand, Halterungen</td></tr>
+      <tr><td>C</td><td>5S anwenden</td><td>Feste Plätze, Shadow-Board, Standards</td></tr>
+      <tr><td>D</td><td>Varianten</td><td>item-Profil, Stahl, System, Eigenbau</td></tr>
+      <tr><td>E</td><td>Gegenüberstellung</td><td>Technisch-wirtschaftlicher Vergleich + Empfehlung</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#128207;</span> Rahmenbedingungen</h3>
+    <div class="flow">
+      <span class="step">Drehen + Fräsen (konventionell)</span>
+      <span class="step">3 Personen / Schicht</span>
+      <span class="step">1 Schicht / Tag</span>
+      <span class="step">Kein festes Budget</span>
+    </div>
+    <p style="margin:10px 0 0;color:var(--muted)">Folge: Handwerkzeug &amp; Messmittel teils <b>3-fach</b>; Werkbank zentral für alle 3 Personen.</p>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 2 ===================== -->
+<section class="chapter" id="k1">
+  <div class="kaphead"><div class="kn">2</div><h2>Analyse</h2></div>
+  <p class="lead">Vollständiger Werkzeugbedarf und die Ordnung nach der 5S-Methode.</p>
+  <div class="subnav"><a href="#a-dreh">Drehen</a><a href="#a-fraes">Fräsen</a><a href="#a-spann">Spannen</a><a href="#a-mess">Messen</a><a href="#a-nach">Nacharbeit</a><a href="#a-kosten">Kostenliste</a></div>
+
+  <div class="card" id="a-dreh">
+    <div class="cat-head"><span class="dot2" style="background:var(--brand)"></span><h3 style="margin:0">1 · Werkzeuge zum Drehen</h3></div>
+    <table>
+      <tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr>
+      <tr><td>Drehmeißel-Satz (Schrupp/Schlicht/Stech/Innen)</td><td>Zerspanen außen/innen, Einstechen</td><td>1 Satz</td></tr>
+      <tr><td>Wendeschneidplatten + Halter</td><td>Schnelles Wechseln der Schneiden</td><td>Sortiment</td></tr>
+      <tr><td>Bohrfutter + Bohrersatz HSS</td><td>Bohren im Reitstock</td><td>1</td></tr>
+      <tr><td>Zentrierbohrer, Gewindeschneidzeug</td><td>Anbohren, Außengewinde</td><td>je Satz</td></tr>
+      <tr><td>Mitlaufende Körnerspitze, Einstelllehre</td><td>Abstützen, Werkzeug auf Mitte</td><td>je 1</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="a-fraes">
+    <div class="cat-head"><span class="dot2" style="background:var(--accent)"></span><h3 style="margin:0">2 · Werkzeuge zum Fräsen</h3></div>
+    <table>
+      <tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr>
+      <tr><td>Schaftfräser-Satz HSS/VHM</td><td>Nuten, Konturen, Flächen</td><td>Sortiment</td></tr>
+      <tr><td>Walzenstirnfräser / Messerkopf</td><td>Flächen planfräsen</td><td>1–2</td></tr>
+      <tr><td>Bohrer + Gewindebohrer-Satz + Windeisen</td><td>Bohren, Innengewinde</td><td>je Satz</td></tr>
+      <tr><td>Spannzangen / Fräsdorne</td><td>Werkzeugaufnahme</td><td>Satz</td></tr>
+      <tr><td>Kantentaster / 3D-Taster</td><td>Werkstück-Nullpunkt</td><td>1</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="a-spann">
+    <div class="cat-head"><span class="dot2" style="background:#7b5cd6"></span><h3 style="margin:0">3 · Spann- &amp; Aufspannmittel</h3></div>
+    <table>
+      <tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr>
+      <tr><td>Maschinenschraubstock</td><td>Werkstück an der Fräse spannen</td><td>1</td></tr>
+      <tr><td>Spanneisen / Pratzen-Satz</td><td>Direktes Aufspannen</td><td>Satz</td></tr>
+      <tr><td>Drei-/Vierbackenfutter + Schlüssel</td><td>Spannen an der Drehmaschine</td><td>je 1</td></tr>
+      <tr><td>Parallelunterlagen, Teilapparat (opt.)</td><td>Ausrichten, Winkelteilung</td><td>Satz / 1</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="a-mess">
+    <div class="cat-head"><span class="dot2" style="background:var(--green)"></span><h3 style="margin:0">4 · Mess- &amp; Prüfmittel</h3></div>
+    <table>
+      <tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr>
+      <tr><td>Messschieber digital 150 mm</td><td>Standardmaße</td><td>3 (pro Person)</td></tr>
+      <tr><td>Bügelmessschraube (Mikrometer)</td><td>Präzise Außenmaße</td><td>2</td></tr>
+      <tr><td>Messuhr + Magnetstativ</td><td>Rundlauf, Ausrichten</td><td>2</td></tr>
+      <tr><td>Winkel, Radien-/Fühler-/Gewindelehren</td><td>Rechtwinkligkeit, Radien, Gewinde</td><td>Sätze</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="a-nach">
+    <div class="cat-head"><span class="dot2" style="background:#e05a47"></span><h3 style="margin:0">5 · Nacharbeit &amp; 6 · Hilfsmittel</h3></div>
+    <table>
+      <tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr>
+      <tr><td>Entgratwerkzeug + Klingen, Feilen-Satz</td><td>Kanten entgraten, Nacharbeit</td><td>3 / 2 Sätze</td></tr>
+      <tr><td>Schleifleinen, Bürsten, Gewinde-Nachschneider</td><td>Glätten, reinigen, reparieren</td><td>Sortiment</td></tr>
+      <tr><td>Handwerkzeug-Grundsatz, Drehmomentschlüssel</td><td>Rüsten, definiertes Anziehen</td><td>3 / 1</td></tr>
+      <tr><td>KSS/Schneidöl, Spänehaken, PSA</td><td>Kühlen, Späne, Arbeitsschutz</td><td>Verbrauch / 3</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="a-kosten">
+    <h3><span class="num">&#128181;</span> Bepreiste Werkzeugliste</h3>
+    <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Richtpreise netto (Schätzung dt. Markt). Gesamt = Menge &times; Einzelpreis. Vollständig auch als Excel-Datei vorhanden.</p>
+    <div class="toolbar">
+      <input type="search" id="tSearch" placeholder="Werkzeug suchen …">
+      <span id="tFilters"></span>
+    </div>
+    <div class="tblscroll"><table class="kosten" style="font-size:12.5px" id="tTable"></table></div>
+    <div id="tTotals" style="margin-top:12px"></div>
+    <button class="btn ghost" id="tReset" style="margin-top:10px">Preise zurücksetzen</button>
+    <script>
+    (function(){
+      const cats=[['Drehen','cd'],['Fräsen','cf'],['Spannen','cs'],['Messen','cm'],['Nacharbeit','cn'],['Hilfsmittel','ch']];
+      const catCls={}; cats.forEach(c=>catCls[c[0]]=c[1]);
+      const items=[
+        {c:'Drehen',n:'Drehmeißel-Satz (Schrupp/Schlicht/Stech/Innen)',q:1,u:'Satz',p:180},
+        {c:'Drehen',n:'Wendeschneidplatten + Halter',q:1,u:'Sort.',p:320},
+        {c:'Drehen',n:'Bohrfutter + Bohrersatz HSS',q:1,u:'Satz',p:95},
+        {c:'Drehen',n:'Zentrierbohrer-Satz',q:1,u:'Satz',p:35},
+        {c:'Drehen',n:'Gewindeschneidzeug (Schneideisen)',q:1,u:'Satz',p:120},
+        {c:'Drehen',n:'Mitlaufende Körnerspitze',q:1,u:'Stk',p:65},
+        {c:'Drehen',n:'Drehmeißel-Einstelllehre',q:1,u:'Stk',p:25},
+        {c:'Fräsen',n:'Schaftfräser-Satz HSS/VHM',q:1,u:'Sort.',p:260},
+        {c:'Fräsen',n:'Walzenstirnfräser / Messerkopf',q:2,u:'Stk',p:140},
+        {c:'Fräsen',n:'Bohrersatz + Zentrierbohrer',q:1,u:'Satz',p:90},
+        {c:'Fräsen',n:'Gewindebohrer-Satz + Windeisen',q:1,u:'Satz',p:110},
+        {c:'Fräsen',n:'Spannzangen / Fräsdorne',q:1,u:'Satz',p:240},
+        {c:'Fräsen',n:'Kantentaster / 3D-Taster',q:1,u:'Stk',p:130},
+        {c:'Spannen',n:'Maschinenschraubstock',q:1,u:'Stk',p:280},
+        {c:'Spannen',n:'Spanneisen / Pratzen-Satz',q:1,u:'Satz',p:95},
+        {c:'Spannen',n:'Vierbackenfutter + Futterschlüssel',q:1,u:'Stk',p:210},
+        {c:'Spannen',n:'Parallelunterlagen-Satz',q:1,u:'Satz',p:70},
+        {c:'Spannen',n:'Teilapparat / Rundtisch (optional)',q:1,u:'Stk',p:450},
+        {c:'Messen',n:'Messschieber digital 150 mm',q:3,u:'Stk',p:45},
+        {c:'Messen',n:'Bügelmessschraube (Mikrometer)',q:2,u:'Stk',p:85},
+        {c:'Messen',n:'Messuhr + Magnetstativ',q:2,u:'Set',p:70},
+        {c:'Messen',n:'Anschlagwinkel / Haarwinkel',q:2,u:'Stk',p:30},
+        {c:'Messen',n:'Radien- & Fühlerlehren',q:2,u:'Satz',p:25},
+        {c:'Messen',n:'Gewindelehren / Lehrdorne',q:1,u:'Satz',p:90},
+        {c:'Nacharbeit',n:'Entgratwerkzeug + Klingen',q:3,u:'Stk',p:22},
+        {c:'Nacharbeit',n:'Feilen-Satz',q:2,u:'Satz',p:55},
+        {c:'Nacharbeit',n:'Schleifleinen / Schmirgel',q:1,u:'Sort.',p:40},
+        {c:'Nacharbeit',n:'Handbürste / Drahtbürste',q:3,u:'Stk',p:8},
+        {c:'Nacharbeit',n:'Gewinde-Nachschneider-Satz',q:1,u:'Satz',p:60},
+        {c:'Hilfsmittel',n:'Handwerkzeug-Grundsatz',q:3,u:'Satz',p:120},
+        {c:'Hilfsmittel',n:'Drehmomentschlüssel',q:1,u:'Stk',p:90},
+        {c:'Hilfsmittel',n:'Kühlschmierstoff / Schneidöl',q:1,u:'Gebinde',p:45},
+        {c:'Hilfsmittel',n:'Spänehaken + Handfeger + Schaufel',q:1,u:'Set',p:30},
+        {c:'Hilfsmittel',n:'PSA (Brille, Gehörschutz, Handschuhe)',q:3,u:'Satz',p:40},
+        {c:'Hilfsmittel',n:'Werkstattwagen / Ablage',q:1,u:'Stk',p:180}
+      ];
+      const KEY='zsp_tools_prices';
+      let flt='Alle', q='';
+      let ov=(function(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}})();
+      const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(ov));}catch(e){}};
+      const price=i=>ov[i]!=null?ov[i]:items[i].p;
+      const euro=n=>n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+      function updateTotals(){
+        let net=0; items.forEach((it,i)=>net+=it.q*price(i));
+        const mwst=net*0.19, br=net+mwst;
+        document.getElementById('tTotals').innerHTML='<table><tr style="font-weight:700"><td style="width:70%;text-align:right">Zwischensumme netto</td><td style="background:var(--soft)">'+euro(net)+'</td></tr><tr><td style="text-align:right">MwSt. 19 %</td><td>'+euro(mwst)+'</td></tr><tr style="font-weight:700"><td style="text-align:right;background:var(--green);color:#fff">Gesamtsumme brutto</td><td style="background:var(--green);color:#fff">'+euro(br)+'</td></tr></table>';
+        try{localStorage.setItem('zsp_tools_brutto',String(Math.round(br)));}catch(e){}
+      }
+      function render(){
+        let fb='<button class="fbtn'+(flt==='Alle'?' on':'')+'" data-c="Alle">Alle</button>';
+        cats.forEach(c=>fb+='<button class="fbtn'+(flt===c[0]?' on':'')+'" data-c="'+c[0]+'">'+c[0]+'</button>');
+        document.getElementById('tFilters').innerHTML=fb;
+        let h='<tr><th>Kategorie</th><th>Werkzeug</th><th>Menge</th><th>Einh.</th><th>Einzel €</th><th>Gesamt €</th></tr>';
+        items.forEach((it,i)=>{
+          if(flt!=='Alle'&&it.c!==flt) return;
+          if(q&&it.n.toLowerCase().indexOf(q)<0) return;
+          h+='<tr class="'+catCls[it.c]+'"><td>'+it.c+'</td><td>'+it.n+'</td><td>'+it.q+'</td><td>'+it.u+'</td><td><input class="price" type="number" min="0" step="1" data-i="'+i+'" value="'+price(i)+'"></td><td class="gc">'+euro(it.q*price(i))+'</td></tr>';
+        });
+        document.getElementById('tTable').innerHTML=h;
+        updateTotals();
+      }
+      document.getElementById('tFilters').addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(b){flt=b.dataset.c;render();}});
+      document.getElementById('tSearch').addEventListener('input',e=>{q=e.target.value.toLowerCase();render();});
+      document.getElementById('tTable').addEventListener('input',e=>{const inp=e.target.closest('input.price');if(!inp)return;const i=+inp.dataset.i;let v=parseFloat(inp.value);ov[i]=(isNaN(v)||v<0)?0:v;save();inp.closest('tr').querySelector('.gc').textContent=euro(items[i].q*ov[i]);updateTotals();});
+      document.getElementById('tReset').addEventListener('click',()=>{ov={};save();render();});
+      render();
+    })();
+    </script>
+    <div class="callout">Preise sind Netto-Richtwerte (ohne Werkbank &amp; Maschinen) &ndash; bei realen Angeboten aktualisieren.</div>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 3 · 5S ===================== -->
+<section class="chapter" id="k5s">
+  <div class="kaphead"><div class="kn">3</div><h2>5S-Ordnung</h2></div>
+  <p class="lead">Die 5 Schritte konkret am Platz &ndash; und die Zuordnung: welches Werkzeug aus der Liste in Zone A, B oder C gehört.</p>
+  <div class="subnav"><a href="#s-schritte">5 Schritte</a><a href="#s-zonen">Zonen A/B/C</a></div>
+
+  <div class="card" id="s-schritte">
+    <h3><span class="num">&#9781;</span> Die 5 Schritte am Arbeitsplatz</h3>
+    <table>
+      <tr><th>S</th><th>Bedeutung</th><th>Umsetzung</th></tr>
+      <tr><td>Seiri</td><td>Sortieren</td><td>Nur benötigte Werkzeuge; Defektes/Doppeltes aussortieren</td></tr>
+      <tr><td>Seiton</td><td>Systematisieren</td><td>Fester Platz + Beschriftung, Shadow-Board, Schaumeinlagen</td></tr>
+      <tr><td>Seiso</td><td>Säubern</td><td>Späne täglich weg, Messmittel sauber &amp; geölt</td></tr>
+      <tr><td>Seiketsu</td><td>Standardisieren</td><td>Foto-Standard, Farbcodes, gleiche Regeln für alle 3</td></tr>
+      <tr><td>Shitsuke</td><td>Selbstdisziplin</td><td>Schichtende-Check, regelmäßiges Audit</td></tr>
+    </table>
+    <p style="margin:14px 0 6px"><b>Farbcode der Zonen:</b></p>
+    <div class="flow">
+      <span class="step" style="background:#e3f2fd">A – täglich (Lochwand)</span>
+      <span class="step" style="background:#fff3e0">B – wöchentlich (Schubladen)</span>
+      <span class="step" style="background:#eceff1">C – selten (Schrank)</span>
+    </div>
+  </div>
+
+  <div class="card" id="s-zonen">
+    <h3><span class="num">&#128204;</span> Zonen-Zuordnung &ndash; was steht wo?</h3>
+    <p style="margin:0 0 14px;color:var(--muted);font-size:13px">Die Werkzeuge aus Kapitel 2 nach Nutzungshäufigkeit den Zonen zugeordnet: oft = greifbar (A), selten = im Schrank (C).</p>
+    <div class="grid3">
+      <div class="box a">
+        <b style="color:var(--brand)">Zone A &ndash; täglich (Lochwand)</b>
+        <ul>
+          <li>Häufigste Drehmeißel &amp; Schaftfräser</li>
+          <li>Messschieber (digital)</li>
+          <li>Messuhr</li>
+          <li>Entgratwerkzeug</li>
+          <li>Feilen (griffbereit)</li>
+          <li>Hand-/Drahtbürste</li>
+          <li>Kühlschmierstoff + Pinsel</li>
+          <li>Spänehaken + Handfeger</li>
+        </ul>
+      </div>
+      <div class="box b">
+        <b style="color:#b26a00">Zone B &ndash; wöchentlich (Schubladen)</b>
+        <ul>
+          <li>Bohrer-, Gewinde- &amp; Fräsersätze</li>
+          <li>Wendeschneidplatten + Halter</li>
+          <li>Bügelmessschraube (Mikrometer)</li>
+          <li>Anschlagwinkel, Radien-/Fühler-/Gewindelehren</li>
+          <li>Handwerkzeug-Grundsatz, Drehmomentschlüssel</li>
+          <li>Schraubstock-Zubehör, Pratzen, Parallelunterlagen</li>
+          <li>Kantentaster, Zentrierbohrer</li>
+        </ul>
+      </div>
+      <div class="box c">
+        <b style="color:#37474f">Zone C &ndash; selten (Schrank)</b>
+        <ul>
+          <li>Teilapparat / Rundtisch</li>
+          <li>Vierbackenfutter, Reserve-Wendeplatten</li>
+          <li>Gewinde-Nachschneider</li>
+          <li>Schleifleinen-Vorrat, Verbrauchsmaterial</li>
+          <li>PSA-Ersatz</li>
+          <li>Werkstattwagen / Ablage (separat)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout g">Prinzip: Jedes Werkzeug hat einen festen, markierten Platz &ndash; ein Fehlteil fällt am Shadow-Board sofort auf.</div>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 4 · Planung ===================== -->
+<section class="chapter" id="k2">
+  <div class="kaphead"><div class="kn">4</div><h2>Planung</h2></div>
+  <p class="lead">Maße, alle Varianten mit Vor-/Nachteilen, Layout-Konzepte und die gewählte Lösung in 3D.</p>
+  <div class="subnav"><a href="#p-mass">Maße</a><a href="#p-var">Varianten</a><a href="#p-konz">Konzepte</a><a href="#p-3d">3D &amp; Grundriss</a></div>
+
+  <div class="card" id="p-mass">
+    <h3><span class="num">&#128208;</span> Werkbank-Grundmaße</h3>
+    <table>
+      <tr><th>Maß</th><th>Wert</th><th>Warum</th></tr>
+      <tr><td>Breite</td><td>1500–2000 mm</td><td>Platz für Arbeit, Ablage, Vorrichtungen</td></tr>
+      <tr><td>Tiefe</td><td>600 mm</td><td>kurze Greifwege, kein totes Volumen</td></tr>
+      <tr><td>Arbeitshöhe</td><td>850–950 mm</td><td>stehende Arbeit, höhenverstellbar ideal</td></tr>
+      <tr><td>Lochwand</td><td>+600–900 mm über Platte</td><td>Zone A in Griffhöhe</td></tr>
+      <tr><td>Traglast</td><td>≥ 500 kg</td><td>Schraubstock &amp; schwere Werkstücke</td></tr>
+    </table>
+    <p style="margin:8px 0 0;color:var(--muted);font-size:12.5px">Arbeitshöhe nach <b>DIN EN ISO 14738</b> (aus Ellenbogenhöhe): stehend ca. 850–1050 mm, Feinarbeit höher, Schwerarbeit niedriger. Höhenverstellung ideal (Bereich ca. 680–1150 mm). Siehe Kapitel 7 → Quellen &amp; Normen.</p>
+  </div>
+
+  <div class="card" id="p-var">
+    <h3><span class="num">&#9635;</span> 4 Varianten &ndash; 3D-Visualisierung</h3>
+    <div class="grid">
+      <div><img class="render" src="Variante1.png" alt="Variante 1 item-Profil"></div>
+      <div><img class="render" src="Variante2.png" alt="Variante 2 Stahl-Standard"></div>
+      <div><img class="render" src="Variante3.png" alt="Variante 3 Systemmodule"></div>
+      <div><img class="render" src="Variante4.png" alt="Variante 4 Eigenbau"></div>
+    </div>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:13px">V1 offener Aluprofil-Rahmen · V2 Stahlkorpus mit Schubladen · V3 kombinierte Schrankmodule · V4 geschweißter Stahlrahmen.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#9776;</span> Varianten mit Vor- &amp; Nachteilen</h3>
+    <table class="vt">
+      <tr><th>Variante</th><th>Vorteile</th><th>Nachteile</th></tr>
+      <tr><td><b>V1 · item-Profil</b></td><td>Sehr flexibel, ergonomisch, erweiterbar</td><td>Teuerste Option</td></tr>
+      <tr><td><b>V2 · Stahl-Standard</b></td><td>Robust, günstig, sofort einsatzbereit</td><td>Wenig flexibel</td></tr>
+      <tr><td><b>V3 · Systemmodule</b></td><td>Viel Stauraum, erweiterbar, gute Ordnung</td><td>Mittlere Kosten &amp; Flexibilität</td></tr>
+      <tr><td><b>V4 · Eigenbau</b></td><td>Sehr günstig im Material, robust, passgenau</td><td>Hoher Bauaufwand, Optik variabel</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="p-konz">
+    <h3><span class="num">&#9881;</span> Layout-Konzepte &ndash; 3D-Visualisierung</h3>
+    <div class="grid">
+      <div><img class="render" src="Konzept_L1.png" alt="Konzept 1 tiefe Unterschränke"></div>
+      <div><img class="render" src="Konzept_L2.png" alt="Konzept 2 Lochwand mittig (gewählt)"></div>
+      <div><img class="render" src="Konzept_L3.png" alt="Konzept 3 Bank + Wagen"></div>
+      <div><img class="render" src="Konzept_L4.png" alt="Konzept 4 Systemwand"></div>
+    </div>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:13px">K1 tiefe Unterschränke (weites Greifen) · <b>K2 Lochwand mittig + schmale Hochschränke (gewählt)</b> · K3 schlanke Bank + mobiler Wagen · K4 durchgehende Systemwand.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#9781;</span> Layout-Konzepte &ndash; Vor- &amp; Nachteile</h3>
+    <table class="vt">
+      <tr><th>Konzept</th><th>Vorteile</th><th>Nachteile</th></tr>
+      <tr><td>1 · Tiefe Unterschränke</td><td>Große Fläche, viel Volumen</td><td>Tiefe 700 mm → weites Greifen</td></tr>
+      <tr><td><b>2 · Lochwand mittig + Hochschränke</b> <span class="pill-green">gewählt</span></td><td>Geringe Tiefe, alles in Reichweite, Höhe genutzt</td><td>Wandverankerung nötig</td></tr>
+      <tr><td>3 · Bank + mobiler Wagen</td><td>Werkzeug fährt zur Maschine, flexibel</td><td>Zusatzkosten, Disziplin nötig</td></tr>
+      <tr><td>4 · Systemwand über Länge</td><td>Maximale Sicht &amp; Zugriff</td><td>Wenig geschlossener Stauraum</td></tr>
+    </table>
+    <div class="callout g">Gewählt: <b>Konzept 2</b> als Basis + <b>mobiler Werkzeugwagen</b> (Konzept 3) für die Wege zu den Maschinen.</div>
+  </div>
+
+  <div class="card" id="p-3d">
+    <h3><span class="num">&#128444;</span> Konzept 2 in 3D &amp; Werkstatt-Grundriss</h3>
+    <img class="render" src="Konzept2_3D.png" alt="Konzept 2 3D" style="margin-bottom:12px">
+    <img class="render" src="Werkstatt_Grundriss.png" alt="Grundriss">
+    <p style="margin:10px 0 0;color:var(--muted);font-size:13px">Hochschränke T ~400 mm, Bank T 600 mm, Breite ~1800 mm. Maschinen in U-Anordnung, Freiraum ≥ 800–1000 mm je Maschine. Grundriss-Maße sind Beispielwerte.</p>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 4 ===================== -->
+<section class="chapter" id="k3">
+  <div class="kaphead"><div class="kn">5</div><h2>Bewertung</h2></div>
+  <p class="lead">Komplette Nutzwertanalyse, Kostenschätzung und Empfehlung.</p>
+
+  <div class="card">
+    <h3><span class="num">&#128202;</span> Nutzwertanalyse &ndash; interaktiv</h3>
+    <p style="margin:0 0 4px;color:var(--muted);font-size:13px">Gewichtung der Kriterien anpassen &ndash; Nutzwert und Rangfolge rechnen live. Die Auswertung normiert die Summe automatisch auf 100&nbsp;%.</p>
+    <div id="nwWeights" class="durrow" style="margin:8px 0 14px"></div>
+    <div class="tblscroll"><table id="nwTable"></table></div>
+    <div id="nwChart" style="margin-top:14px"></div>
+    <button class="btn ghost" id="nwReset" style="margin-top:12px">Standard-Gewichtung</button>
+    <script>
+    (function(){
+      const crit=[['Flexibilität',20],['Ergonomie',15],['Anschaffungskosten',20],['Robustheit',15],['Aufwand bis einsatzbereit',10],['5S-Eignung',15],['Optik / Wertigkeit',5]];
+      const vars=[['V1 item','#0e6ba8',[5,5,2,4,4,5,5]],['V2 Stahl','#f0a202',[2,3,5,4,5,3,3]],['V3 System','#2e7d32',[4,4,3,4,4,5,4]],['V4 Eigenbau','#546e7a',[3,2,5,5,2,3,2]]];
+      const KEY='zsp_nutzwert_weights';
+      let w=(function(){try{const s=JSON.parse(localStorage.getItem(KEY));return (s&&s.length===crit.length)?s:crit.map(c=>c[1]);}catch(e){return crit.map(c=>c[1]);}})();
+      const durRow=document.getElementById('nwWeights');
+      function buildInputs(){let h='';crit.forEach((c,i)=>h+='<label><span style="color:#5b6b7b">'+c[0]+'</span> <input type="number" min="0" max="50" id="nw'+i+'" value="'+w[i]+'" style="width:54px"> %</label>');durRow.innerHTML=h;}
+      function scores(){const sum=w.reduce((a,b)=>a+(+b||0),0)||1;return vars.map(v=>{let s=0;crit.forEach((c,i)=>s+=(+w[i]||0)/sum*v[2][i]);return {name:v[0],color:v[1],val:s};});}
+      function render(){
+        const sc=scores(), ranked=[...sc].sort((a,b)=>b.val-a.val), rank={}; ranked.forEach((r,i)=>rank[r.name]=i+1);
+        const sum=w.reduce((a,b)=>a+(+b||0),0);
+        let h='<tr><th>Kriterium</th><th>Gew.</th>'; vars.forEach(v=>h+='<th>'+v[0]+'</th>'); h+='</tr>';
+        crit.forEach((c,i)=>{h+='<tr><td>'+c[0]+'</td><td>'+(+w[i]||0)+'%</td>';vars.forEach(v=>h+='<td>'+v[2][i]+'</td>');h+='</tr>';});
+        h+='<tr style="font-weight:700"><td>Nutzwert (max 5,0)</td><td>'+sum+'%</td>';
+        sc.forEach(s=>h+='<td'+(rank[s.name]===1?' style="background:#e8f5e9"':'')+'>'+s.val.toFixed(2).replace('.',',')+'</td>');
+        h+='</tr><tr style="font-weight:700"><td>Rang</td><td>—</td>';
+        sc.forEach(s=>h+='<td>'+(rank[s.name]===1?'🏆 1':rank[s.name])+'</td>'); h+='</tr>';
+        document.getElementById('nwTable').innerHTML=h;
+        let ch=''; if(sum!==100)ch+='<p style="margin:0 0 8px;color:#b26a00;font-size:12.5px">Summe der Gewichte: '+sum+'% (wird auf 100% normiert)</p>';
+        ranked.forEach(s=>{const pct=(s.val/5*100).toFixed(1);ch+='<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><div style="width:86px;font-size:12px;color:#5b6b7b">'+s.name+'</div><div style="flex:1;background:#eef2f6;border-radius:6px;overflow:hidden"><div style="height:22px;width:'+pct+'%;background:'+s.color+'"></div></div><div style="width:42px;font-weight:700;font-size:13px">'+s.val.toFixed(2).replace('.',',')+'</div></div>';});
+        document.getElementById('nwChart').innerHTML=ch;
+      }
+      durRow.addEventListener('input',e=>{const inp=e.target.closest('input');if(!inp)return;const i=+inp.id.slice(2);let v=parseInt(inp.value,10);w[i]=isNaN(v)?0:v;try{localStorage.setItem(KEY,JSON.stringify(w));}catch(e){}render();});
+      document.getElementById('nwReset').addEventListener('click',()=>{w=crit.map(c=>c[1]);try{localStorage.setItem(KEY,JSON.stringify(w));}catch(e){}buildInputs();render();});
+      buildInputs();render();
+    })();
+    </script>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#128176;</span> Kostenschätzung (grob, pro Platz)</h3>
+    <table>
+      <tr><th>Variante</th><th>Anschaffung</th><th>Zusatzaufwand</th></tr>
+      <tr><td>V1 item-Profil</td><td>4.000–7.000 €</td><td>gering (montieren)</td></tr>
+      <tr><td>V2 Stahl-Standard</td><td>1.500–3.000 €</td><td>sehr gering</td></tr>
+      <tr><td>V3 Systemmodule</td><td>2.500–4.500 €</td><td>gering</td></tr>
+      <tr><td>V4 Eigenbau</td><td>~800–1.500 € Material</td><td>hoch (Bauzeit)</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="border-top:4px solid var(--green)">
+    <h3><span class="num" style="background:var(--green)">&#10003;</span> Empfehlung</h3>
+    <div class="grid">
+      <div class="box g"><b>1. Wahl: item-Profil</b><p style="margin:5px 0 0;font-size:13px;color:var(--muted)">Nutzwert 4,15 – beste Flexibilität, Ergonomie &amp; 5S-Eignung.</p></div>
+      <div class="box a"><b>Budget-Alternative: System</b><p style="margin:5px 0 0;font-size:13px;color:var(--muted)">Nutzwert 3,95 – fast gleichwertig, deutlich günstiger.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 6 · Wirtschaftlichkeit ===================== -->
+<section class="chapter" id="kwirt">
+  <div class="kaphead"><div class="kn">6</div><h2>Wirtschaftlichkeit</h2></div>
+  <p class="lead">Lohnt sich die Investition? Die 5S-Ordnung spart täglich Suchzeit. Hier gegen die Kosten gerechnet &ndash; mit Amortisationsdauer. Alle Werte anpassbar.</p>
+
+  <div class="card">
+    <h3><span class="num">&#129513;</span> Kosten-Konfigurator</h3>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:13px">Variante wählen &ndash; Werkzeuge (aus Kapitel 2) + Werkbank ergeben die Gesamtinvestition, die in den Amortisations-Rechner übernommen wird.</p>
+    <div class="ctrls" id="kfBtns"></div>
+    <div id="kfOut"></div>
+    <script>
+    (function(){
+      const bench={'item-Profil':5500,'Stahl-Standard':2250,'Systemmodule':3500,'Eigenbau':1150};
+      const order=['item-Profil','Stahl-Standard','Systemmodule','Eigenbau'];
+      let sel=localStorage.getItem('zsp_variant')||'item-Profil'; if(order.indexOf(sel)<0)sel='item-Profil';
+      const euro=n=>Math.round(n).toLocaleString('de-DE')+' €';
+      const tools=()=>parseFloat(localStorage.getItem('zsp_tools_brutto'))||5742;
+      const total=()=>tools()+bench[sel];
+      function render(push){
+        let b=''; order.forEach(o=>b+='<button class="fbtn'+(sel===o?' on':'')+'" data-v="'+o+'">'+o+'</button>');
+        document.getElementById('kfBtns').innerHTML=b;
+        const t=total();
+        document.getElementById('kfOut').innerHTML='<table style="margin-top:8px"><tr><th>Posten</th><th>Betrag</th></tr><tr><td>Werkzeuge (brutto, aus Werkzeugliste)</td><td>'+euro(tools())+'</td></tr><tr><td>Werkbank/Schränke – '+sel+'</td><td>'+euro(bench[sel])+'</td></tr><tr style="font-weight:700"><td>Gesamtinvestition</td><td style="background:var(--soft)">'+euro(t)+'</td></tr></table><p style="margin:8px 0 0;color:var(--muted);font-size:12.5px">Fließt als Investition in die Amortisation ein.</p>';
+        try{localStorage.setItem('zsp_invest_total',String(Math.round(t)));}catch(e){}
+        if(push){const inv=document.getElementById('aInv');if(inv){inv.value=Math.round(t);inv.dispatchEvent(new Event('input',{bubbles:true}));}}
+      }
+      document.getElementById('kfBtns').addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;sel=b.dataset.v;try{localStorage.setItem('zsp_variant',sel);}catch(e){}render(true);});
+      render(false);
+    })();
+    </script>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#129518;</span> Amortisations-Rechner</h3>
+    <div class="ctrls">
+      <label>Personen<input type="number" id="aPers" min="1" value="3"></label>
+      <label>Gesparte Suchzeit / Person / Tag (min)<input type="number" id="aMin" min="0" value="10"></label>
+      <label>Arbeitstage / Jahr<input type="number" id="aDays" min="1" value="220"></label>
+      <label>Stundensatz (€)<input type="number" id="aRate" min="0" value="40"></label>
+      <label>Investition gesamt (€)<input type="number" id="aInv" min="0" value="9700"></label>
+      <button class="btn ghost" id="aReset">Zurücksetzen</button>
+    </div>
+    <div id="aOut"></div>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#8505;</span> Investition (Beispiel-Annahme)</h3>
+    <table>
+      <tr><th>Posten</th><th>Betrag</th></tr>
+      <tr><td>Werkzeuge (brutto)</td><td>~5.742 €</td></tr>
+      <tr><td>Werkbank + Hochschränke (Konzept 2)</td><td>~4.000 €</td></tr>
+      <tr style="font-weight:700"><td>Summe (Standard oben)</td><td>~9.700 €</td></tr>
+    </table>
+    <p style="margin:8px 0 0;color:var(--muted);font-size:13px">Sobald echte Angebote vorliegen, Investition oben anpassen &ndash; alles rechnet neu.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="num">&#10133;</span> Weiterer Nutzen (nicht in € gerechnet)</h3>
+    <ul>
+      <li>Weniger Fehler &amp; Ausschuss durch Ordnung und passende Werkzeuge</li>
+      <li>Weniger Werkzeugverlust und Doppelkäufe</li>
+      <li>Mehr Arbeitssicherheit durch feste Plätze und freie Wege</li>
+      <li>Schnelleres Einarbeiten neuer Mitarbeiter</li>
+    </ul>
+  </div>
+
+  <script>
+  (function(){
+    const $=id=>document.getElementById(id), KEY='zsp_amort';
+    const fmtE=n=>Math.round(n).toLocaleString('de-DE')+' €';
+    const box=(t,v,c)=>'<div class="box" style="border-top:4px solid '+c+'"><div style="font-size:12px;color:#5b6b7b">'+t+'</div><div style="font-size:21px;font-weight:700;color:'+c+';margin-top:4px">'+v+'</div></div>';
+    function calc(){
+      const pers=+$('aPers').value||0, min=+$('aMin').value||0, days=+$('aDays').value||0, rate=+$('aRate').value||0, inv=+$('aInv').value||0;
+      const hY=pers*min*days/60, sY=hY*rate;
+      const months=sY>0?inv/sY*12:Infinity, net5=sY*5-inv;
+      const pay=isFinite(months)?(months.toFixed(1).replace('.',',')+' Monate (≈ '+(months/12).toFixed(1).replace('.',',')+' Jahre)'):'—';
+      $('aOut').innerHTML='<div class="grid" style="margin-top:8px">'+
+        box('Gesparte Zeit / Jahr', Math.round(hY).toLocaleString('de-DE')+' h','#0e6ba8')+
+        box('Ersparnis / Jahr', fmtE(sY),'#2e7d32')+
+        box('Amortisation', pay,'#f0a202')+
+        box('Netto nach 5 Jahren', fmtE(net5),'#546e7a')+'</div>'+
+        '<div class="callout '+(net5>=0?'g':'')+'">'+(sY>0?('Die Investition von <b>'+fmtE(inv)+'</b> ist nach ca. <b>'+(isFinite(months)?Math.round(months):'—')+' Monaten</b> bezahlt; danach spart der Arbeitsplatz jährlich '+fmtE(sY)+'.'):'Bitte Werte eingeben.')+'</div>';
+      try{localStorage.setItem(KEY,JSON.stringify({pers,min,days,rate,inv}));}catch(e){}
+    }
+    try{const o=JSON.parse(localStorage.getItem(KEY));if(o){$('aPers').value=o.pers;$('aMin').value=o.min;$('aDays').value=o.days;$('aRate').value=o.rate;$('aInv').value=o.inv;}else{const it=parseFloat(localStorage.getItem('zsp_invest_total'))||0;const tb=parseFloat(localStorage.getItem('zsp_tools_brutto'))||0;if(it>0)$('aInv').value=Math.round(it);else if(tb>0)$('aInv').value=Math.round(tb)+4000;}}catch(e){}
+    ['aPers','aMin','aDays','aRate','aInv'].forEach(id=>$(id).addEventListener('input',calc));
+    $('aReset').addEventListener('click',()=>{try{localStorage.removeItem(KEY);}catch(e){}$('aPers').value=3;$('aMin').value=10;$('aDays').value=220;$('aRate').value=40;$('aInv').value=9700;calc();});
+    calc();
+  })();
+  </script>
+</section>
+
+<!-- ===================== KAPITEL 7 · Arbeitssicherheit ===================== -->
+<section class="chapter" id="ksafe">
+  <div class="kaphead"><div class="kn">7</div><h2>Arbeitssicherheit</h2></div>
+  <p class="lead">Gefährdungsbeurteilung für den Zerspanplatz &ndash; gesetzlich vorgeschrieben (§&nbsp;5 ArbSchG). Gefährdungen erkennen, bewerten, Maßnahmen festlegen.</p>
+  <div class="subnav"><a href="#s-recht">Rechtsgrundlage</a><a href="#s-stop">STOP-Prinzip</a><a href="#s-gb">Gefährdungsbeurteilung</a><a href="#s-unterw">Unterweisung</a></div>
+
+  <div class="card" id="s-recht">
+    <h3><span class="num">&#9878;</span> Rechtsgrundlage</h3>
+    <ul>
+      <li><b>ArbSchG §&nbsp;5</b> &ndash; Pflicht zur Gefährdungsbeurteilung für jeden Arbeitsplatz</li>
+      <li><b>BetrSichV</b> &ndash; sicherer Betrieb der Arbeitsmittel (Dreh-/Fräsmaschine)</li>
+      <li><b>DGUV Vorschriften/Informationen</b> &ndash; z.&nbsp;B. Prüfung elektrischer Betriebsmittel (DGUV V3)</li>
+      <li>Dokumentation &amp; regelmäßige Aktualisierung sind Pflicht</li>
+    </ul>
+  </div>
+
+  <div class="card" id="s-stop">
+    <h3><span class="num">&#128721;</span> STOP-Prinzip (Rangfolge der Maßnahmen)</h3>
+    <div class="grid">
+      <div class="box a"><b>S &ndash; Substitution</b><p>Gefahr vermeiden/ersetzen (z. B. weniger gefährdender KSS)</p></div>
+      <div class="box a"><b>T &ndash; Technisch</b><p>Schutzeinrichtungen, Absaugung, Not-Aus, Spanschutz</p></div>
+      <div class="box b"><b>O &ndash; Organisatorisch</b><p>Unterweisung, Reinigungsplan (5S), freie Wege</p></div>
+      <div class="box c"><b>P &ndash; Persönlich (PSA)</b><p>Schutzbrille, Gehörschutz, Handschuhe &ndash; als letzte Stufe</p></div>
+    </div>
+  </div>
+
+  <div class="card" id="s-gb">
+    <h3><span class="num">&#9888;</span> Gefährdungsbeurteilung Zerspanplatz</h3>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:13px">Restrisiko nach Maßnahmen: <span class="p3" style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span> <span style="background:#fff3e0;color:#b26a00;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">mittel</span></p>
+    <table>
+      <tr><th>Gefährdung</th><th>Mögliche Folge</th><th>Schutzmaßnahme</th><th>Restrisiko</th></tr>
+      <tr><td>Rotierende Teile / Einzug</td><td>schwere Verletzung</td><td>Schutzeinrichtung, enge Kleidung, Haarnetz, <b>keine Handschuhe</b> an rotierender Maschine</td><td><span style="background:#fff3e0;color:#b26a00;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">mittel</span></td></tr>
+      <tr><td>Späne (heiß, scharf)</td><td>Schnitt, Verbrennung, Augenverletzung</td><td>Spänehaken statt Hand, Schutzbrille, Spanschutzscheibe</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Wegfliegende Werkstücke</td><td>Augen-/Kopfverletzung</td><td>Aufspannung prüfen, Schutzbrille, Schutzscheibe</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Lärm der Maschinen</td><td>Gehörschäden</td><td>Gehörschutz, ggf. Lärmmessung</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Kühlschmierstoff (Haut/Dämpfe)</td><td>Hautreizung, Ekzem</td><td>Hautschutzplan, Absaugung, Handschuhe nur bei Nacharbeit</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Scharfe Kanten / Grat</td><td>Schnittverletzung</td><td>Entgratwerkzeug, Schnittschutzhandschuhe (nur außerhalb der Maschine)</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Heben schwerer Werkstücke</td><td>Rückenbelastung</td><td>Hebehilfe, ergonomische Arbeitshöhe, richtige Hebetechnik</td><td><span style="background:#fff3e0;color:#b26a00;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">mittel</span></td></tr>
+      <tr><td>Stolpern/Rutschen (Späne, Öl)</td><td>Sturz</td><td>Sauberkeit (5S/Seiso), Antirutschmatte, freie Wege</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Elektrische Gefährdung</td><td>Stromschlag</td><td>geprüfte Betriebsmittel (DGUV V3), Not-Aus erreichbar</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+      <tr><td>Unzureichende Beleuchtung</td><td>Fehler, Unfälle</td><td>≥ 500 lx nach DIN EN 12464-1</td><td><span style="background:#e8f5e9;color:#2e7d32;font-weight:700;padding:2px 8px;border-radius:11px;font-size:12px">gering</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="s-unterw">
+    <h3><span class="num">&#128100;</span> Unterweisung &amp; Wiederholung</h3>
+    <ul>
+      <li>Erst-Unterweisung vor Arbeitsaufnahme, dann <b>mindestens jährlich</b> wiederholen</li>
+      <li>Themen: Maschinenbedienung, Späne/PSA, Not-Aus, Verhalten im Notfall, 5S-Sauberkeit</li>
+      <li>Unterweisung <b>dokumentieren</b> (Datum, Inhalt, Unterschrift)</li>
+      <li>Betriebsanweisungen an Maschinen &amp; Werkbank sichtbar aushängen</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== KAPITEL 8 · Umsetzung ===================== -->
+<section class="chapter" id="k4">
+  <div class="kaphead"><div class="kn">8</div><h2>Umsetzung &amp; Abgabe</h2></div>
+  <p class="lead">Detaillierter Zeitplan, vollständige 5S-Audit-Checkliste und das finale Entscheidungsblatt.</p>
+  <div class="subnav"><a href="#u-zeit">Zeitplan</a><a href="#u-mile">Meilensteine</a><a href="#u-audit">5S-Audit</a><a href="#u-entscheid">Entscheidungsblatt</a><a href="#u-quellen">Quellen &amp; Normen</a></div>
+
+  <style>
+    .ctrls{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;margin:6px 0 16px}
+    .ctrls label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);font-weight:600;gap:5px}
+    .ctrls input[type=date],.ctrls input[type=text],.ctrls input[type=number]{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;color:var(--ink)}
+    .ctrls input[type=text]{min-width:170px}
+    .ctrls input[type=number]{width:130px}
+    #ganttWrap table{min-width:640px}
+    #ganttWrap td,#ganttWrap th{white-space:nowrap}
+    .durctrls{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 16px;background:var(--soft)}
+    .durctrls .dt{font-size:12px;font-weight:700;color:var(--brand2);margin-bottom:8px}
+    .durrow{display:flex;flex-wrap:wrap;gap:10px}
+    .durrow label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+    .durrow input{width:48px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:14px;text-align:center;font-family:inherit}
+    .durrow .sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+  </style>
+  <div class="card" id="u-zeit">
+    <h3><span class="num">&#128197;</span> Zeitplan &ndash; flexibel einstellbar</h3>
+    <p style="margin:0 0 4px;color:var(--muted);font-size:13px">Start und Urlaub eingeben &ndash; Gantt und Meilensteine berechnen sich automatisch.</p>
+    <div class="ctrls">
+      <label>Projektstart<input type="date" id="inStart" value="2026-06-08"></label>
+      <label>Urlaub von<input type="date" id="inVacFrom" value="2026-07-23"></label>
+      <label>Urlaub bis<input type="date" id="inVacTo" value="2026-08-21"></label>
+      <button class="btn" id="btnCalc">Aktualisieren</button>
+      <button class="btn ghost" id="btnReset">Zurücksetzen</button>
+      <span id="saveHint" style="font-size:12px;color:var(--green);font-weight:600;align-self:center"></span>
+    </div>
+    <div class="durctrls">
+      <div class="dt">Dauer je Phase (Wochen)</div>
+      <div class="durrow" id="durRow"></div>
+    </div>
+    <div id="ganttWrap" style="overflow-x:auto"></div>
+    <div class="flow" style="margin-top:10px">
+      <span class="step" style="background:#e3f2fd">Planung</span>
+      <span class="step" style="background:#fff3e0">Bewertung</span>
+      <span class="step" style="background:#e8f5e9">Umsetzung</span>
+      <span class="step" style="background:#eceff1">Betrieb</span>
+      <span class="step" style="background:#fdeaea;color:#c0392b">Urlaub</span>
+    </div>
+    <div class="callout" id="tipBox"></div>
+  </div>
+
+  <div class="card" id="u-mile">
+    <h3><span class="num">&#9873;</span> Meilensteine (automatisch)</h3>
+    <div id="mileWrap"></div>
+  </div>
+
+  <div class="card" id="u-scen">
+    <h3><span class="num">&#128194;</span> Szenarien speichern &amp; vergleichen</h3>
+    <p style="margin:0 0 8px;color:var(--muted);font-size:13px">Aktuelle Einstellungen (oben) benennen und speichern &ndash; z.&nbsp;B. „Plan A" / „Plan B". Die Tabelle vergleicht Dauer und Ende.</p>
+    <div class="ctrls">
+      <label>Szenario-Name<input type="text" id="scName" placeholder="z. B. Plan A"></label>
+      <button class="btn" id="btnScSave">Als Szenario speichern</button>
+    </div>
+    <div id="scListWrap"></div>
+  </div>
+
+  <script>
+  (function(){
+    const phases=[
+      {name:'1 · Analyse & Werkzeuge', color:'#0e6ba8', dur:2, ms:'Analyse & Werkzeugliste fertig'},
+      {name:'2 · 5S-Konzept', color:'#0e6ba8', dur:1, ms:'5S-Konzept fertig'},
+      {name:'3 · Layout & Varianten', color:'#f0a202', dur:2, ms:'Varianten & Layout fertig'},
+      {name:'4 · Angebote & Wirtschaft', color:'#f0a202', dur:1, ms:'Angebote & Wirtschaftlichkeit fertig'},
+      {name:'5 · Entscheidung/Beschaffung', color:'#2e7d32', dur:1, ms:'Entscheidung / Beschaffung angestoßen'},
+      {name:'6 · Aufbau & Bestückung', color:'#2e7d32', dur:2, ms:'Arbeitsplatz aufgebaut & bestückt'},
+      {name:'7 · Einweisung & Audit', color:'#546e7a', dur:1, ms:'Einweisung, 1. 5S-Audit'}
+    ];
+    const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+    const toMonday=d=>addDays(d,-((d.getDay()+6)%7));
+    const fmt=d=>('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2);
+    const fmtY=d=>fmt(d)+'.'+d.getFullYear();
+    const val=id=>document.getElementById(id).value;
+    const durRow=document.getElementById('durRow');
+    phases.forEach((p,i)=>{
+      const lab=document.createElement('label');
+      lab.innerHTML='<span class="sw" style="background:'+p.color+'"></span>P'+(i+1)+'<input type="number" min="1" max="12" value="'+p.dur+'" id="dur'+i+'">';
+      durRow.appendChild(lab);
+    });
+    const KEY='zsp_zeitplan_v1', SKEY='zsp_zeitplan_scenarios', hint=document.getElementById('saveHint');
+    const DEF={start:'2026-06-08',vf:'2026-07-23',vt:'2026-08-21',dur:[2,1,2,1,1,2,1]};
+    function getLive(){return {start:val('inStart'),vf:val('inVacFrom'),vt:val('inVacTo'),dur:phases.map((p,i)=>val('dur'+i))};}
+    function setLive(o){if(o.start)document.getElementById('inStart').value=o.start;if(o.vf)document.getElementById('inVacFrom').value=o.vf;if(o.vt)document.getElementById('inVacTo').value=o.vt;if(o.dur)o.dur.forEach((v,i)=>{const el=document.getElementById('dur'+i);if(el&&v)el.value=v;});}
+    function schedule(s){
+      const durs=(s.dur||[]).map(v=>{v=parseInt(v,10);return (isNaN(v)||v<1)?1:v;});
+      while(durs.length<phases.length) durs.push(1);
+      const ranges=[]; let wk=1;
+      phases.forEach((p,i)=>{ranges.push({start:wk,end:wk+durs[i]-1,dur:durs[i]});wk+=durs[i];});
+      const TOTAL=wk-1;
+      let start=s.start?new Date(s.start+'T00:00:00'):new Date('2026-06-08T00:00:00'); start=toMonday(start);
+      const vF=s.vf?new Date(s.vf+'T00:00:00'):null, vT=s.vt?new Date(s.vt+'T00:00:00'):null;
+      const hasVac=vF&&vT&&vT>=vF;
+      const cols=[]; const wwMon={};
+      let cal=new Date(start),ww=1,g=0;
+      while(ww<=TOTAL&&g<250){g++;const isVac=hasVac&&cal>=vF&&cal<=vT;if(isVac)cols.push({m:new Date(cal),vac:true});else{cols.push({m:new Date(cal),vac:false,ww:ww});wwMon[ww]=new Date(cal);ww++;}cal=addDays(cal,7);}
+      return {durs,ranges,TOTAL,cols,wwMon,vF,vT,hasVac,endFri:addDays(wwMon[TOTAL],4)};
+    }
+    function calc(){
+      const s=getLive(), r=schedule(s);
+      let h='<table style="font-size:11px"><tr><th style="width:200px">Phase</th>';
+      r.cols.forEach(c=>h+= c.vac?'<th style="background:#c0392b">Urlaub</th>':'<th>'+fmt(c.m)+'</th>'); h+='</tr>';
+      phases.forEach((p,i)=>{const rg=r.ranges[i];h+='<tr><td>'+p.name+' <span style="color:#5b6b7b">('+rg.dur+' W)</span></td>';
+        r.cols.forEach(c=>{if(c.vac)h+='<td style="background:#fdeaea"></td>';else if(c.ww>=rg.start&&c.ww<=rg.end)h+='<td style="background:'+p.color+'"></td>';else h+='<td></td>';});h+='</tr>';});
+      h+='</table>'; document.getElementById('ganttWrap').innerHTML=h;
+      let m='<table><tr><th>Datum</th><th>Meilenstein</th></tr>';
+      phases.forEach((p,i)=>{m+='<tr><td>'+fmtY(addDays(r.wwMon[r.ranges[i].end],4))+'</td><td>'+p.ms+'</td></tr>';});
+      m+='</table>'; document.getElementById('mileWrap').innerHTML=m;
+      let tip='<b>Projektdauer: '+r.TOTAL+' Arbeitswochen · Ende: '+fmtY(r.endFri)+'</b>';
+      if(r.hasVac)tip+=' &middot; Tipp: Bestellungen vor dem Urlaub (bis '+fmtY(addDays(r.vF,-1))+') auslösen, damit der Aufbau danach sofort startet.';
+      document.getElementById('tipBox').innerHTML=tip;
+      try{localStorage.setItem(KEY,JSON.stringify(s));hint.textContent='✓ gespeichert';clearTimeout(calc._t);calc._t=setTimeout(()=>hint.textContent='',1500);}catch(e){}
+    }
+    function getScen(){try{return JSON.parse(localStorage.getItem(SKEY))||{};}catch(e){return {};}}
+    function setScen(o){try{localStorage.setItem(SKEY,JSON.stringify(o));}catch(e){}}
+    function renderScen(){
+      const sc=getScen(), names=Object.keys(sc); let html;
+      if(!names.length){html='<p style="color:#5b6b7b;font-size:13px;margin:8px 0 0">Noch keine Szenarien gespeichert.</p>';}
+      else{
+        html='<table style="margin-top:10px"><tr><th>Szenario</th><th>Start</th><th>Dauer</th><th>Ende</th><th>Aktionen</th></tr>';
+        names.forEach(n=>{const r=schedule(sc[n]);const st=sc[n].start?fmtY(new Date(sc[n].start+'T00:00:00')):'—';
+          html+='<tr><td><b>'+n+'</b></td><td>'+st+'</td><td>'+r.TOTAL+' W</td><td>'+fmtY(r.endFri)+'</td><td><button class="btn" data-load="'+encodeURIComponent(n)+'" style="padding:5px 10px;font-size:12px">Laden</button> <button class="btn ghost" data-del="'+encodeURIComponent(n)+'" style="padding:5px 10px;font-size:12px">Löschen</button></td></tr>';});
+        html+='</table>';
+      }
+      document.getElementById('scListWrap').innerHTML=html;
+    }
+    document.getElementById('btnScSave').addEventListener('click',()=>{
+      const el=document.getElementById('scName'); let n=(el.value||'').trim();
+      if(!n)n='Plan '+String.fromCharCode(65+Object.keys(getScen()).length);
+      const sc=getScen(); sc[n]=getLive(); setScen(sc); el.value=''; renderScen();
+    });
+    document.getElementById('scListWrap').addEventListener('click',e=>{
+      const l=e.target.getAttribute('data-load'), d=e.target.getAttribute('data-del');
+      if(l){const o=getScen()[decodeURIComponent(l)];if(o){setLive(o);calc();}}
+      if(d){const sc=getScen();delete sc[decodeURIComponent(d)];setScen(sc);renderScen();}
+    });
+    const saved=(function(){try{return JSON.parse(localStorage.getItem(KEY));}catch(e){return null;}})();
+    if(saved)setLive(saved);
+    document.getElementById('btnCalc').addEventListener('click',calc);
+    document.getElementById('btnReset').addEventListener('click',()=>{try{localStorage.removeItem(KEY);}catch(e){}setLive(DEF);calc();});
+    ['inStart','inVacFrom','inVacTo'].forEach(id=>document.getElementById(id).addEventListener('change',calc));
+    phases.forEach((p,i)=>document.getElementById('dur'+i).addEventListener('input',calc));
+    calc(); renderScen();
+  })();
+  </script>
+
+  <div class="card" id="u-audit">
+    <h3><span class="num">&#9745;</span> 5S-Audit-Checkliste (0–2 Punkte, max. 20)</h3>
+    <p style="margin:0 0 8px;color:var(--muted);font-size:13px">Jeden Prüfpunkt bewerten: 0 = nicht erfüllt · 1 = teilweise · 2 = erfüllt. Ergebnis speichern und Verlauf verfolgen.</p>
+    <div class="tblscroll"><table id="audTable" style="font-size:13px"></table></div>
+    <div id="audScore" style="margin:14px 0"></div>
+    <div class="flow" style="margin:0 0 14px">
+      <span class="step" style="background:#e8f5e9;color:#2e7d32">16–20: sehr gut</span>
+      <span class="step" style="background:#fff3e0;color:#b26a00">10–15: nachbessern</span>
+      <span class="step" style="background:#fdeaea;color:#c0392b">&lt;10: Sofortmaßnahmen</span>
+    </div>
+    <div class="ctrls">
+      <label>Audit-Datum<input type="date" id="audDate"></label>
+      <button class="btn" id="audSave">Audit speichern</button>
+      <button class="btn ghost" id="audClear">Bewertung leeren</button>
+    </div>
+    <div id="audHist" style="margin-top:12px"></div>
+    <script>
+    (function(){
+      const pts=[
+        ['Seiri','Nur benötigte Werkzeuge, nichts Überflüssiges/Defektes'],
+        ['Seiri','Kein fremdes Material auf der Bank'],
+        ['Seiton','Jedes Werkzeug am markierten Platz (Shadow-Board)'],
+        ['Seiton','Zonen A/B/C korrekt genutzt, Beschriftung lesbar'],
+        ['Seiso','Fläche & Maschinen sauber, keine Späne'],
+        ['Seiso','Messmittel sauber, geölt, geschützt'],
+        ['Seiketsu','Standard (Foto/Regeln) sichtbar & aktuell'],
+        ['Seiketsu','PSA vorhanden & einsatzbereit'],
+        ['Shitsuke','Schichtende-Check durchgeführt'],
+        ['Shitsuke','Maßnahmen aus letztem Audit umgesetzt']
+      ];
+      const KEY='zsp_audit_cur', HKEY='zsp_audit_hist';
+      let vals=(function(){try{const v=JSON.parse(localStorage.getItem(KEY));return (v&&v.length===pts.length)?v:pts.map(()=>null);}catch(e){return pts.map(()=>null);}})();
+      const ampel=s=> s>=16?['sehr gut','#e8f5e9','#2e7d32'] : s>=10?['nachbessern','#fff3e0','#b26a00'] : ['Sofortmaßnahmen','#fdeaea','#c0392b'];
+      const hist=()=>{try{return JSON.parse(localStorage.getItem(HKEY))||[];}catch(e){return[];}};
+      function renderTable(){
+        let h='<tr><th style="width:88px">Schritt</th><th>Prüfpunkt</th><th style="width:150px">Bewertung</th></tr>';
+        pts.forEach((p,i)=>{
+          let sel='<span class="audsel" data-i="'+i+'">';
+          [0,1,2].forEach(v=>sel+='<button data-v="'+v+'"'+(vals[i]===v?' class="on"':'')+'>'+v+'</button>');
+          sel+='</span>';
+          h+='<tr class="audrow"><td><b>'+p[0]+'</b></td><td>'+p[1]+'</td><td>'+sel+'</td></tr>';
+        });
+        document.getElementById('audTable').innerHTML=h;
+      }
+      function renderScore(){
+        const done=vals.filter(v=>v!=null).length, s=vals.reduce((a,v)=>a+(v||0),0), a=ampel(s);
+        document.getElementById('audScore').innerHTML='<div class="box" style="border-top:4px solid '+a[2]+'"><span class="scorebig" style="color:'+a[2]+'">'+s+'</span> <span style="color:#5b6b7b">/ 20 Punkte</span> &nbsp; <span style="background:'+a[1]+';color:'+a[2]+';font-weight:700;padding:3px 12px;border-radius:12px">'+a[0]+'</span> <span style="color:#5b6b7b;font-size:13px">&nbsp;('+done+'/'+pts.length+' bewertet)</span></div>';
+      }
+      function renderHist(){
+        const H=hist(); let h;
+        if(!H.length){h='<p style="color:#5b6b7b;font-size:13px;margin:6px 0 0">Noch keine Audits gespeichert.</p>';}
+        else{h='<table style="margin-top:6px"><tr><th>Datum</th><th>Punkte</th><th>Bewertung</th><th></th></tr>';
+          H.forEach((e,i)=>{const a=ampel(e.s);h+='<tr><td>'+e.d+'</td><td><b>'+e.s+'</b>/20</td><td><span style="background:'+a[1]+';color:'+a[2]+';font-weight:700;padding:2px 9px;border-radius:11px;font-size:12px">'+a[0]+'</span></td><td><button class="btn ghost" data-del="'+i+'" style="padding:4px 9px;font-size:12px">Löschen</button></td></tr>';});
+          h+='</table>';}
+        document.getElementById('audHist').innerHTML=h;
+      }
+      document.getElementById('audTable').addEventListener('click',e=>{const b=e.target.closest('.audsel button');if(!b)return;const i=+b.parentElement.dataset.i,v=+b.dataset.v;vals[i]=v;try{localStorage.setItem(KEY,JSON.stringify(vals));}catch(e){}renderTable();renderScore();});
+      document.getElementById('audSave').addEventListener('click',()=>{const dv=document.getElementById('audDate').value||new Date().toISOString().slice(0,10);const s=vals.reduce((a,v)=>a+(v||0),0);const H=hist();H.unshift({d:dv.split('-').reverse().join('.'),s:s});try{localStorage.setItem(HKEY,JSON.stringify(H.slice(0,20)));}catch(e){}renderHist();});
+      document.getElementById('audClear').addEventListener('click',()=>{vals=pts.map(()=>null);try{localStorage.setItem(KEY,JSON.stringify(vals));}catch(e){}renderTable();renderScore();});
+      document.getElementById('audHist').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;const H=hist();H.splice(+b.dataset.del,1);try{localStorage.setItem(HKEY,JSON.stringify(H));}catch(e){}renderHist();});
+      renderTable();renderScore();renderHist();
+    })();
+    </script>
+  </div>
+
+  <div class="card" id="u-entscheid" style="border-top:4px solid var(--green)">
+    <h3><span class="num" style="background:var(--green)">&#128077;</span> Entscheidungsblatt (final)</h3>
+    <table>
+      <tr><th style="width:200px">Punkt</th><th>Festlegung</th></tr>
+      <tr><td>Layout</td><td><span class="pill-green">Konzept 2</span> – Lochwand mittig, hohe schmale Seitenschränke</td></tr>
+      <tr><td>Werkbank</td><td>B ~1800 · T 600 · H 850–950 mm, Schraubstock fest</td></tr>
+      <tr><td>Seitenschränke</td><td>Tiefe ~400 mm, wandverankert</td></tr>
+      <tr><td>Ergänzung</td><td>Mobiler Werkzeugwagen</td></tr>
+      <tr><td>Ordnung</td><td>5S mit Farbcode &amp; wöchentlichem Audit</td></tr>
+      <tr><td>Werkzeugkosten</td><td>~5.742 € brutto</td></tr>
+      <tr><td>Zeitraum</td><td>08.06 – 11.09.2026 (Urlaub 23.07–21.08)</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="u-quellen">
+    <h3><span class="num">&#128218;</span> Quellen &amp; Normbezug</h3>
+    <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Relevante Normen &amp; Regelwerke, an denen sich die Planung orientiert:</p>
+    <table>
+      <tr><th>Thema</th><th>Norm / Regelwerk</th><th>Kernaussage</th></tr>
+      <tr><td>Ergonomie / Arbeitshöhe</td><td>DIN EN ISO 14738</td><td>Arbeitsplatzmaße aus Körpermaßen (Ellenbogenhöhe); stehend ca. 850–1050 mm, Höhenverstellung empfohlen</td></tr>
+      <tr><td>Körpermaße</td><td>DIN 33402-2</td><td>Perzentil-Körpermaße als Auslegungsgrundlage</td></tr>
+      <tr><td>Grundsätze Ergonomie</td><td>DIN EN ISO 6385</td><td>Ergonomische Gestaltung von Arbeitssystemen</td></tr>
+      <tr><td>Beleuchtung</td><td>DIN EN 12464-1 · ASR A3.4</td><td>Wartungswerte: Grobbearbeitung 300 lx, mittlere Maschinen-/Montagearbeit 500 lx, Feinarbeit 750 lx</td></tr>
+      <tr><td>Arbeitsstätte / Sicherheit</td><td>ArbStättV + ASR · BetrSichV</td><td>Anforderungen an Arbeitsstätten, Verkehrswege, Betrieb von Arbeitsmitteln</td></tr>
+      <tr><td>Maschinensicherheit</td><td>DIN EN ISO 12100</td><td>Risikobeurteilung &amp; Risikominderung an Maschinen</td></tr>
+      <tr><td>PSA</td><td>EN 166 · EN 352 · EN 388</td><td>Augenschutz · Gehörschutz · Schutzhandschuhe</td></tr>
+      <tr><td>5S-Methode</td><td>Lean / Toyota-Produktionssystem</td><td>Ordnungsmethode (kein DIN); ergänzt QM nach DIN EN ISO 9001</td></tr>
+    </table>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:12.5px"><b>Datenhinweis:</b> Preise sind Netto-Richtwerte aus Marktrecherche (Beispielwerte, keine Angebote); Raum- und Maschinenmaße im Grundriss sind Beispielannahmen. Vor Umsetzung durch reale Angebote und die gültige Normfassung ersetzen.</p>
+  </div>
+
+  <div class="card" id="u-data">
+    <h3><span class="num">&#128190;</span> Projektdaten sichern / laden</h3>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:13px">Alle Eingaben (Deckblatt, Preise, Variante, Szenarien, Amortisation, Audit, Gewichtung) als Datei sichern und auf anderem Gerät wieder importieren.</p>
+    <div class="ctrls">
+      <button class="btn" id="dxExport">Exportieren (JSON)</button>
+      <label class="btn ghost" style="cursor:pointer">Importieren…<input type="file" id="dxImport" accept="application/json,.json" style="display:none"></label>
+    </div>
+    <div id="dxMsg" style="margin-top:8px;font-size:13px;color:var(--green)"></div>
+    <script>
+    (function(){
+      function collect(){const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf('zsp_')===0)o[k]=localStorage.getItem(k);}return o;}
+      document.getElementById('dxExport').addEventListener('click',()=>{
+        const data=JSON.stringify({app:'zerspanarbeitsplatz',ts:new Date().toISOString(),data:collect()},null,2);
+        const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+        a.href=url;a.download='Zerspanarbeitsplatz_Einstellungen.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+        document.getElementById('dxMsg').textContent='✓ Exportiert.';
+      });
+      document.getElementById('dxImport').addEventListener('change',e=>{
+        const f=e.target.files[0];if(!f)return;const r=new FileReader();
+        r.onload=()=>{try{const o=JSON.parse(r.result),d=o.data||o;let c=0;for(const k in d){if(k.indexOf('zsp_')===0){localStorage.setItem(k,d[k]);c++;}}document.getElementById('dxMsg').textContent='✓ '+c+' Einträge importiert – Seite wird neu geladen…';setTimeout(()=>location.reload(),700);}catch(err){const m=document.getElementById('dxMsg');m.style.color='#c0392b';m.textContent='Fehler: ungültige Datei.';}};
+        r.readAsText(f);
+      });
+    })();
+    </script>
+  </div>
+</section>
+
+  <div class="pager">
+    <button class="btn ghost" id="prev">&larr; Zurück</button>
+    <button class="btn" id="next">Weiter &rarr;</button>
+  </div>
+</main>
+
+<footer>Zerspanarbeitsplatz &middot; Detailfassung &middot; Struktur chronologisch &middot; Design Zeitstrahl</footer>
+
+<script>
+  const N=8; let k=0;
+  const chapters=[...document.querySelectorAll('.chapter')];
+  const stations=[...document.querySelectorAll('.tl .st')];
+  const prog=document.getElementById('prog');
+  const prev=document.getElementById('prev'), next=document.getElementById('next');
+  function render(){
+    chapters.forEach((c,i)=>c.classList.toggle('show',i===k));
+    stations.forEach((s,i)=>{s.classList.toggle('now',i===k);s.classList.toggle('done',i<k);});
+    prog.style.width=(N>1?(k/(N-1))*88:0)+'%';
+    prev.disabled=k===0; next.disabled=k===N-1;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.getElementById('tl').addEventListener('click',e=>{const st=e.target.closest('.st');if(st){k=+st.dataset.k;render();}});
+  prev.onclick=()=>{if(k>0){k--;render();}};
+  next.onclick=()=>{if(k<N-1){k++;render();}};
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&k<N-1){k++;render();}if(e.key==='ArrowLeft'&&k>0){k--;render();}});
+  render();
+  // Breite Tabellen auf schmalen Bildschirmen scrollbar machen
+  document.querySelectorAll('main table').forEach(t=>{
+    if(t.closest('#ganttWrap,#mileWrap,#scListWrap,.tblscroll')) return;
+    const w=document.createElement('div'); w.className='tblscroll';
+    t.parentNode.insertBefore(w,t); w.appendChild(t);
+  });
+  window.gotoChapter=function(n){k=Math.max(0,Math.min(N-1,n));render();};
+  document.querySelectorAll('#toc .toclist li').forEach(li=>li.addEventListener('click',()=>window.gotoChapter(+li.dataset.k)));
+  ['cvName','cvFirma','cvDatum'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const kk='zsp_cover_'+id;try{const s=localStorage.getItem(kk);if(s)el.value=s;}catch(e){}el.addEventListener('input',()=>{try{localStorage.setItem(kk,el.value);}catch(e){}});});
+  (function(){const lb=document.getElementById('lightbox');if(!lb)return;const im=lb.querySelector('img');document.querySelectorAll('img.render').forEach(g=>g.addEventListener('click',()=>{im.src=g.src;lb.style.display='flex';}));lb.addEventListener('click',()=>lb.style.display='none');})();
+</script>
+<div id="lightbox"><span class="cl">&times;</span><img alt="Vergrößerte Ansicht"></div>
+</body>
+</html>
