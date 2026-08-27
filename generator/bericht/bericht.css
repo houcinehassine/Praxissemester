@@ -1,0 +1,600 @@
+
+:root {
+  --papier:      #f6f7f8;
+  --blatt:       #ffffff;
+  --tusche:      #101820;
+  --tusche-2:    #59636e;
+  --tusche-3:    #8b949d;
+  --haarlinie:   #d6dbe0;
+  --blaupause:   #1b4b73;
+  --mass:        #b32d1e;
+  --gut:         #2e6b47;
+  --gut-bg:      #e8f1eb;
+  --offen:       #8a6516;
+  --offen-bg:    #f7f0dd;
+  --bereit-bg:   #e6edf4;
+  --raster:      #eceff2;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--tusche);
+  font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  font-size: 16.5px;
+  line-height: 1.65;
+  font-feature-settings: "kern" 1;
+}
+
+.mono {
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3, h4, .marke, .kennzahlen b {
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  text-wrap: balance;
+}
+
+/* ---------- Rahmen ---------- */
+
+.bogen {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+/* ---------- Deckblatt ---------- */
+
+.deckblatt {
+  background: var(--blatt);
+  border: 1px solid var(--haarlinie);
+  border-top: 5px solid var(--blaupause);
+  padding: 3.2rem 3rem 2.4rem;
+  margin-top: 2.5rem;
+}
+
+.kopfzeile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tusche-3);
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--haarlinie);
+}
+
+.deckblatt h1 {
+  margin: 2rem 0 0.6rem;
+  font-size: clamp(2rem, 5vw, 3.05rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: var(--blaupause);
+}
+
+.untertitel {
+  margin: 0 0 2.2rem;
+  font-size: 1.16rem;
+  line-height: 1.55;
+  color: var(--tusche-2);
+  max-width: 60ch;
+}
+
+.stammdaten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.1rem 1.6rem;
+  border-top: 1px solid var(--haarlinie);
+  padding-top: 1.6rem;
+}
+
+.stammdaten div { min-width: 0; }
+
+.stammdaten dt {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tusche-3);
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+
+.stammdaten dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ---------- Abschnitte ---------- */
+
+.abschnitt {
+  margin-top: 3.4rem;
+}
+
+.abschnitt > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  margin: 0 0 0.4rem;
+  font-size: 1.42rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  color: var(--blaupause);
+}
+
+.abschnitt > h2::before {
+  content: attr(data-nr);
+  flex: none;
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--mass);
+  letter-spacing: 0.06em;
+  padding-top: 0.15rem;
+}
+
+.leitsatz {
+  margin: 0 0 1.5rem 2.55rem;
+  color: var(--tusche-2);
+  max-width: 66ch;
+}
+
+/* ---------- Tabellen ---------- */
+
+.tabellenrahmen {
+  background: var(--blatt);
+  border: 1px solid var(--haarlinie);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+thead th {
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--tusche-3);
+  text-align: left;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1.5px solid var(--tusche);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 0.78rem 1.1rem;
+  border-bottom: 1px solid var(--raster);
+  vertical-align: top;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+
+td.mono { color: var(--mass); font-size: 0.86rem; font-weight: 500; }
+
+td.zahl { font-family: "IBM Plex Mono", Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+tr.summe td {
+  border-top: 1.5px solid var(--tusche);
+  border-bottom: 0;
+  font-weight: 700;
+  background: var(--raster);
+}
+
+/* ---------- Statusmarke ---------- */
+
+.marke {
+  display: inline-block;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.62rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.marke--fertig  { background: var(--gut-bg);    color: var(--gut); }
+.marke--bereit  { background: var(--bereit-bg); color: var(--blaupause); }
+.marke--warten  { background: var(--offen-bg);  color: var(--offen); }
+
+/* ---------- Projektblatt ---------- */
+
+.blatt {
+  background: var(--blatt);
+  border: 1px solid var(--haarlinie);
+  margin-top: 1.3rem;
+}
+
+.schriftfeld {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.05rem 1.4rem;
+  border-bottom: 1.5px solid var(--tusche);
+  background: var(--raster);
+}
+
+.schriftfeld-nr {
+  flex: none;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--mass);
+  letter-spacing: -0.02em;
+}
+
+.schriftfeld-titel { flex: 1 1 auto; min-width: 0; }
+
+.schriftfeld h3 {
+  margin: 0;
+  font-size: 1.24rem;
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  line-height: 1.25;
+  hyphens: auto;
+}
+
+.schriftfeld-titel p {
+  margin: 0.22rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--tusche-3);
+  text-transform: uppercase;
+}
+
+.blatt-korpus {
+  padding: 1.5rem 1.4rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.feld h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tusche-3);
+}
+
+.feld p { margin: 0; max-width: 68ch; }
+
+.feld ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-width: 70ch;
+}
+
+.feld--ergebnis li {
+  position: relative;
+  padding-left: 1.35rem;
+}
+
+.feld--ergebnis li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.72rem;
+  height: 2px;
+  background: var(--mass);
+}
+
+.feld--ergebnis b { font-weight: 700; }
+
+.feld--nutzen {
+  border-left: 3px solid var(--blaupause);
+  padding: 0.5rem 0 0.5rem 1.1rem;
+  background: linear-gradient(90deg, rgba(27,75,115,0.045), rgba(27,75,115,0));
+}
+
+/* ---------- Kennzahlen ---------- */
+
+.kennzahlen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--haarlinie);
+  border: 1px solid var(--haarlinie);
+}
+
+.kennzahlen div {
+  background: var(--blatt);
+  padding: 0.85rem 1rem;
+  min-width: 0;
+}
+
+.kennzahlen b {
+  display: block;
+  font-size: 1.42rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--blaupause);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.kennzahlen span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--tusche-2);
+}
+
+/* ---------- Beleg ---------- */
+
+.beleg {
+  margin: 0;
+  border: 1px solid var(--haarlinie);
+  background: var(--raster);
+  padding: 0.9rem;
+}
+
+.beleg img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: contain;
+  background: var(--blatt);
+}
+
+.beleg figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--tusche-2);
+}
+
+/* ---------- Aufzählungen im Fließtext ---------- */
+
+.punkte {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.punkte li {
+  background: var(--blatt);
+  border: 1px solid var(--haarlinie);
+  border-left: 3px solid var(--mass);
+  padding: 0.9rem 1.15rem;
+}
+
+.punkte b {
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  display: block;
+  font-size: 0.98rem;
+  margin-bottom: 0.15rem;
+}
+
+.punkte span { display: block; color: var(--tusche-2); font-size: 0.93rem; }
+
+/* ---------- Fußzeile ---------- */
+
+.fusszeile {
+  margin-top: 3.6rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--haarlinie);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--tusche-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+  justify-content: space-between;
+}
+
+a { color: var(--blaupause); }
+a:focus-visible, :focus-visible { outline: 2px solid var(--mass); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  body { font-size: 15.5px; }
+  .deckblatt { padding: 2rem 1.35rem 1.8rem; }
+  .blatt-korpus { padding: 1.2rem 1.1rem 1.4rem; }
+  .schriftfeld { flex-wrap: wrap; gap: 0.6rem 0.9rem; }
+  .leitsatz { margin-left: 0; }
+}
+
+/* ---------- Druck ---------- */
+
+@page { size: A4; margin: 14mm 13mm 15mm; }
+
+@media print {
+  body { background: #fff; font-size: 10.2pt; line-height: 1.5; }
+  .bogen { max-width: none; padding: 0; }
+  .deckblatt { margin-top: 0; padding: 0 0 1.2rem; border: 0; border-top: 0; border-bottom: 1.5pt solid var(--tusche); }
+  .deckblatt h1 { font-size: 26pt; }
+  .untertitel { font-size: 11pt; margin-bottom: 1.2rem; }
+  .abschnitt { margin-top: 1.6rem; break-inside: auto; }
+  .abschnitt > h2 { break-after: avoid; }
+  .blatt { break-inside: avoid; margin-top: 0.8rem; box-shadow: none; }
+  .beleg img { max-height: 78mm; }
+  .kennzahlen b { font-size: 13pt; }
+  .fusszeile { margin-top: 1.6rem; }
+  .nur-bildschirm { display: none; }
+}
+
+/* ---------- Tabellentitel & Hinweise ---------- */
+
+.tab-titel {
+  margin: 1.5rem 0 0.45rem;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--tusche);
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.tab-titel::before {
+  content: "";
+  flex: none;
+  width: 0.7rem;
+  height: 2px;
+  background: var(--mass);
+}
+
+.feld > .tab-titel:first-of-type { margin-top: 0.9rem; }
+
+.tab-hinweis {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--tusche-2);
+  max-width: 72ch;
+}
+
+.tabellenrahmen + .tab-titel { margin-top: 1.6rem; }
+
+/* Statusauszeichnungen aus den Projektseiten */
+.ok   { color: var(--gut);   font-weight: 600; }
+.warn { color: var(--offen); font-weight: 600; }
+.no   { color: var(--mass);  font-weight: 600; }
+
+.marke--hoch    { background: #f6e3e0; color: var(--mass); }
+.marke--mittel  { background: var(--offen-bg); color: var(--offen); }
+.marke--niedrig { background: var(--bereit-bg); color: var(--blaupause); }
+
+/* ---------- Bilderreihe ---------- */
+
+.belegreihe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.beleg--breit img { max-height: 540px; }
+
+/* ---------- Größere Felder mit eigener Trennung ---------- */
+
+.feld--gross {
+  border-top: 1px solid var(--haarlinie);
+  padding-top: 1.3rem;
+}
+
+.feld--offen {
+  border-left: 3px solid var(--offen);
+  padding: 0.6rem 0 0.6rem 1.1rem;
+  background: linear-gradient(90deg, rgba(138,101,22,0.05), rgba(138,101,22,0));
+}
+
+.feld--offen .tabellenrahmen { background: var(--blatt); }
+
+/* ---------- Inhaltsverzeichnis ---------- */
+
+.inhaltsverzeichnis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 0.9rem;
+}
+
+.iv-block {
+  background: var(--blatt);
+  border: 1px solid var(--haarlinie);
+  border-top: 3px solid var(--blaupause);
+  padding: 0.95rem 1.1rem 1rem;
+}
+
+.iv-kopf {
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--tusche);
+  text-decoration: none;
+  display: block;
+  line-height: 1.3;
+}
+
+.iv-kopf:hover { color: var(--blaupause); }
+
+.iv-kopf .mono { color: var(--mass); font-weight: 500; margin-right: 0.3rem; }
+
+.iv-block ul {
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--tusche-2);
+}
+
+.iv-block li { padding-left: 0.8rem; position: relative; }
+
+.iv-block li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 4px;
+  height: 1px;
+  background: var(--tusche-3);
+}
+
+/* Verweise in der Übersichtstabelle */
+.tabellenrahmen a { color: var(--blaupause); text-decoration: none; border-bottom: 1px solid var(--haarlinie); }
+.tabellenrahmen a:hover { border-bottom-color: var(--blaupause); }
+
+@media print {
+  .feld--gross { break-inside: auto; }
+  .tab-titel { break-after: avoid; }
+  .tabellenrahmen { break-inside: auto; }
+  .beleg { break-inside: avoid; }
+  .belegreihe { break-inside: avoid; }
+  .inhaltsverzeichnis { break-inside: avoid; }
+  .blatt { break-inside: auto; break-before: page; }
+  .blatt:first-of-type { break-before: auto; }
+  .schriftfeld { break-after: avoid; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+}
+
+/* ---------- Legendenzeile ---------- */
+
+.legende-zeile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: 0.6rem 0 0;
+  padding: 0.65rem 0.9rem;
+  background: var(--raster);
+  border: 1px solid var(--haarlinie);
+  font-size: 0.84rem;
+  color: var(--tusche-2);
+}
+
+.legende-zeile b { color: var(--tusche); font-weight: 600; }
+
+
+/* Kennzahlen: 3 Spalten am Desktop, 2 bzw. 1 auf schmalen Geräten */
+@media (max-width: 700px) { .kennzahlen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .kennzahlen { grid-template-columns: 1fr; } }
+
+/* Bilderpaare auf gleiche Höhe bringen */
+.belegreihe { align-items: stretch; }
+.belegreihe .beleg { display: flex; flex-direction: column; }
+.belegreihe .beleg img { flex: 1 1 auto; min-height: 0; }
+.belegreihe .beleg figcaption { margin-top: auto; padding-top: 0.7rem; }

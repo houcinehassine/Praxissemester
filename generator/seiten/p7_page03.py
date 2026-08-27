@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from build_projekt7 import *
+
+body = seiten_kopf(3, "Werkzeugbedarf &ndash; sechs Gruppen",
+    "Teilaufgabe A: Der vollständige Werkzeugbedarf für Drehen, Fräsen und Nacharbeit, gegliedert "
+    "in sechs Gruppen &ndash; mit Zweck und Menge je Position.") + f"""
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Methodik der Aufnahme:</strong> Nicht nach Katalog sortiert, sondern nach
+        Arbeitsschritt: Was braucht man zum Drehen, was zum Fräsen, womit wird gespannt, womit
+        gemessen, womit nachgearbeitet, was ist Hilfsmittel. So fällt beim Durchgehen sofort auf,
+        wenn eine Gruppe Lücken hat. Die Mengenangaben berücksichtigen bereits die drei Personen
+        pro Schicht.
+      </div>
+      <div class="kennzahlen-grid" style="margin-top:0.75rem">
+        <div class="kennzahl"><strong>6</strong><span>Werkzeuggruppen</span></div>
+        <div class="kennzahl"><strong>35</strong><span>Positionen gesamt</span></div>
+        <div class="kennzahl"><strong>3×</strong><span>bei personengebundenem Werkzeug</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>1️⃣ Werkzeuge zum Drehen</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr></thead>
+          <tbody>
+            <tr><td>Drehmeißel-Satz (Schrupp / Schlicht / Stech / Innen)</td><td>Zerspanen außen und innen, Einstechen</td><td>1 Satz</td></tr>
+            <tr><td>Wendeschneidplatten + Halter</td><td>Schnelles Wechseln der Schneiden statt Nachschleifen</td><td>Sortiment</td></tr>
+            <tr><td>Bohrfutter + Bohrersatz HSS</td><td>Bohren im Reitstock</td><td>1</td></tr>
+            <tr><td>Zentrierbohrer</td><td>Anbohren &ndash; verhindert Verlaufen des Bohrers</td><td>1 Satz</td></tr>
+            <tr><td>Gewindeschneidzeug (Schneideisen)</td><td>Außengewinde</td><td>1 Satz</td></tr>
+            <tr><td>Mitlaufende Körnerspitze</td><td>Lange Werkstücke am Reitstock abstützen</td><td>1</td></tr>
+            <tr><td>Drehmeißel-Einstelllehre</td><td>Werkzeug exakt auf Drehmitte einstellen</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>2️⃣ Werkzeuge zum Fräsen</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr></thead>
+          <tbody>
+            <tr><td>Schaftfräser-Satz HSS / VHM</td><td>Nuten, Konturen, Flächen</td><td>Sortiment</td></tr>
+            <tr><td>Walzenstirnfräser / Messerkopf</td><td>Größere Flächen planfräsen</td><td>1&ndash;2</td></tr>
+            <tr><td>Bohrer + Zentrierbohrer</td><td>Bohren an der Fräse</td><td>1 Satz</td></tr>
+            <tr><td>Gewindebohrer-Satz + Windeisen</td><td>Innengewinde</td><td>1 Satz</td></tr>
+            <tr><td>Spannzangen / Fräsdorne</td><td>Werkzeugaufnahme in der Frässpindel</td><td>Satz</td></tr>
+            <tr><td>Kantentaster / 3D-Taster</td><td>Werkstück-Nullpunkt antasten</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>3️⃣ Spann- &amp; Aufspannmittel</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr></thead>
+          <tbody>
+            <tr><td>Maschinenschraubstock</td><td>Werkstück an der Fräse spannen</td><td>1</td></tr>
+            <tr><td>Spanneisen / Pratzen-Satz</td><td>Direktes Aufspannen auf den Frästisch</td><td>Satz</td></tr>
+            <tr><td>Drei-/Vierbackenfutter + Futterschlüssel</td><td>Spannen an der Drehmaschine (rund / unregelmäßig)</td><td>je 1</td></tr>
+            <tr><td>Parallelunterlagen</td><td>Werkstück im Schraubstock ausrichten und unterlegen</td><td>Satz</td></tr>
+            <tr><td>Teilapparat / Rundtisch (optional)</td><td>Winkelteilung, Rundfräsen</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Der Schraubstock bestimmt die Werkbank mit:</strong> Er wird fest auf der
+        Bankplatte verschraubt (siehe Entscheidungsblatt, Seite 12). Damit muss die Platte die
+        Spannkräfte aufnehmen &ndash; das ist einer der Gründe für die geforderte Traglast von
+        mindestens 500 kg auf Seite 6.
+      </div>
+    </section>
+
+    <section>
+      <h2>4️⃣ Mess- &amp; Prüfmittel</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr></thead>
+          <tbody>
+            <tr><td>Messschieber digital 150 mm</td><td>Standardmaße im laufenden Betrieb</td><td><strong>3</strong> (pro Person)</td></tr>
+            <tr><td>Bügelmessschraube (Mikrometer)</td><td>Präzise Außenmaße</td><td>2</td></tr>
+            <tr><td>Messuhr + Magnetstativ</td><td>Rundlauf prüfen, Werkstücke ausrichten</td><td>2</td></tr>
+            <tr><td>Anschlagwinkel / Haarwinkel</td><td>Rechtwinkligkeit prüfen</td><td>2</td></tr>
+            <tr><td>Radien- &amp; Fühlerlehren</td><td>Radien und Spalte prüfen</td><td>2 Sätze</td></tr>
+            <tr><td>Gewindelehren / Lehrdorne</td><td>Gewinde und Bohrungen prüfen</td><td>1 Satz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Messmittel brauchen eine Sonderbehandlung:</strong> Sie sind das einzige Werkzeug
+        am Platz, das durch bloßes Danebenlegen kaputtgeht &ndash; Späne im Messschieber,
+        Rostansatz an der Bügelmessschraube. Deshalb im 5S-Konzept eigens berücksichtigt („Messmittel
+        sauber und geölt", Seite 5) und als eigener Prüfpunkt in der Audit-Checkliste (Seite 12).
+      </div>
+    </section>
+
+    <section>
+      <h2>5️⃣ Nacharbeit &amp; 6️⃣ Hilfsmittel</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Gruppe</th><th>Werkzeug</th><th>Zweck</th><th>Menge</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="5">Nacharbeit</td><td>Entgratwerkzeug + Klingen</td><td>Kanten entgraten</td><td>3</td></tr>
+            <tr><td>Feilen-Satz</td><td>Nacharbeit von Hand</td><td>2 Sätze</td></tr>
+            <tr><td>Schleifleinen / Schmirgel</td><td>Oberflächen glätten</td><td>Sortiment</td></tr>
+            <tr><td>Hand-/Drahtbürste</td><td>Späne und Rückstände entfernen</td><td>3</td></tr>
+            <tr><td>Gewinde-Nachschneider-Satz</td><td>Beschädigte Gewinde reparieren</td><td>1 Satz</td></tr>
+            <tr><td rowspan="6">Hilfsmittel</td><td>Handwerkzeug-Grundsatz</td><td>Rüsten, Schrauben, Justieren</td><td>3 Sätze</td></tr>
+            <tr><td>Drehmomentschlüssel</td><td>Definiertes Anziehen</td><td>1</td></tr>
+            <tr><td>Kühlschmierstoff / Schneidöl</td><td>Kühlen und Schmieren beim Zerspanen</td><td>Verbrauch</td></tr>
+            <tr><td>Spänehaken + Handfeger + Schaufel</td><td>Späne sicher entfernen &ndash; nie mit der Hand</td><td>1 Set</td></tr>
+            <tr><td>PSA (Brille, Gehörschutz, Handschuhe)</td><td>Arbeitsschutz</td><td>3 Sätze</td></tr>
+            <tr><td>Werkstattwagen / Ablage</td><td>Werkzeug zur Maschine bringen</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔢 Warum manche Positionen dreifach sind</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Menge</th><th>Positionen</th><th>Begründung</th></tr></thead>
+          <tbody>
+            <tr><td><strong>3×</strong></td><td>Messschieber, Entgratwerkzeug, Handbürste, Handwerkzeug-Grundsatz, PSA</td><td>Wird von jeder Person ständig gebraucht &ndash; Teilen erzeugt genau die Wartezeit, die 5S vermeiden soll. PSA ist ohnehin personengebunden.</td></tr>
+            <tr><td><strong>2×</strong></td><td>Bügelmessschraube, Messuhr, Winkel, Lehren, Feilen, Walzenstirnfräser</td><td>Regelmäßig, aber nicht dauerhaft im Zugriff &ndash; zwei Stück reichen für drei Personen.</td></tr>
+            <tr><td><strong>1×</strong></td><td>Schraubstock, Teilapparat, Drehmomentschlüssel, Vierbackenfutter, Gewindeschneidzeug</td><td>Teuer und selten gleichzeitig gebraucht. Hier lohnt sich Teilen: Schraubstock, Teilapparat, Vierbackenfutter und Drehmomentschlüssel kosten zusammen 1.030 € netto &ndash; dreifach beschafft wären es 3.090 €, also 2.060 € Mehrkosten ohne echten Nutzen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+{projekt_nav("02-aufgabe-rahmen.html", "Aufgabe & Rahmen", "04-kostenliste.html", "Bepreiste Werkzeugliste")}
+  </main>
+"""
+
+write_page("03-werkzeugbedarf.html", "Projekt 7: Werkzeugbedarf", body)

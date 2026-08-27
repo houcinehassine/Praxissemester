@@ -1,0 +1,183 @@
+# -*- coding: utf-8 -*-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from build_projekt2 import *
+
+TOC = [
+    ("02-ausgangslage.html", "Ausgangslage & Zielbild", "Der ursprüngliche Plan: ein Excel-Lager, das nur noch über Buttons und Barcode-Scan bedient wird – Scanfeld, Aktionswahl, Speichern und E-Mail-Versand."),
+    ("03-design.html", "Design der Oberfläche", "Die vier Grundblätter Dashboard, Artikeln Liste, Verlauf und Einstellungen – mit echten Screenshots aus der Excel-Datei."),
+    ("04-kernfunktionen.html", "Kernfunktionen", "Einbuchen, Ausbuchen und Markieren – die drei zentralen Makros inklusive Farblogik für den Lagerbestand."),
+    ("05-artikelgruppe-barcode.html", "Artikelgruppe & Barcode", "Das zweistufige Barcode-System: ein Gruppen-Barcode je Artikelgruppe, ein individueller Stück-Barcode je Einzelteil."),
+    ("06-filtern-speichern.html", "Filtern & Speichern", "Universelle Filterfunktion, PDF-/Excel-Export sowie automatischer E-Mail-Versand mit Wahl des Mailprogramms."),
+    ("07-versionsgeschichte.html", "Versionsgeschichte", "Von der Ein-Datei-Lösung (V2.2) zur modularen Architektur mit acht Modulgruppen A–H (V3.3)."),
+    ("08-aktueller-stand.html", "Aktueller Stand (14.08.)", "Tablet-Modus, Entwickler-Modus, Zellschutz und ein eigenes Blatt für Restlängen – der bisher reifste Stand."),
+    ("09-material-entnahme.html", "Material-Entnahme & Reste", "Das Herzstück für „Reste besser nutzen“: automatische Restlängen-Berechnung, Schrott-Abfrage und Zusammenführung gleicher Reste."),
+    ("10-fazit.html", "Fazit & Ausblick", "Was aus dem Projekt gelernt wurde und was als Nächstes ansteht."),
+]
+
+toc_html = ""
+for i, (href, titel, text) in enumerate(TOC, start=2):
+    toc_html += f"""      <a class="toc-karte" href="{href}">
+        <span class="toc-nr">{i}</span>
+        <h3>{titel}</h3>
+        <p>{text}</p>
+      </a>
+"""
+
+body = f"""  <main class="projekt-detail">
+    <header class="projekt-kopf">
+    <div class="kopf-inner">
+      <a class="zurueck-link" href="../../index.html">&larr; Zurück zur Übersicht</a>
+      <span class="tag tag--lager">Lager &amp; Organisation</span>
+      <h1>Projekt 2: Lagerbestand-System in Excel/VBA</h1>
+      <p class="intro">
+        Eine Excel-Datei, die sich wie eine kleine App bedienen lässt: Barcode
+        scannen, Menge eingeben, fertig. Im Hintergrund verwalten VBA-Makros
+        Ein- und Ausbuchungen, färben den Bestand automatisch nach Soll/Ist
+        ein, führen ein Verlaufsprotokoll und exportieren auf Knopfdruck als
+        PDF, Excel oder E-Mail. Über vier Monate von einer einfachen
+        Ein-Datei-Lösung zu einem modular aufgebauten System mit Tablet- und
+        Entwickler-Modus weiterentwickelt.
+      </p>
+      <div class="meta">
+        <span>Zeitraum: 22.04. – 14.08.2026</span>
+        <span>Bereich: Lager</span>
+        <span>Methode: VBA · UserForms · Barcode</span>
+      </div>
+      <div class="kennzahlen-grid">
+        <div class="kennzahl"><strong>18</strong><span>Arbeitsschritte</span></div>
+        <div class="kennzahl"><strong>5</strong><span>Phasen</span></div>
+        <div class="kennzahl"><strong>~4</strong><span>Monate Entwicklung</span></div>
+        <div class="kennzahl"><strong>5</strong><span>Excel-Blätter</span></div>
+        <div class="kennzahl"><strong>4</strong><span>Eigene Formulare (UserForms)</span></div>
+        <div class="kennzahl"><strong>A–H</strong><span>Modulgruppen im Endstand</span></div>
+      </div>
+    </div>
+    </header>
+
+    <section>
+      <h2>Die Aufgabenstellung in einem Satz</h2>
+      <div class="zitat-box">
+        „Ich arbeite aktuell an einer Excel-Datei, die sich nur noch über
+        Buttons bedienen lassen soll. Mein aktueller Stand fehlt noch die
+        VBA-Codes für jeden Befehl.“
+        <span class="quelle">Ausgangsnotiz, 22. April 2026 – Details auf Seite 2</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Vorgehen in 5 Phasen</h2>
+      <p class="section-intro">Der rote Faden – so ist die Dokumentation aufgebaut, mit den echten Bearbeitungsdaten je Schritt.</p>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Phase</th><th>Zeitraum</th><th>Inhalt</th></tr></thead>
+          <tbody>
+            <tr><td>1 &middot; Konzept &amp; Anforderungen</td><td>22.&ndash;24.04.2026</td><td>Grundidee, erster lauffähiger Stand, Design der Oberflächen, Ablauflogik</td></tr>
+            <tr><td>2 &middot; Kernfunktionen einzeln entwickeln</td><td>01.&ndash;04.05.2026</td><td>Artikelgruppe, Haupttabelle, Filtern/Entfiltern, Speichern &amp; Export</td></tr>
+            <tr><td>3 &middot; Erste Gesamtversion</td><td>05.05.2026</td><td>LagerSystem Version 2.2 – alles in einer Arbeitsmappe (10 Module)</td></tr>
+            <tr><td>4 &middot; Neuaufbau als Modul-System</td><td>05.&ndash;07.05.2026</td><td>Version 3.3 mit sieben getrennten Modulgruppen A&ndash;G</td></tr>
+            <tr><td>5 &middot; Endstand</td><td>14.08.2026</td><td>Tablet-/Entwickler-Ansicht, 4 UserForms, Module A&ndash;H inkl. Suchfunktion</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Hinweis zur Sortierung (aus der Original-Dokumentation):</strong>
+        Die Nummerierung der Original-Dateien (0101, 0102, 02, 0300 …) wurde
+        bewusst nicht übernommen – maßgeblich ist der tatsächliche
+        Arbeitsablauf: erst Konzept, dann Einzelfunktionen, dann
+        Zusammenführung, dann Endstand. Die Inhalte selbst sind unverändert,
+        nur die Reihenfolge wurde an den Ablauf angepasst.
+      </div>
+      <div class="stepper" style="margin-top:1.25rem">
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">1</span>
+            <span class="schritt-titel">Konzept: Idee · Design · Algorithmus</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt">
+            <p>Ausgangslage geklärt, die vier Excel-Blätter entworfen und die Grundlogik der Makros skizziert. Siehe Seiten 2–3.</p>
+          </div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">2</span>
+            <span class="schritt-titel">Einzelfunktionen: Gruppe · Tabelle · Filter · Export</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt">
+            <p>Artikelgruppen, Barcode-Erzeugung, Haupttabelle, Filterfunktion und Export Stück für Stück gebaut. Siehe Seiten 4–6.</p>
+          </div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">3</span>
+            <span class="schritt-titel">Version 2.2 – alles in einer Datei</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt">
+            <p>Erste vollständige Version: alle Module in einer Arbeitsmappe, Dashboard mit Scan-, Export- und Suchfunktion. Siehe Seite 7.</p>
+          </div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">4</span>
+            <span class="schritt-titel">Version 3.3 – Module A–G</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt">
+            <p>Umbau in eine saubere Modul-Architektur: Sheets/Sicherheit, Export, E-Mail, Hilfsfunktionen, Einstellungen, Artikelgruppen, Artikelstücke. Siehe Seite 7.</p>
+          </div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">5</span>
+            <span class="schritt-titel">Endstand: Module A–H · 14.08.</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt">
+            <p>Tablet-/Entwickler-Modus, automatischer Zellschutz, eine eigene Material-Entnahme-Logik für Restlängen und ein neues Suchmodul (H) kamen dazu. Siehe Seiten 8–9.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Eingesetzte Methoden</h2>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>VBA-Programmierung</h4><p>Eigene Makros für Ein-/Ausbuchen, Markieren, Filtern, Exportieren und Navigation.</p></div>
+        <div class="mini-karte"><h4>UserForms</h4><p>Eigene Eingabefenster für neue Artikel, Artikelgruppen und Barcode-Eingabe statt roher Zelleingabe.</p></div>
+        <div class="mini-karte"><h4>Zweistufiges Barcode-System</h4><p>Ein Gruppen-Barcode je Artikelgruppe, ein individueller Stück-Barcode je Einzelteil.</p></div>
+        <div class="mini-karte"><h4>Bedingte Farblogik</h4><p>Ist-Bestand färbt sich automatisch gelb/rot, je nachdem wie nah er am Soll-Bestand liegt.</p></div>
+        <div class="mini-karte"><h4>Modul-Architektur</h4><p>Trennung nach Verantwortlichkeit (A–H) statt eines einzigen großen Codeblocks.</p></div>
+        <div class="mini-karte"><h4>Automatisierter Export</h4><p>PDF-/Excel-Export und E-Mail-Versand ausgewählter Blätter per Knopfdruck.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Ergebnisse auf einen Blick</h2>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Barcode-gesteuerte Bedienung</strong>Scannen statt Tippen – F12 aktiviert das Scanfeld, ein Barcode löst die gewählte Aktion aus.</span></li>
+        <li><span><strong>Automatische Bestandsfärbung</strong>Ist-Bestand wird nach Abstand zum Soll-Bestand automatisch gelb bzw. rot markiert.</span></li>
+        <li><span><strong>Vollständiges Verlaufsprotokoll</strong>jede Ein-/Ausbuchung wird mit Zeitstempel, Menge und Preisen in der Tabelle „Verlauf“ festgehalten.</span></li>
+        <li><span><strong>Zweistufiges Barcode-System</strong>Gruppen-Barcode + individueller Stück-Barcode, automatisch fortlaufend generiert.</span></li>
+        <li><span><strong>Ein-Klick-Export</strong>ausgewählte Blätter als PDF/Excel speichern oder direkt per E-Mail verschicken.</span></li>
+        <li><span><strong>Tablet- &amp; Entwickler-Modus</strong>ein Klick blendet Ribbon, Gitterlinien und Formelleiste für den Werkstatt-Einsatz aus.</span></li>
+        <li><span><strong>Automatischer Zellschutz</strong>beim Öffnen werden alle Blätter gesperrt, nur die wirklich nötigen Felder bleiben editierbar.</span></li>
+        <li><span><strong>Eigenes Restlängen-Blatt</strong>„Reste“ trennt Verschnitt/Restlängen von vollständigen Artikeln – direkter Bezug zur Aufgabe „Reste besser nutzen“.</span></li>
+        <li><span><strong>Automatische Material-Entnahme-Logik</strong>berechnet beim Zuschnitt live die Restlänge, fragt ab einer Schrott-Grenze nach und bucht brauchbare Reste automatisch ein oder zu bestehenden Resten dazu (Details auf Seite 9).</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Alle Seiten dieses Projekts</h2>
+      <p class="section-intro">Von der Ausgangslage bis zum aktuellen Stand – jede Seite kann auch einzeln über die Leiste oben angesteuert werden.</p>
+      <div class="toc-grid">
+{toc_html}      </div>
+    </section>
+
+{projekt_nav("../../index.html", "Übersicht", "02-ausgangslage.html", "Ausgangslage &amp; Zielbild")}
+  </main>
+"""
+
+write_page("index.html", "Projekt 2: Lagerbestand-System – Überblick", body)

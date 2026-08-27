@@ -1,1 +1,7 @@
+# Zwischendateien des Berichtsgenerators
+generator/bericht/_k*.py
+generator/bericht/_montage.py
+generator/bericht/ergebnisbericht.html
+__pycache__/
+*.pyc
 .DS_Store

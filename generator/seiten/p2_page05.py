@@ -1,0 +1,143 @@
+# -*- coding: utf-8 -*-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from build_projekt2 import *
+
+code_barcode = """&#39; Barcode einer Artikelgruppe generieren (gekürzt)
+prefix = Abzeichnung_Profil &amp; Abzeichnung_Material
+
+&#39; höchste vorhandene Nummer mit diesem Prefix suchen
+For r = 1 To AGtbl.ListRows.Count
+    cellVal = AGtbl.DataBodyRange(r, 1).Value
+    If Left(cellVal, Len(prefix)) = prefix Then
+        currentNum = CLng(Right(cellVal, 4))
+        If currentNum &gt; Max_Nummer Then Max_Nummer = currentNum
+    End If
+Next r
+
+BarcodeOne = prefix &amp; Format(Max_Nummer + 1, &quot;0000&quot;)
+&#39; Beispiel: Profil &quot;Vierkant&quot; + Material &quot;Baustahl&quot; -&gt; &quot;VKBS0001&quot;"""
+
+body = seiten_kopf(5, "Artikelgruppe &amp; Barcode",
+    "Ein zweistufiges Barcode-System: Ein Barcode je Artikelgruppe (z. B. „Vierkantrohr "
+    "80×80×3 aus Baustahl“), darunter ein individueller Stück-Barcode für jedes "
+    "einzelne Lagerteil.") + f"""
+  <main class="projekt-detail">
+
+    <section>
+      <div class="info-box">
+        <strong>Quellen</strong>
+        0103Artikel_Gruppe.pdf (1. Mai 2026) &middot; 0104HauptTabelle.pdf (3. Mai 2026)
+      </div>
+    </section>
+
+    <section>
+      <h2>Warum zwei Barcode-Ebenen?</h2>
+      <p>
+        Viele Lagerteile teilen sich Profil, Maß und Material, unterscheiden
+        sich aber in Länge, Menge oder Preis (z. B. mehrere Reststücke
+        desselben Vierkantrohrs). Deshalb wird zuerst eine
+        <strong>Artikelgruppe</strong> angelegt (das „Was ist es“), und jedes
+        physische Stück bekommt darunter einen eigenen, fortlaufenden
+        <strong>Stück-Barcode</strong> (das „Welches Exemplar“).
+      </p>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>Ebene 1 &middot; Artikelgruppe</h4><p>Bezeichnung = Profil + Maß + Material. Barcode = Profil-Abkürzung + Material-Abkürzung + 4-stellige Nummer.</p></div>
+        <div class="mini-karte"><h4>Ebene 2 &middot; Stück-Barcode</h4><p>Hauptbarcode + fortlaufende Endnummer, z. B. „VKBS0001-3“ für das dritte erfasste Stück dieser Gruppe.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Neue Artikelgruppe anlegen</h2>
+      <p class="section-intro">Über ein eigenes Eingabefenster (UserForm) statt direkter Zelleingabe.</p>
+      <div class="bild-vergleich">
+        <div class="bild-box">
+          <span class="label">VBA-Editor &middot; UserForm-Designer</span>
+          <img src="img/vba-editor-userform.jpg" alt="VBA-Editor mit Formular-Designer für frmArtikelGruppe: Felder Profil, Maß, Material sowie Buttons Abbrechen und Speichern" />
+          <p class="bildtext">Das Formular „frmArtikelGruppe“ im VBA-Editor: Dropdown für Profil, Textfeld für Maß, Dropdown für Material – links das Projekt mit allen Formularen und Modulen.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.75rem"><strong>Ablauf:</strong> Profil und Material werden aus vorbereiteten Listen in den Einstellungen ausgewählt (ComboBox), das Maß frei eingegeben. Bezeichnung und Barcode werden danach automatisch zusammengesetzt.</p>
+      <div class="info-box" style="margin-top:0.75rem">
+        <strong>Duplikatsprüfung:</strong> Bevor eine neue Artikelgruppe angelegt
+        wird, prüft das Makro, ob die Bezeichnung bereits existiert. Gibt es
+        einen Treffer, erscheint „Dieser Artikel existiert bereits!“ und die
+        Erstellung wird abgebrochen – so entstehen keine doppelten Gruppen für
+        dieselbe Kombination aus Profil, Maß und Material.
+      </div>
+      <pre class="code-block">{code_barcode}</pre>
+    </section>
+
+    <section>
+      <h2>Neuen Artikel (Stück) hinzufügen</h2>
+      <p class="section-intro">Aus der Haupttabelle heraus: erst die Gruppe, dann die Details des Einzelstücks.</p>
+      <div class="stepper">
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">1</span>
+            <span class="schritt-titel">Gruppen-Barcode abfragen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>InputBox: Barcode der Artikelgruppe scannen oder eingeben. Wird die Gruppe nicht gefunden, bricht das Makro mit einer Fehlermeldung ab.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">2</span>
+            <span class="schritt-titel">Details per Formular erfassen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Das Formular „frmArtikelDetails“ fragt Ort/Regal, Type (Voll/Rest), Länge, Menge, Einheit und E-Preis ab.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">3</span>
+            <span class="schritt-titel">Stück-Barcode generieren</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Höchste bereits vergebene Endnummer dieser Gruppe suchen und um 1 erhöhen – Kollisionen sind damit ausgeschlossen.</p></div>
+        </div>
+        <div class="schritt">
+          <button class="schritt-button" aria-expanded="false">
+            <span class="schritt-nummer">4</span>
+            <span class="schritt-titel">In die Haupttabelle eintragen</span>
+            <span class="schritt-pfeil">&#9662;</span>
+          </button>
+          <div class="schritt-inhalt"><p>Neue Zeile mit Datum, beiden Barcodes, allen Stammdaten aus Gruppe und Formular sowie Ort, Type und Menge anlegen – mit Fehlerbehandlung, falls etwas schiefgeht.</p></div>
+        </div>
+      </div>
+      <p style="margin-top:0.75rem">
+        Praktischer Nebeneffekt: Dieselbe Funktion bedient über einen
+        zusätzlichen Parameter („Voll“ oder „Rest“) sowohl den Button
+        „Artikel hinzufügen“ als auch „Reste hinzufügen“ – der Unterschied
+        entsteht nur dadurch, in welches Blatt geschrieben wird.
+      </p>
+    </section>
+
+    <section>
+      <h2>Bearbeiten &amp; Löschen: clevere Barcode-Erkennung</h2>
+      <p>
+        Beim Bearbeiten oder Löschen eines Stücks genügt oft der
+        Gruppen-Barcode: Enthält der gescannte Code keinen Bindestrich,
+        erkennt das Makro automatisch, dass es sich um einen
+        <strong>Hauptbarcode</strong> handelt, und fragt gezielt nach, welches
+        Stück genau gemeint ist.
+      </p>
+      <div class="zitat-box">
+        „Haupt-Barcode ‚VKBS0001‘ erkannt. Welches genaue Stück möchten Sie
+        bearbeiten? (z. B. ‚1‘)“
+        <span class="quelle">Original-Meldung aus dem Makro</span>
+      </div>
+      <p style="margin-top:0.75rem">
+        Beim Löschen kommt zusätzlich eine Sicherheitsabfrage
+        („WIRKLICH unwiderruflich löschen?“), und beim Bearbeiten wird das
+        Formular vorab mit den bestehenden Werten des gefundenen Stücks
+        befüllt – geänderte Daten werden zusätzlich automatisch im
+        „Verlauf“ protokolliert.
+      </p>
+    </section>
+
+{projekt_nav("04-kernfunktionen.html", "Kernfunktionen", "06-filtern-speichern.html", "Filtern &amp; Speichern")}
+  </main>
+"""
+
+write_page("05-artikelgruppe-barcode.html", "Projekt 2: Artikelgruppe & Barcode", body)

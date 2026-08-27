@@ -1734,3 +1734,24 @@ footer.site-footer {
   color: var(--text-hell);
   max-width: 62ch;
 }
+
+.hinweis-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.quelle-oeffnen--zweit {
+  background: transparent;
+  color: var(--akzent);
+  border: 1px solid var(--rand);
+}
+
+.quelle-oeffnen--zweit:hover,
+.quelle-oeffnen--zweit:focus-visible {
+  background: var(--akzent);
+  color: #fff;
+  border-color: var(--akzent);
+}
+
+.quellen-hinweis + .quellen-hinweis { margin-top: 1rem; }

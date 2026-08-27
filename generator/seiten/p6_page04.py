@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from build_projekt6 import *
+
+body = seiten_kopf(4, "Ideensammlung &amp; Benchmark",
+    "Lösungssuche vor dem ersten Strich im CAD: vier Referenzprojekte auswerten, fünf "
+    "Designrichtungen sammeln und die Zielvorstellung schärfen &ndash; einschließlich der "
+    "Ziele, die später bewusst wieder fallen gelassen wurden. Start 9. April 2026.") + f"""
+  <main class="projekt-detail">
+
+    <section>
+      <h2>🎯 Zielvorstellung</h2>
+      <p>
+        Entwicklung eines höhenverstellbaren, kompakten und flexiblen Schweißgerätewagens, der
+        <strong>drei Geräte und zwei Gasflaschen</strong> aufnehmen kann.
+      </p>
+      <p>
+        Diese Zielvorstellung entstand bewusst <em>vor</em> der Detailfestlegung: Sie beschreibt
+        den maximal denkbaren Ausbau, nicht den Mindestbedarf. Genau deshalb ist sie als
+        Ausgangspunkt der Ideensuche brauchbar &ndash; man sammelt Lösungen für den anspruchsvollen
+        Fall und kann später gezielt reduzieren.
+      </p>
+      <ul class="ergebnis-liste">
+        <li><span><strong>Kompaktheit</strong>möglichst kleine Grundfläche.</span></li>
+        <li><span><strong>Flexibilität</strong>anpassbar an verschiedene Schweißaufgaben.</span></li>
+        <li><span><strong>Höhenverstellbarkeit</strong>ergonomische Arbeitsposition.</span></li>
+        <li><span><strong>Kapazität</strong>3 Schweißgeräte + 2 Gasflaschen.</span></li>
+        <li><span><strong>Mobilität</strong>leicht verschiebbar in der Werkstatt.</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🎥 Referenzprojekte</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Projekt</th><th>Beschreibung</th></tr></thead>
+          <tbody>
+            <tr><td>Höhenverstellbarer Schweißgerätewagen</td><td>Kompakt &amp; flexibel mit Platz für 3 Geräte + 2 Gasflaschen</td></tr>
+            <tr><td>Welding Project &ndash; Ultimate Cart</td><td>Professioneller Schweißwagen mit modularem Design</td></tr>
+            <tr><td>How to Make a Welding Cart &ndash; DIY Build</td><td>Schritt-für-Schritt-Anleitung von Profis</td></tr>
+            <tr><td>Welding Craft für Kzubr 400A</td><td>Einfaches Projekt speziell für Schweißgeräte</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>💡 Fünf Designrichtungen</h2>
+      <div class="karten-grid-4">
+        <div class="mini-karte"><h4>🛒 Wagen 1 &middot; Kompaktwagen</h4><p>Kleine Grundfläche, höhenverstellbar.</p></div>
+        <div class="mini-karte"><h4>🔧 Wagen 2 &middot; Modular</h4><p>Austauschbare Werkzeughalter.</p></div>
+        <div class="mini-karte"><h4>⚙️ Wagen 3 &middot; Professionell</h4><p>Gastank-Halterung + Kabelbox.</p></div>
+        <div class="mini-karte"><h4>📐 Wagen 4 &middot; Verstellbar</h4><p>Höhenanpassung für verschiedene Nutzer.</p></div>
+        <div class="mini-karte"><h4>🎯 Wagen 5 &middot; Industrie-Standard</h4><p>Geprüfte Konstruktion.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>⚖️ Zielvorstellung gegen Lastenheft geprüft</h2>
+      <p>
+        Beim Zusammenschreiben der Unterlagen fällt auf, dass die Ziele dieser frühen Ideenphase
+        nicht durchgängig in das spätere Lastenheft und in die Konstruktion übernommen wurden.
+        Das ist kein Fehler, sondern eine bewusste Reduktion &ndash; sie sollte aber nachvollziehbar
+        dokumentiert sein:
+      </p>
+      <div class="tabelle-wrapper" style="margin-top:0.75rem">
+        <table class="tabelle">
+          <thead><tr><th>Ziel aus der Ideenphase</th><th>Im Lastenheft / in der Konstruktion</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Kompaktheit &ndash; möglichst kleine Grundfläche</td><td>A-12 Kompaktheit; führte zur Verkürzung von Idee 2 (1450 mm zu lang)</td><td><span class="st-ok">✅ übernommen</span></td></tr>
+            <tr><td>Mobilität &ndash; leicht verschiebbar</td><td>A-10: 4 Lenkrollen, 2 mit Feststellbremse</td><td><span class="st-ok">✅ übernommen</span></td></tr>
+            <tr><td>Flexibilität &ndash; anpassbar an verschiedene Aufgaben</td><td>Modularer 4-Etagen-Aufbau, anhängbare Lochwand</td><td><span class="st-ok">✅ übernommen</span></td></tr>
+            <tr><td>Kapazität 3 Geräte + 2 Gasflaschen</td><td>Ausgelegt auf <strong>1</strong> MIG-Gerät und <strong>1</strong> Flasche</td><td><span class="st-warn">⚠️ reduziert</span></td></tr>
+            <tr><td>Höhenverstellbarkeit</td><td>Feste Arbeitshöhe (900 / 920 mm) &ndash; keine Verstellung konstruiert</td><td><span class="st-no">❌ entfallen</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>Für den Bericht festzuhalten:</strong> Die Reduktion von drei Geräten auf eines
+        ist sachlich begründet &ndash; die IST-Aufnahme zeigt genau ein MIG-Gerät mit einer Flasche
+        im Einsatz. Der Wegfall der Höhenverstellbarkeit ist dagegen nirgends begründet. Beides
+        sollte in der Abschlussdokumentation kurz erklärt werden, damit die Ziele nicht
+        unkommentiert verschwinden.
+      </div>
+    </section>
+
+    <section>
+      <h2>🧭 Was aus den Referenzen übernommen wurde</h2>
+      <p>
+        Die vier Referenzprojekte wurden nicht kopiert, sondern auf einzelne verwertbare Merkmale
+        hin ausgewertet. Diese Merkmale tauchen in den späteren Entwürfen wieder auf:
+      </p>
+      <div class="tabelle-wrapper" style="margin-top:0.75rem">
+        <table class="tabelle">
+          <thead><tr><th>Übernommenes Merkmal</th><th>Wo es später wieder auftaucht</th></tr></thead>
+          <tbody>
+            <tr><td>Werkzeugwand als Lochblech</td><td>Idee 2, Zusatzwagen V1/V2 und Etage 4 des gewählten Konzepts</td></tr>
+            <tr><td>Modularer Aufbau / austauschbare Halter</td><td>4-Etagen-Konzept mit Etage 2 und 3 als Wiederholteil</td></tr>
+            <tr><td>Gasflaschenhalterung am Wagen</td><td>Anforderung A-02 (hinten fixiert und angekettet)</td></tr>
+            <tr><td>Kabelbox / Schlauchführung</td><td>Kabel-/Schlauchhaspel, Position 12 im Belegungsplan SW-001</td></tr>
+            <tr><td>Mehrere Ablageebenen übereinander</td><td>Idee 2 mit 3 Ebenen &rarr; später 4 Etagen</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>🚀 Geplante nächste Schritte (Stand April 2026)</h2>
+      <p class="section-intro">
+        Am Ende der Ideenphase wurden fünf Schritte festgelegt. Der Abgleich mit dem tatsächlichen
+        Projektverlauf zeigt, wie weit das Projekt bis zum Praxissemesterende gekommen ist.
+      </p>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <thead><tr><th>Geplanter Schritt</th><th>Tatsächlich erreicht</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Anforderungsanalyse &ndash; Gerätetypen, Größe, Gewicht</td><td>Aufmaß vor Ort + Lastenheft A-01 bis A-14</td><td><span class="st-ok">✅ erledigt</span></td></tr>
+            <tr><td>Mindestens 2 CAD-Varianten entwerfen</td><td>Idee 1, Idee 2, SW-001, Zusatzwagen V1/V2, 4-Etagen-Konzept</td><td><span class="st-ok">✅ übertroffen</span></td></tr>
+            <tr><td>Material &amp; Kosten &ndash; technisch-wirtschaftliche Bewertung</td><td>Technischer Vergleich Item-Alu ↔ Stahl liegt vor, Kostenseite fehlt</td><td><span class="st-warn">⚠️ teilweise</span></td></tr>
+            <tr><td>Prototyp / Umsetzung &ndash; Bau und Optimierung</td><td>Zeichnungssatz fertigungsreif, gebaut wurde noch nicht</td><td><span class="st-no">❌ offen</span></td></tr>
+            <tr><td>Dokumentation &ndash; Arbeitsanweisung mit Bildern &amp; Tabellen</td><td>Noch nicht erstellt</td><td><span class="st-no">❌ offen</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>📊 Einordnung</h2>
+      <div class="tabelle-wrapper">
+        <table class="tabelle">
+          <tbody>
+            <tr><td>Aufgaben-Typ</td><td>Tätigkeit 4 (Konzept &amp; Planung)</td></tr>
+            <tr><td>Referenz-Code</td><td>000-007</td></tr>
+            <tr><td>Kategorie</td><td>Arbeitsplatzgestaltung (Schweißarbeitsplatz)</td></tr>
+            <tr><td>Hilfsmittel</td><td>ChatGPT (Ideen &amp; Konzeptentwicklung), GoodNotes (Handskizzen), Google Drive (Ablage), CAD-Software</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+{projekt_nav("03-anforderungen.html", "Anforderungen (Lastenheft)", "05-grundkonzept.html", "Grundkonzept: Idee 1 & 2")}
+  </main>
+"""
+
+write_page("04-ideensammlung.html", "Projekt 6: Ideensammlung", body)
