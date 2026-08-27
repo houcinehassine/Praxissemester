@@ -1,0 +1,1466 @@
+{
+ "2026-03-01": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-03-02": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-03": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-04": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-05": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-06": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-07": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-03-08": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-03-09": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-10": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-11": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-12": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-13": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-14": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-03-15": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-03-16": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-17": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-18": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-03-19": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-20": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "ganztag": true,
+    "titel": "Krank"
+   }
+  ],
+  "kuerzel": "l"
+ },
+ "2026-03-21": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-03-22": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-03-23": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-24": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-25": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-03-26": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-27": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-28": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-03-29": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-03-30": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-03-31": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-01": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-04-02": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-03": {
+  "wt": "Fr",
+  "eintraege": []
+ },
+ "2026-04-04": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-04-05": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-04-06": {
+  "wt": "Mo",
+  "eintraege": []
+ },
+ "2026-04-07": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-08": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-04-09": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-10": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-11": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-04-12": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-04-13": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-14": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-15": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-04-16": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-17": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-18": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-04-19": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-04-20": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-21": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-22": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-04-23": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-24": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-25": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-04-26": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-04-27": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-28": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-04-29": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   },
+   {
+    "von": "15:30",
+    "bis": "17:00",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung Praktikum RT"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-04-30": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-01": {
+  "wt": "Fr",
+  "eintraege": []
+ },
+ "2026-05-02": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-05-03": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-05-04": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-05": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-06": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-05-07": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-08": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-09": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-05-10": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-05-11": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-12": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-13": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-05-14": {
+  "wt": "Do",
+  "eintraege": []
+ },
+ "2026-05-15": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-16": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-05-17": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-05-18": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-19": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-20": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   },
+   {
+    "von": "15:30",
+    "bis": "17:00",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung Praktikum RT"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-05-21": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-22": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-23": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-05-24": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-05-25": {
+  "wt": "Mo",
+  "eintraege": []
+ },
+ "2026-05-26": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-27": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   },
+   {
+    "von": "15:30",
+    "bis": "17:00",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung Praktikum RT"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-05-28": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-29": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-05-30": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-05-31": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-06-01": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-02": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-03": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-06-04": {
+  "wt": "Do",
+  "eintraege": []
+ },
+ "2026-06-05": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-06": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-06-07": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-06-08": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-09": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-10": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-06-11": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-12": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-13": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-06-14": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-06-15": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-16": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-17": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-06-18": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-19": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-20": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-06-21": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-06-22": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-23": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-24": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "10:00",
+    "bis": "11:30",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung PP"
+   }
+  ],
+  "kuerzel": "VO"
+ },
+ "2026-06-25": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-26": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-27": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-06-28": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-06-29": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-06-30": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-01": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "14:00",
+    "dauer": "6h",
+    "titel": "Betrieb"
+   },
+   {
+    "von": "15:30",
+    "bis": "17:00",
+    "dauer": "1h 30min",
+    "titel": "Vorlesung Praktikum RT"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-02": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-03": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "ganztag": true,
+    "titel": "Krank"
+   }
+  ],
+  "kuerzel": "l"
+ },
+ "2026-07-04": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-07-05": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-07-06": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-07": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-08": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-09": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-10": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-11": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-07-12": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-07-13": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-14": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-15": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-16": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-17": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-18": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-07-19": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-07-20": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-21": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-22": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-23": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-24": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-25": {
+  "wt": "Sa",
+  "eintraege": []
+ },
+ "2026-07-26": {
+  "wt": "So",
+  "eintraege": []
+ },
+ "2026-07-27": {
+  "wt": "Mo",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-28": {
+  "wt": "Di",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-29": {
+  "wt": "Mi",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-30": {
+  "wt": "Do",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ },
+ "2026-07-31": {
+  "wt": "Fr",
+  "eintraege": [
+   {
+    "von": "08:00",
+    "bis": "17:00",
+    "dauer": "9h",
+    "titel": "Betrieb"
+   }
+  ],
+  "kuerzel": "MW"
+ }
+}

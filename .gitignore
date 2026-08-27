@@ -5,3 +5,6 @@ generator/bericht/ergebnisbericht.html
 __pycache__/
 *.pyc
 .DS_Store
+hochschule/generator/berichtsdaten.json
+hochschule/generator/node_modules/
+hochschule/generator/package*.json
