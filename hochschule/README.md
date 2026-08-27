@@ -44,16 +44,27 @@ Projektarbeit beginnt am 09.03.
 
 ## Zeitliche Zuordnung der Projekte
 
-| Bericht | Thema | Zeitraum |
-|---|---|---|
-| 1 | Material- und Schraubenlager (5S) | 02.03. – 10.04. |
-| 2 | Schweißarbeitsplatz | 13.04. – 08.05. |
-| 3 | Schweißtisch-Konstruktion | 11.05. – 05.06. |
-| 4 | Schweißmaschinen-Wagen nach 5S | 08.06. – 26.06. |
-| 5 | Zerspanarbeitsplatz | 29.06. – 17.07. |
-| — | Rostschutz-Konzept Schienenprofile | 20.07. – 31.07. (nur im Excel) |
+Der **Tagesnachweis dokumentiert alle Projekte**, der Word-Bericht nur fünf davon.
 
-Die Arbeitsanweisungen laufen parallel als einzelne Tageseinträge mit.
+| Thema | Zeitraum | Tage | im Word-Bericht |
+|---|---|---|---|
+| Einarbeitung | 02.03. – 06.03. | 5 | — |
+| Material- und Schraubenlager (5S) | 02.03. – 10.04. | 25 | Bericht 1 |
+| Lagerbestand-System in Excel/VBA | ab 22.04., parallel | 15 | — |
+| Schweißarbeitsplatz | 13.04. – 08.05. | 16 | Bericht 2 |
+| Schweißtisch-Konstruktion | 11.05. – 05.06. | 13 | Bericht 3 |
+| Schweißmaschinen-Wagen nach 5S | 08.06. – 26.06. | 10 | Bericht 4 |
+| Lagersystem als Web-Anwendung | ab 22.06., parallel | 10 | — |
+| Zerspanarbeitsplatz | 29.06. – 17.07. | 9 | Bericht 5 |
+| Rostschutz-Konzept Schienenprofile | 20.07. – 31.07. | 7 | — |
+
+Die beiden Software-Projekte liefen laut Projektdokumentation neben den
+Werkstattprojekten her. Im Nachweis bekommt deshalb ab dem jeweiligen Startdatum
+**jeder dritte Arbeitstag** ein Software-Thema (`EXCEL_AB`, `CLOUD_AB` und
+`SOFTWARE_TAKT` in `generator/bau_nachweis.py`). Zusammen sind das 25 Tage –
+genauso viele wie für das Schraubenlager.
+
+Die Arbeitsanweisungen laufen ebenfalls parallel als einzelne Tageseinträge mit.
 
 ## Neu erzeugen
 

@@ -39,7 +39,6 @@ SCHRAUBENLAGER = [
  "Bezugsquellen und Preise für die Sichtlagerkästen recherchiert und in einer Übersicht zusammengestellt.",
  "Arbeitsanweisung für die Materialentnahme am Schraubenlager entworfen.",
  "Arbeitsanweisung zur Materialentnahme mit dem Betreuer abgestimmt und nach seinen Anmerkungen überarbeitet.",
- "Excel-Datei zur Lagerbestandsführung begonnen: Artikelliste mit Barcode, Bezeichnung, Maß und Bestand angelegt.",
  "Dokumentation des Lagerkonzepts zusammengeschrieben, Abbildungen und Tabellen eingefügt.",
  "Ergebnisse des Lagerprojekts dem Betreuer vorgestellt und das weitere Vorgehen für die Beschaffung besprochen.",
  "Restarbeiten am Lagerkonzept erledigt und die Unterlagen für die Übergabe sortiert.",
@@ -168,3 +167,52 @@ PHASENTEXTE = {
  "Zerspanarbeitsplatz": ZERSPANARBEITSPLATZ,
  "Rostschutz": ROSTSCHUTZ,
 }
+
+
+# --- Parallel laufende Spuren -------------------------------------------------
+# Beide Software-Projekte liefen neben den Werkstattprojekten her und werden
+# deshalb als eigene Spur über den ganzen Zeitraum verteilt.
+
+EXCEL_LAGERSYSTEM = [
+ "Mit dem digitalen Lagerbestand-System begonnen: Aufbau der Excel-Arbeitsmappe festgelegt und die Artikelliste mit Barcode, Bezeichnung, Profil, Maß, Material und Bestand angelegt.",
+ "Zweites Tabellenblatt für das Verlaufsprotokoll aufgebaut: jede Buchung wird mit Zeitstempel, Buchungsart und Mengenänderung festgehalten.",
+ "Erste VBA-Makros geschrieben: Ein- und Ausbuchen über ein Eingabefeld, Menge abfragen und Bestand fortschreiben.",
+ "Barcode-Suche umgesetzt: Der eingescannte Code springt zum Artikel und zeigt alle Felder im Dashboard an.",
+ "Dashboard als Bedienoberfläche gestaltet: Scannfunktionen links, Suchergebnis in der Mitte, Exportbereich rechts.",
+ "Automatische Färbung des Bestands nach Soll- und Ist-Wert eingebaut, damit knapper Bestand sofort auffällt.",
+ "Eigene Eingabemaske für das Anlegen neuer Artikel als UserForm erstellt und mit der Artikelliste verbunden.",
+ "Weitere Eingabemasken für Bearbeiten und Löschen ergänzt und eine Sicherheitsabfrage vor dem Löschen eingebaut.",
+ "Filterfunktion über Bezeichnung, Profil, Maß und Materialgruppe umgesetzt und getestet.",
+ "Export auf Knopfdruck umgesetzt: ausgewählte Blätter als Excel- oder PDF-Datei in einen festen Zielordner speichern.",
+ "Versand der Bestandsliste per E-Mail ergänzt und mit Testdaten geprüft.",
+ "Einstellungsblatt angelegt, damit Zielordner, Empfängeradresse und Schwellenwerte ohne Eingriff in den Code änderbar sind.",
+ "Tablet-Modus entwickelt: Vollbild-Oberfläche ohne Excel-Bedienelemente, damit das System direkt in der Werkstatt bedienbar ist.",
+ "Entwicklermodus ergänzt, der die Excel-Oberfläche für Wartungsarbeiten wieder einblendet, und mit einem Kennwort geschützt.",
+ "Makros in Modulgruppen aufgeteilt und benannt, damit die Datei wartbar bleibt und Funktionen wiederverwendet werden können.",
+ "Material-Entnahme-Logik entworfen: Beim Zuschnitt soll die Restlänge selbstständig eingebucht werden.",
+ "Material-Entnahme umgesetzt: Restlängen werden automatisch angelegt oder mit vorhandenen gleich langen Resten zusammengefasst.",
+ "Material-Entnahme mit realen Zuschnitten aus der Werkstatt getestet und zwei Fehler bei der Restberechnung behoben.",
+ "System einem Mitarbeiter gezeigt, Rückmeldungen aufgenommen und die Bedienung an zwei Stellen vereinfacht.",
+ "Kurzanleitung für die Bedienung des Lagerbestand-Systems geschrieben und an den Arbeitsplatz gelegt.",
+]
+
+CLOUD_ANWENDUNG = [
+ "Schwachstellen des Excel-Systems zusammengetragen: Bindung an einen Rechner, kein Mehrbenutzerbetrieb, Abhängigkeit von einer Person.",
+ "Neuentwicklung als eigenständige Web-Anwendung mit dem Betreuer besprochen und die Architektur in drei Schichten festgelegt.",
+ "Datenmodell aus den Excel-Blättern abgeleitet und als Datenbanktabellen umgesetzt.",
+ "Grundfunktionen portiert: Artikel anlegen, suchen, bearbeiten und löschen.",
+ "Buchungslogik und Verlaufsprotokoll übertragen und gegen das Excel-Original geprüft.",
+ "Material-Entnahme mit Resteverwaltung in die neue Anwendung übernommen und mit denselben Beispielen nachgerechnet.",
+ "86 reale Artikel-Datensätze und 50 Artikelgruppen aus dem Altsystem übernommen und die Übernahme kontrolliert.",
+ "Papierkorb und Löschabfrage eingebaut, um Bedienfehler abzufangen.",
+ "Oberfläche überarbeitet: Suche, Filter und Bestandsanzeige übersichtlicher angeordnet.",
+ "Anwendung als Hintergrunddienst eingerichtet, sodass sie beim Start automatisch verfügbar ist, und ein tägliches Backup ergänzt.",
+ "Umzug in die Cloud vorbereitet: Datenbank umgestellt und die dabei aufgetretenen Besonderheiten dokumentiert.",
+ "Cloud-Version eingerichtet und über eine private, einladungsbasierte Adresse erreichbar gemacht.",
+ "Lasttest durchgeführt: 100 gleichzeitige Schreibzugriffe geprüft und das Verhalten protokolliert.",
+ "Installationspaket für Windows erstellt und getestet, damit das System auch auf einem Firmenrechner laufen kann.",
+ "Dokumentation der Anwendung geschrieben: Aufbau, Bedienung und Betrieb.",
+]
+
+PHASENTEXTE["ExcelLagersystem"] = EXCEL_LAGERSYSTEM
+PHASENTEXTE["CloudAnwendung"] = CLOUD_ANWENDUNG

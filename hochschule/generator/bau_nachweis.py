@@ -16,6 +16,11 @@ FEIER = {dt.date(2026,4,3): "Karfreitag", dt.date(2026,4,6): "Ostermontag",
          dt.date(2026,5,1): "Tag der Arbeit", dt.date(2026,5,14): "Christi Himmelfahrt",
          dt.date(2026,5,25): "Pfingstmontag", dt.date(2026,6,4): "Fronleichnam"}
 KRANK = {dt.date(2026,3,20), dt.date(2026,7,3)}
+# Die beiden Software-Projekte liefen parallel zu den Werkstattprojekten.
+# Ab dem jeweiligen Startdatum bekommt jeder dritte Arbeitstag ein Software-Thema.
+EXCEL_AB, CLOUD_AB = dt.date(2026, 4, 22), dt.date(2026, 6, 22)
+SOFTWARE_TAKT = 3
+
 PHASEN = [("Einarbeitung",        dt.date(2026,3,2),  dt.date(2026,3,6)),
           ("Schraubenlager",      dt.date(2026,3,9),  dt.date(2026,4,10)),
           ("Schweissarbeitsplatz",dt.date(2026,4,13), dt.date(2026,5,8)),
@@ -48,8 +53,12 @@ def main():
         "B2": "Herr", "B5": "Hassine", "B8": "Houcine", "B11": "PA6",
         "B14": "3399727", "B17": "houcine1.hassine@hs-regensburg.de",
         "B20": START, "B23": ENDE, "B26": "ja", "B32": 38,
-        "B37": "Logistik und Transport", "B40": "Beratung und Planung",
-        "B43": "Konstruktion", "B46": "Konstruktion", "B49": "Beratung und Planung",
+        # Tätigkeitsbereiche aus der Auswahlliste des Blattes "Status"
+        "B37": "Logistik und Transport",      # Material- und Schraubenlager
+        "B40": "Informatik und Software",     # Lagerbestand-System und Web-Anwendung
+        "B43": "Beratung und Planung",        # Schweißarbeitsplatz
+        "B46": "Konstruktion",                # Schweißtisch und Schweißmaschinenwagen
+        "B49": "Beratung und Planung",        # Zerspanarbeitsplatz
         "I5": "Mechanische Werkstätte Schmidt e.K.", "I8": "Herr",
         "I11": "Halloul", "I14": "Amine",
         "I17": "⟨Position im Unternehmen⟩", "I20": "⟨E-Mail Betreuer⟩",
@@ -66,9 +75,17 @@ def main():
     datenzeilen = [r for r in range(16, 600)
                    if isinstance(ws.cell(r, 2).value, str) and ws.cell(r, 2).value.startswith("=IF(WEEKDAY")]
     rest = {p: list(PHASENTEXTE[p]) for p, _, _ in PHASEN}
+    rest["ExcelLagersystem"] = list(PHASENTEXTE["ExcelLagersystem"])
+    rest["CloudAnwendung"] = list(PHASENTEXTE["CloudAnwendung"])
     ia = iva = 0
+    seit_software = 0        # zählt Arbeitstage ab Beginn der Software-Spur
     tage = (ENDE - START).days + 1
     protokoll = []
+
+    # In der Vorlage tragen 20 Zeilen in Spalte E ein Zeitformat ('h:mm');
+    # eine Stundenzahl würde dort als Uhrzeit erscheinen (5 -> 05:00).
+    for r in datenzeilen:
+        ws.cell(r, 5).number_format = "General"
 
     for i, r in enumerate(datenzeilen):
         d = START + dt.timedelta(days=i)
@@ -86,7 +103,16 @@ def main():
             typ, txt = "K", "Krank"
         else:
             typ = t
-            txt = rest[phase].pop(0) if phase and rest[phase] else None
+            thema = phase
+            if d >= EXCEL_AB:
+                seit_software += 1
+                if seit_software % SOFTWARE_TAKT == 0:
+                    spur = "CloudAnwendung" if d >= CLOUD_AB else "ExcelLagersystem"
+                    if rest[spur]:
+                        thema = spur
+            txt = rest[thema].pop(0) if thema and rest[thema] else None
+            if txt is None and phase and rest[phase]:      # Rückfall auf das Hauptthema
+                txt = rest[phase].pop(0)
             if t == "A":
                 std = STD_A[ia % len(STD_A)]; ia += 1
             else:
@@ -95,7 +121,7 @@ def main():
         ws.cell(r, 5).value = std
         ws.cell(r, 7).value = "ja" if t == "VA" else "nein"
         ws.cell(r, 8).value = txt
-        if typ: protokoll.append((d, typ, std, txt))
+        if typ: protokoll.append((d, typ, std, txt, locals().get("thema")))
 
     # Verweise und Dokumenteigenschaften der Vorlage bereinigen:
     # Die Vorlage stammt aus einer ausgefüllten Fremddatei; darin hängen an den
@@ -121,6 +147,10 @@ def main():
     print("  Tagestypen:", dict(Counter(p[1] for p in protokoll)))
     leer = [p for p in protokoll if p[1] in ("A", "VA") and not p[3]]
     print("  Arbeitstage ohne Text:", len(leer))
+    themen = Counter(p[4] for p in protokoll if p[4])
+    print("  Arbeitstage je Thema:")
+    for th, n in themen.most_common():
+        print(f"    {th:22} {n:3}")
 
 if __name__ == "__main__":
     main()
