@@ -6,7 +6,26 @@ Zwei Dateien für die Abgabe über GRIPS, erzeugt in der Form der OTH-Vorlagen.
 |---|---|
 | `Hassine_3399727_Tätigkeitsnachweis.xlsx` | Täglicher Nachweis, 02.03.–31.07.2026 |
 | `Hassine_3399727_Bericht.docx` | Die fünf Tätigkeitsberichte |
-| `Hassine_3399727_Bericht.pdf` | Nur zur Ansicht — abgegeben wird die .docx |
+| `Hassine_3399727_Zeiterfassung.xlsx` | Stempelkarte, je Monat ein Blatt |
+| `…_Bericht.pdf`, `…_Zeiterfassung.pdf` | Nur zur Ansicht und zum Drucken |
+
+## Zeiterfassung
+
+Fünf Monatsblätter mit den Spalten Tag, Datum, Beginn, Ende, Pause, Std netto
+und Bemerkung, je Blatt eine A4-Seite mit Monatssumme und Unterschriftszeilen
+für Praktikant und Betrieb.
+
+Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
+Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
+nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: über 6 h → 30 min,
+über 9 h → 45 min, darunter 15 min. An Vorlesungstagen beginnt die Arbeit erst
+nach der Vorlesung, frühestens 11:55.
+
+Alle Stundenwerte sind Vielfache von 0,05 h (3 Minuten). Nur so ergeben
+Dezimalwert und Uhrzeit exakt dasselbe — ein Wert wie 8,58 h wäre 8:34,8 min und
+ließe sich nicht stempeln.
+
+Reihenfolge beim Bauen: erst `bau_nachweis.py`, dann `bau_zeiterfassung.py`.
 
 Die Dateinamen entsprechen der Vorgabe aus dem Reiter „Anleitung" der Excel-Vorlage
 (`NAME_MATRIKELNUMMER_…`). Bitte nicht umbenennen.
