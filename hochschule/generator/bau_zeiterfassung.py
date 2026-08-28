@@ -21,10 +21,13 @@ START, ENDE = dt.date(2026, 3, 2), dt.date(2026, 7, 31)
 
 MONATE = {3: "März", 4: "April", 5: "Mai", 6: "Juni", 7: "Juli"}
 WT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
-# Kommt-Zeiten, bewusst ungerade gewählt
-BEGINN_NORMAL = ["06:50", "07:00", "06:55", "07:10", "07:05", "06:45",
-                 "07:15", "07:00", "06:58", "07:20", "06:52", "07:08"]
-BEGINN_VORLESUNG = ["12:00", "12:10", "11:55", "12:15", "12:05"]
+# Kommt-Zeiten in 5-Minuten-Schritten. Sie werden so weit nach hinten
+# geschoben, wie es nötig ist, damit der Feierabend spätestens 18:00 ist.
+FRUEHESTENS = 7 * 60          # 07:00
+SPAETESTENS = 18 * 60         # 18:00
+NACH_VORLESUNG = 11 * 60 + 45 # Vorlesung endet 11:30
+VERSATZ_NORMAL = [0, 15, 5, 20, 10, 30, 5, 25, 0, 15, 10, 20, 5, 30, 15]
+VERSATZ_VORLESUNG = [15, 0, 25, 10, 20, 5, 30, 15, 0, 20]
 
 DUENN = Side(style="thin", color="9AA3AB")
 KRAEFTIG = Side(style="medium", color="1F3A52")
@@ -101,15 +104,21 @@ def main():
             ws.cell(zeile, 2, d).number_format = "DD.MM.YYYY"
 
             if typ in ("A", "VA") and netto:
+                pm = pause_minuten(netto)
+                dauer = round(float(netto) * 60) + pm
                 if typ == "VA":
-                    beg = zeit(BEGINN_VORLESUNG[i_vorl % len(BEGINN_VORLESUNG)]); i_vorl += 1
+                    frueh, versatz = NACH_VORLESUNG, VERSATZ_VORLESUNG[i_vorl % len(VERSATZ_VORLESUNG)]
+                    i_vorl += 1
                     bem = "Vorlesung 10:00–11:30, danach im Betrieb"
                 else:
-                    beg = zeit(BEGINN_NORMAL[i_norm % len(BEGINN_NORMAL)]); i_norm += 1
+                    frueh, versatz = FRUEHESTENS, VERSATZ_NORMAL[i_norm % len(VERSATZ_NORMAL)]
+                    i_norm += 1
                     bem = ""
-                pm = pause_minuten(netto)
-                ende_dt = (dt.datetime.combine(d, beg)
-                           + dt.timedelta(hours=float(netto), minutes=pm))
+                spaetester_beginn = SPAETESTENS - dauer
+                start = min(frueh + versatz, spaetester_beginn)
+                start = max(frueh, start - start % 5)          # auf 5 Minuten runden
+                beg = dt.time(start // 60, start % 60)
+                ende_dt = dt.datetime.combine(d, beg) + dt.timedelta(minutes=dauer)
                 ws.cell(zeile, 3, beg).number_format = "HH:MM"
                 ws.cell(zeile, 4, ende_dt.time()).number_format = "HH:MM"
                 ws.cell(zeile, 5, dt.time(pm // 60, pm % 60)).number_format = "HH:MM"

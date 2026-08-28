@@ -31,15 +31,8 @@ PHASEN = [
     ("Rostschutz",            9),
 ]
 
-# Anwesenheitszeiten in Stunden. Alle Werte sind Vielfache von 0,05 h = 3 min,
-# damit sie sich in der Zeiterfassung minutengenau als Kommt-/Geht-Zeit abbilden
-# lassen und Dezimalwert und Uhrzeit exakt übereinstimmen.
-STD_A  = [8.50, 9.00, 8.25, 9.25, 7.75, 8.75, 9.50, 8.00, 8.60, 9.05,
-          8.30, 7.55, 8.80, 9.20, 8.45, 8.95, 9.00, 7.85, 8.20, 9.45,
-          8.10, 8.70, 9.30, 8.05, 8.55, 9.15, 7.95, 8.35, 9.35, 8.65]
-# An Vorlesungstagen beginnt die Arbeit erst nach der Vorlesung (ab ca. 12:00);
-# die Zeiten sind so gewählt, dass der Arbeitstag spätestens gegen 18:00 endet.
-STD_VA = [5.50, 5.00, 5.25, 5.75, 4.75, 5.00, 5.60, 5.30, 5.55, 4.90, 5.40, 5.15]
+# Die Nettostunden je Monat stehen in stundenplan.py.
+from stundenplan import stunden
 
 def tagtyp(d, vorlesungstage):
     if d.weekday() >= 5: return "WE"
@@ -85,7 +78,7 @@ def main():
     for name, anzahl in PHASEN:
         plan += [name] * anzahl
     rest = {name: list(PHASENTEXTE[name]) for name, _ in PHASEN}
-    ia = iva = 0
+    zaehler = {}          # (Monat, Typ) -> laufende Nummer
     arbeitstag = 0
     spanne = {}              # Phase -> (erster, letzter Arbeitstag)
     tage = (ENDE - START).days + 1
@@ -117,10 +110,9 @@ def main():
                 erst, _ = spanne.get(thema, (d, d))
                 spanne[thema] = (erst, d)
                 txt = rest[thema].pop(0) if rest[thema] else None
-            if t == "A":
-                std = STD_A[ia % len(STD_A)]; ia += 1
-            else:
-                std = STD_VA[iva % len(STD_VA)]; iva += 1
+            k = (d.month, t)
+            std = stunden(d.month, t, zaehler.get(k, 0))
+            zaehler[k] = zaehler.get(k, 0) + 1
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
         ws.cell(r, 7).value = "ja" if t == "VA" else "nein"

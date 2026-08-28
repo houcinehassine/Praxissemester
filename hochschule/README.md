@@ -21,9 +21,31 @@ nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: über 6 h → 30
 über 9 h → 45 min, darunter 15 min. An Vorlesungstagen beginnt die Arbeit erst
 nach der Vorlesung, frühestens 11:55.
 
-Alle Stundenwerte sind Vielfache von 0,05 h (3 Minuten). Nur so ergeben
-Dezimalwert und Uhrzeit exakt dasselbe — ein Wert wie 8,58 h wäre 8:34,8 min und
-ließe sich nicht stempeln.
+Regeln für die Zeiten (alle geprüft, siehe unten):
+
+- Beginn, Ende und Pause nur in **5-Minuten-Schritten** — die Karte wird von Hand
+  ausgefüllt, nicht automatisch gestempelt
+- Beginn frühestens **07:00**, Ende spätestens **18:00**
+- Arbeitstage mindestens **6,50 h**; nur Vorlesungstage dürfen darunter liegen
+- Nettostunden in **Viertelstundenschritten**. Nur so sind Dezimalwert *und*
+  Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
+  Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
+
+Die Nettostunden je Monat stehen in `generator/stundenplan.py`. Dort ist auch
+festgelegt, dass **Juli die kleinste und Juni die zweitkleinste** Monatssumme
+bekommt:
+
+| Monat | Arbeitstage | Std netto |
+|---|---|---|
+| Juli | 21 A + 1 VA | 147,25 |
+| Juni | 17 A + 4 VA | 153,75 |
+| Mai | 14 A + 4 VA | 158,50 |
+| April | 15 A + 5 VA | 173,75 |
+| März | 19 A + 2 VA | 191,50 |
+| **Gesamt** | | **824,75** = 38,0 h/Woche |
+
+Juli hat die meisten Arbeitstage, deshalb liegen seine Tage nahe an der
+Untergrenze von 6,50 h — anders wäre die kleinste Monatssumme nicht erreichbar.
 
 Reihenfolge beim Bauen: erst `bau_nachweis.py`, dann `bau_zeiterfassung.py`.
 
