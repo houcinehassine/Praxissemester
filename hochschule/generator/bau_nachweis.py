@@ -16,18 +16,20 @@ FEIER = {dt.date(2026,4,3): "Karfreitag", dt.date(2026,4,6): "Ostermontag",
          dt.date(2026,5,1): "Tag der Arbeit", dt.date(2026,5,14): "Christi Himmelfahrt",
          dt.date(2026,5,25): "Pfingstmontag", dt.date(2026,6,4): "Fronleichnam"}
 KRANK = {dt.date(2026,3,20), dt.date(2026,7,3)}
-# Die beiden Software-Projekte liefen parallel zu den Werkstattprojekten.
-# Ab dem jeweiligen Startdatum bekommt jeder dritte Arbeitstag ein Software-Thema.
-EXCEL_AB, CLOUD_AB = dt.date(2026, 4, 22), dt.date(2026, 6, 22)
-SOFTWARE_TAKT = 3
-
-PHASEN = [("Einarbeitung",        dt.date(2026,3,2),  dt.date(2026,3,6)),
-          ("Schraubenlager",      dt.date(2026,3,9),  dt.date(2026,4,10)),
-          ("Schweissarbeitsplatz",dt.date(2026,4,13), dt.date(2026,5,8)),
-          ("Schweisstisch",       dt.date(2026,5,11), dt.date(2026,6,5)),
-          ("Schweisswagen",       dt.date(2026,6,8),  dt.date(2026,6,26)),
-          ("Zerspanarbeitsplatz", dt.date(2026,6,29), dt.date(2026,7,17)),
-          ("Rostschutz",          dt.date(2026,7,20), dt.date(2026,7,31))]
+# Die Phasen laufen nacheinander und sind über die Anzahl der Arbeitstage
+# festgelegt, nicht über feste Datumsgrenzen. Die tatsächlichen Zeiträume
+# ergeben sich daraus und werden am Ende ausgegeben.
+PHASEN = [
+    ("Einarbeitung",          3),
+    ("Schraubenlager",       10),
+    ("ExcelLagersystem",     20),
+    ("CloudAnwendung",        3),
+    ("Schweissarbeitsplatz", 15),
+    ("Schweisstisch",        15),
+    ("Schweisswagen",        13),
+    ("Zerspanarbeitsplatz",  14),
+    ("Rostschutz",            9),
+]
 
 # Anwesenheitszeiten: überwiegend Viertelstunden, dazwischen krumme Werte
 STD_A  = [8.5, 9.0, 8.25, 9.25, 7.75, 8.75, 9.5, 8.0, 8.58, 9.0, 8.25, 7.5,
@@ -74,11 +76,14 @@ def main():
     # Datenzeilen der Vorlage finden (Blöcke à 28 Tage, Kopf wiederholt sich)
     datenzeilen = [r for r in range(16, 600)
                    if isinstance(ws.cell(r, 2).value, str) and ws.cell(r, 2).value.startswith("=IF(WEEKDAY")]
-    rest = {p: list(PHASENTEXTE[p]) for p, _, _ in PHASEN}
-    rest["ExcelLagersystem"] = list(PHASENTEXTE["ExcelLagersystem"])
-    rest["CloudAnwendung"] = list(PHASENTEXTE["CloudAnwendung"])
+    # Arbeitstage der Reihe nach auf die Phasen verteilen
+    plan = []
+    for name, anzahl in PHASEN:
+        plan += [name] * anzahl
+    rest = {name: list(PHASENTEXTE[name]) for name, _ in PHASEN}
     ia = iva = 0
-    seit_software = 0        # zählt Arbeitstage ab Beginn der Software-Spur
+    arbeitstag = 0
+    spanne = {}              # Phase -> (erster, letzter Arbeitstag)
     tage = (ENDE - START).days + 1
     protokoll = []
 
@@ -93,8 +98,7 @@ def main():
             for sp in (4, 5, 7, 8): ws.cell(r, sp).value = None
             continue
         t = tagtyp(d, vorlesung)
-        phase = next((p for p, a, b in PHASEN if a <= d <= b), None)
-        typ = txt = None; std = None
+        typ = txt = thema = None; std = None
         if t == "WE":
             pass
         elif t == "F":
@@ -103,16 +107,12 @@ def main():
             typ, txt = "K", "Krank"
         else:
             typ = t
-            thema = phase
-            if d >= EXCEL_AB:
-                seit_software += 1
-                if seit_software % SOFTWARE_TAKT == 0:
-                    spur = "CloudAnwendung" if d >= CLOUD_AB else "ExcelLagersystem"
-                    if rest[spur]:
-                        thema = spur
-            txt = rest[thema].pop(0) if thema and rest[thema] else None
-            if txt is None and phase and rest[phase]:      # Rückfall auf das Hauptthema
-                txt = rest[phase].pop(0)
+            thema = plan[arbeitstag] if arbeitstag < len(plan) else None
+            arbeitstag += 1
+            if thema:
+                erst, _ = spanne.get(thema, (d, d))
+                spanne[thema] = (erst, d)
+                txt = rest[thema].pop(0) if rest[thema] else None
             if t == "A":
                 std = STD_A[ia % len(STD_A)]; ia += 1
             else:
@@ -121,7 +121,7 @@ def main():
         ws.cell(r, 5).value = std
         ws.cell(r, 7).value = "ja" if t == "VA" else "nein"
         ws.cell(r, 8).value = txt
-        if typ: protokoll.append((d, typ, std, txt, locals().get("thema")))
+        if typ: protokoll.append((d, typ, std, txt, thema))
 
     # Verweise und Dokumenteigenschaften der Vorlage bereinigen:
     # Die Vorlage stammt aus einer ausgefüllten Fremddatei; darin hängen an den
@@ -148,9 +148,13 @@ def main():
     leer = [p for p in protokoll if p[1] in ("A", "VA") and not p[3]]
     print("  Arbeitstage ohne Text:", len(leer))
     themen = Counter(p[4] for p in protokoll if p[4])
-    print("  Arbeitstage je Thema:")
-    for th, n in themen.most_common():
-        print(f"    {th:22} {n:3}")
+    print("  Phasen in zeitlicher Reihenfolge:")
+    for name, _ in PHASEN:
+        a, b = spanne[name]
+        print(f"    {name:22} {themen[name]:3} Tage   {a.strftime('%d.%m.')} – {b.strftime('%d.%m.%Y')}")
+    import json as _j
+    _j.dump({k: [v[0].isoformat(), v[1].isoformat()] for k, v in spanne.items()},
+            open(os.path.join(HIER, "zeitraeume.json"), "w", encoding="utf-8"), indent=1)
 
 if __name__ == "__main__":
     main()

@@ -6,9 +6,10 @@ sys.path.insert(0, HIER)
 from berichtstexte import BERICHTE
 
 ABBILDUNGEN = {
- 1: [("Ausgangszustand des Schraubenlagers vor der Neuordnung", "Foto aus der Werkstatt"),
-     ("CAD-Konstruktion der Sichtlagerkästen in den Größen S, M und L", "Screenshot aus dem CAD"),
-     ("Belegungsplan der Regalfächer", "Scan oder Foto des Belegungsplans")],
+ 1: [("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich", "Screenshot aus Excel"),
+     ("Tablet-Modus für die Bedienung an der Maschine", "Screenshot aus Excel"),
+     ("Verlaufsprotokoll mit Zeitstempel und Mengenänderung", "Screenshot aus Excel"),
+     ("Oberfläche der Web-Anwendung", "Screenshot der Anwendung")],
  2: [("Bestehender Schweißarbeitsplatz vor der Planung", "Foto aus der Werkstatt"),
      ("Gewähltes Layout-Konzept des Schweißarbeitsplatzes", "Skizze oder CAD-Ansicht"),
      ("Werkzeugwand mit Schattenbrett", "Foto oder Entwurf")],

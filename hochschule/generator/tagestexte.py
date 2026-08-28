@@ -4,44 +4,21 @@ Reihenfolge = Reihenfolge der Arbeitstage innerhalb der Phase."""
 
 EINARBEITUNG = [
  "Begrüßung und Einführung im Betrieb, Rundgang durch Werkstatt, Lager und Büro. Teilnahme an der Sicherheitsunterweisung und Einweisung in die Hausordnung.",
- "Unterweisung an den Maschinen und Arbeitsplätzen durch den Betreuer (Dreh- und Fräsmaschine, Schweißplätze, Trennschleifer). Persönliche Schutzausrüstung erhalten und angepasst.",
- "Arbeitsplatz und Rechner eingerichtet, Zugänge zur CAD-Software und zu den Netzlaufwerken eingerichtet. Ablagestruktur für die Praktikumsdokumentation angelegt.",
- "Aufgaben des Praxissemesters mit dem Betreuer besprochen und die fünf Themen zeitlich grob eingeordnet. Abläufe von der Auftragsannahme bis zur Auslieferung erklärt bekommen.",
- "Bei laufenden Arbeiten in der Werkstatt zugesehen und mitgeholfen, um Material, Werkzeuge und die üblichen Arbeitsschritte kennenzulernen. Erste Fotos für die Dokumentation gemacht.",
+ "Unterweisung an den Maschinen und Arbeitsplätzen durch den Betreuer. Persönliche Schutzausrüstung erhalten, Arbeitsplatz und Rechner eingerichtet, Zugänge zur CAD-Software und zu den Netzlaufwerken angelegt.",
+ "Aufgaben des Praxissemesters mit dem Betreuer besprochen und zeitlich eingeordnet. Abläufe von der Auftragsannahme bis zur Auslieferung kennengelernt und bei laufenden Arbeiten in der Werkstatt mitgeholfen.",
 ]
 
 SCHRAUBENLAGER = [
- "Aufgabenstellung zum Schraubenlager erhalten und mit dem Betreuer besprochen. Das neue Regal im Keller angeschaut und vermessen (6 Fächer, je 930 × 500 mm).",
- "Ausgangszustand des bestehenden Lagers fotografiert und dokumentiert. Vorhandene Behälter und das Bito-Box-Prinzip erfasst.",
- "Bestandsaufnahme begonnen: Zylinderkopfschrauben nach Gewinde (M5–M20) und Länge erfasst. Matrix-Struktur Gewinde × Länge in Excel angelegt.",
- "Bestandsaufnahme der Zylinderkopfschrauben abgeschlossen und die Werte stichprobenartig gegengeprüft.",
- "Sechskantschrauben nach Gewinde und Länge aufgenommen und in die Matrix eingetragen.",
- "Holzschrauben aufgenommen und eingetragen. Sortiment auf Doppelungen und nicht mehr verwendete Größen geprüft.",
- "Schloßschrauben aufgenommen. Damit sind alle vier Schraubentypen erfasst — insgesamt 135 Sorten.",
- "Beim Prüfen der Aufnahmedaten drei Rechenfehler in den Ausgangsdateien gefunden und korrigiert.",
- "Bestand ausgewertet: Verteilung nach Schraubentyp, Gewindegröße und Länge zusammengestellt.",
- "ABC-Analyse durchgeführt (Schwerpunkt M8 und M10) und daraus die drei Boxgrößen S, M und L abgeleitet.",
- "Ordnungskonzept für die Zylinderkopfschrauben erstellt: vollständige Matrix aufgebaut sowie zwei Schubladenvarianten entwickelt und verglichen.",
- "Ordnungskonzept für die Sechskantschrauben erstellt und die Varianten gegenübergestellt.",
- "Ordnungskonzept für die Holzschrauben erstellt.",
- "Ordnungskonzept für die Schloßschrauben erstellt. Damit sind alle vier Typen einzeln durchgeplant.",
- "Alle vier Typen in einer Gesamtmatrix zusammengeführt und die Schubladeneinteilung nach Länge festgelegt.",
- "Gesamtbedarf an Boxen ermittelt: 14 kleine, 81 mittlere und 40 große Behälter.",
- "Boxen- und Regallayout geplant: Rastermaß 100 mm festgelegt, Boxgrößen S/M/L mit 102, 115 und 145 mm definiert.",
- "Anzahl der Boxen je Fach skizziert und mit den gemessenen Regalmaßen abgeglichen.",
- "Mit der CAD-Konstruktion begonnen und die drei Boxgrößen als Modelle aufgebaut.",
- "Fach-Varianten im CAD konstruiert, von 12 bis 27 Boxen je Fach.",
- "Drei komplette Regalvarianten modelliert und die Boxplätze gezählt (144, 156 und 162 Plätze).",
- "Kapazitätsnachweis gerechnet: 144 Plätze reichen für die 135 erfassten Sorten.",
- "Nutzwertanalyse der drei Regalvarianten aufgestellt, Kriterien gewichtet und die Variante S · M · L als Empfehlung begründet.",
- "Belegungsplan erstellt: jeder der 135 Sorten einen festen, beschrifteten Platz zugeordnet.",
- "Belegungsplan mit dem Betreuer durchgesprochen und die offenen Punkte zur S/M/L-Verteilung festgehalten.",
- "Bezugsquellen und Preise für die Sichtlagerkästen recherchiert und in einer Übersicht zusammengestellt.",
- "Arbeitsanweisung für die Materialentnahme am Schraubenlager entworfen.",
- "Arbeitsanweisung zur Materialentnahme mit dem Betreuer abgestimmt und nach seinen Anmerkungen überarbeitet.",
- "Dokumentation des Lagerkonzepts zusammengeschrieben, Abbildungen und Tabellen eingefügt.",
- "Ergebnisse des Lagerprojekts dem Betreuer vorgestellt und das weitere Vorgehen für die Beschaffung besprochen.",
- "Restarbeiten am Lagerkonzept erledigt und die Unterlagen für die Übergabe sortiert.",
+ "Aufgabenstellung zum Schraubenlager erhalten und mit dem Betreuer besprochen. Das neue Regal im Keller angeschaut und vermessen (6 Fächer, je 930 × 500 mm), Ausgangszustand fotografiert.",
+ "Bestandsaufnahme begonnen: Zylinderkopf- und Sechskantschrauben nach Gewinde (M5–M20) und Länge erfasst. Matrix-Struktur Gewinde × Länge in Excel angelegt.",
+ "Bestandsaufnahme mit Holz- und Schloßschrauben abgeschlossen. Insgesamt 135 Sorten erfasst; beim Gegenprüfen drei Rechenfehler in den Ausgangsdateien gefunden und korrigiert.",
+ "Bestand ausgewertet: Verteilung nach Typ, Gewindegröße und Länge zusammengestellt und eine ABC-Analyse durchgeführt. Schwerpunkt bei M8 und M10, daraus die drei Boxgrößen S, M und L abgeleitet.",
+ "Ordnungskonzepte für die vier Schraubentypen erstellt: je Typ die vollständige Matrix aufgebaut und zwei Schubladenvarianten entwickelt und verglichen.",
+ "Alle vier Typen in einer Gesamtmatrix zusammengeführt, Schubladeneinteilung nach Länge festgelegt und den Gesamtbedarf ermittelt: 14 kleine, 81 mittlere und 40 große Behälter.",
+ "Boxen- und Regallayout geplant: Rastermaß 100 mm festgelegt, Boxgrößen mit 102, 115 und 145 mm definiert und die Anzahl Boxen je Fach mit den Regalmaßen abgeglichen.",
+ "Behälter und Fach-Varianten im CAD konstruiert (12 bis 27 Boxen je Fach) und daraus drei komplette Regalvarianten mit 144, 156 und 162 Boxplätzen aufgebaut.",
+ "Nutzwertanalyse der drei Regalvarianten aufgestellt und gewichtet, Kapazitätsnachweis gerechnet (144 Plätze für 135 Sorten) und die Variante S · M · L als Empfehlung begründet.",
+ "Belegungsplan erstellt: jeder der 135 Sorten einen festen, beschrifteten Platz zugeordnet. Bezugsquellen recherchiert, Ergebnisse dem Betreuer vorgestellt und eine Arbeitsanweisung für die Materialentnahme entworfen.",
 ]
 
 SCHWEISSARBEITSPLATZ = [
@@ -197,21 +174,9 @@ EXCEL_LAGERSYSTEM = [
 ]
 
 CLOUD_ANWENDUNG = [
- "Schwachstellen des Excel-Systems zusammengetragen: Bindung an einen Rechner, kein Mehrbenutzerbetrieb, Abhängigkeit von einer Person.",
- "Neuentwicklung als eigenständige Web-Anwendung mit dem Betreuer besprochen und die Architektur in drei Schichten festgelegt.",
- "Datenmodell aus den Excel-Blättern abgeleitet und als Datenbanktabellen umgesetzt.",
- "Grundfunktionen portiert: Artikel anlegen, suchen, bearbeiten und löschen.",
- "Buchungslogik und Verlaufsprotokoll übertragen und gegen das Excel-Original geprüft.",
- "Material-Entnahme mit Resteverwaltung in die neue Anwendung übernommen und mit denselben Beispielen nachgerechnet.",
- "86 reale Artikel-Datensätze und 50 Artikelgruppen aus dem Altsystem übernommen und die Übernahme kontrolliert.",
- "Papierkorb und Löschabfrage eingebaut, um Bedienfehler abzufangen.",
- "Oberfläche überarbeitet: Suche, Filter und Bestandsanzeige übersichtlicher angeordnet.",
- "Anwendung als Hintergrunddienst eingerichtet, sodass sie beim Start automatisch verfügbar ist, und ein tägliches Backup ergänzt.",
- "Umzug in die Cloud vorbereitet: Datenbank umgestellt und die dabei aufgetretenen Besonderheiten dokumentiert.",
- "Cloud-Version eingerichtet und über eine private, einladungsbasierte Adresse erreichbar gemacht.",
- "Lasttest durchgeführt: 100 gleichzeitige Schreibzugriffe geprüft und das Verhalten protokolliert.",
- "Installationspaket für Windows erstellt und getestet, damit das System auch auf einem Firmenrechner laufen kann.",
- "Dokumentation der Anwendung geschrieben: Aufbau, Bedienung und Betrieb.",
+ "Schwachstellen des Excel-Systems zusammengetragen (Bindung an einen Rechner, kein Mehrbenutzerbetrieb) und die Neuentwicklung als eigenständige Web-Anwendung mit dem Betreuer besprochen. Architektur in drei Schichten festgelegt und mit KI-Unterstützung aufgesetzt.",
+ "Datenmodell aus den Excel-Blättern übernommen und die Kernfunktionen portiert: Artikel verwalten, Buchungen, Verlauf und die Material-Entnahme mit Resteverwaltung. 86 reale Artikel-Datensätze und 50 Artikelgruppen übernommen und die Übernahme kontrolliert.",
+ "Anwendung als Hintergrunddienst mit täglichem Backup eingerichtet und zusätzlich in der Cloud bereitgestellt. Lasttest mit 100 gleichzeitigen Schreibzugriffen durchgeführt und die Bedienung dokumentiert.",
 ]
 
 PHASENTEXTE["ExcelLagersystem"] = EXCEL_LAGERSYSTEM

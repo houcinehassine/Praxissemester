@@ -8,3 +8,4 @@ __pycache__/
 hochschule/generator/berichtsdaten.json
 hochschule/generator/node_modules/
 hochschule/generator/package*.json
+hochschule/generator/zeitraeume.json
