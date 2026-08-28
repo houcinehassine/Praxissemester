@@ -6,14 +6,41 @@ Zwei Dateien für die Abgabe über GRIPS, erzeugt in der Form der OTH-Vorlagen.
 |---|---|
 | `Hassine_3399727_Tätigkeitsnachweis.xlsx` | Täglicher Nachweis, 02.03.–31.07.2026 |
 | `Hassine_3399727_Bericht.docx` | Die fünf Tätigkeitsberichte |
-| `Hassine_3399727_Zeiterfassung.xlsx` | Stempelkarte, je Monat ein Blatt |
+| `Hassine_3399727_Zeiterfassung.xlsx` | Stempelkarte, je Monat ein Blatt, plus Wochenübersicht |
 | `…_Bericht.pdf`, `…_Zeiterfassung.pdf` | Nur zur Ansicht und zum Drucken |
 
 ## Zeiterfassung
 
 Fünf Monatsblätter mit den Spalten Tag, Datum, Beginn, Ende, Pause, Std netto
 und Bemerkung, je Blatt eine A4-Seite mit Monatssumme und Unterschriftszeilen
-für Praktikant und Betrieb.
+für Praktikant und Betrieb. Innerhalb der Monatsblätter steht nach jedem Sonntag
+eine hinterlegte Zeile **Summe KW nn**; die Monatssumme addiert genau diese
+Wochenzeilen.
+
+### Wochenübersicht
+
+Das erste Blatt fasst alle **22 Kalenderwochen** zusammen: KW, Zeitraum,
+Arbeitstage, Std netto, Soll, Differenz und kumulierter Stand. Das Soll ist die
+Wochenarbeitszeit von 38,0 h, je Arbeitstag anteilig gerechnet — eine Woche mit
+einem Feiertag hat also 30,50 h Soll statt 38,00 h.
+
+| | |
+|---|---|
+| Ist | **824,75 h** |
+| Soll (anteilig) | 776,00 h |
+| Differenz | **+48,75 h** |
+| Spanne | 33,50 h (KW 30) bis 47,75 h (KW 10) |
+| Ø je Woche | 37,49 h |
+
+Der Vorlauf entsteht zwangsläufig aus zwei Vorgaben: Juli und Juni sollen die
+kleinsten Monatssummen haben, und kein Arbeitstag darf unter 6,50 h liegen.
+Die frühen Monate müssen die Stunden also vorziehen. Wer das flacher haben
+möchte, ändert die Monatsziele in `generator/stundenplan.py` und baut Nachweis
+und Zeiterfassung neu.
+
+Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
+vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
+dort entsprechend beschriftet.
 
 Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
 Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
@@ -77,7 +104,7 @@ PDF ausgelesen):
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **831,8 h** auf 21,7 Wochen = **38,3 h/Woche**, stimmig zu den 38 h in den Stammdaten.
+Summe **824,75 h** auf 21,7 Wochen = **38,0 h/Woche**, stimmig zu den 38 h in den Stammdaten.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
