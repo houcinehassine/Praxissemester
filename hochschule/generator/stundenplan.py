@@ -8,26 +8,27 @@ der Dezimalwert (8,25) und die Uhrzeit (8:15). Bei 5-Minuten-Schritten wie
 Vorgaben:
   - Ein Tag dauert hoechstens 9:00 Stunden einschliesslich Pause.
     Bei 30 min Pause sind das hoechstens 8,50 h netto.
-  - Arbeitstage mindestens 6,50 h, Vorlesungstage duerfen darunter liegen
-  - Juli die kuerzesten, Juni die zweitkuerzesten Arbeitstage
+  - Arbeitstage mindestens 6,50 h, Pruefungstage duerfen darunter liegen
+  - Die Schichten werden zum Ende hin kuerzer: Maerz die laengsten Tage,
+    danach absteigend bis Juli
   - Beginn ab 07:00, Ende bis 18:00
 
-Zur Monatssumme statt Tageslaenge: Juli hat mit 21 die meisten Arbeitstage,
-Mai mit 14 die wenigsten. Unter der 9-Stunden-Grenze kann Juli deshalb nicht
-zugleich die kleinste Monatssumme haben - selbst am Minimum von 6,50 h laege
-Juli bei 142,00 h, waehrend Mai auch am Maximum nur 130,50 h erreicht.
-Die Vorgabe ist hier deshalb als kuerzeste Tage umgesetzt, nicht als
-kleinste Monatssumme.
+Zur Monatssumme statt Tageslaenge: die absteigende Kurve gilt fuer die
+Tageslaenge, nicht fuer die Monatssummen. Die haengen zusaetzlich an der Zahl
+der Anwesenheitstage je Monat (Mai hat 14, Maerz 19), und die laesst sich nicht
+frei waehlen.
 """
 import datetime as dt
 
 # Monat -> (Anzahl A-Tage, Zielsumme, Untergrenze, Obergrenze)
+# Die Schichten werden von Monat zu Monat kuerzer: am Anfang, waehrend der
+# Einarbeitung und der grossen Softwarearbeit, sind die Tage am laengsten.
 ZIEL_A = {
-    3: (19, 156.75, 7.75, 8.50),
-    4: (15, 123.50, 7.75, 8.50),
-    5: (14, 115.25, 7.75, 8.50),
-    6: (17, 127.50, 7.00, 8.00),
-    7: (17, 119.00, 6.50, 7.50),
+    3: (19, 159.50, 8.25, 8.50),   # Ø 8,39
+    4: (15, 122.25, 7.75, 8.50),   # Ø 8,15
+    5: (14, 111.25, 7.50, 8.50),   # Ø 7,95
+    6: (17, 127.50, 7.00, 8.00),   # Ø 7,50
+    7: (17, 119.00, 6.50, 7.50),   # Ø 7,00
 }
 # An den Vorlesungstagen (Mittwoch, PP 10:00-11:30) war keine Anwesenheit
 # im Betrieb - sie stehen als Typ V ohne Stunden im Nachweis. Es bleiben nur
@@ -35,15 +36,16 @@ ZIEL_A = {
 # beide sind unten fest hinterlegt.
 ZIEL_VA = {}
 
+# Kurze Schichten laufen ohne Pause durch - das Arbeitszeitgesetz verlangt
+# eine Pause erst ueber 6 Stunden.
 # Der 01.07. steht so im Stundenplan: Betrieb 08:00-14:00, danach das
-# Praktikum Regelungstechnik 15:30-17:00. 6:00 abzueglich 30 min Pause.
-# Die vier Pruefungstage enden um 10:00, der Betrieb lief danach von etwa
-# 11:00 bis spaetestens 15:30, abzueglich 15 min Pause.
+# Praktikum Regelungstechnik 15:30-17:00. Das sind glatte 6:00 ohne Pause.
+# Die vier Pruefungstage enden um 10:00, danach vier Stunden im Betrieb.
 FESTE_TAGE = {
-    dt.date(2026, 7,  1): 5.50,
-    dt.date(2026, 7,  9): 4.25,
+    dt.date(2026, 7,  1): 6.00,
+    dt.date(2026, 7,  9): 4.00,
     dt.date(2026, 7, 17): 4.00,
-    dt.date(2026, 7, 20): 4.25,
+    dt.date(2026, 7, 20): 4.00,
     dt.date(2026, 7, 28): 4.00,
 }
 

@@ -17,8 +17,8 @@ für Praktikant und Betrieb.
 
 Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
 Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
-nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: über 6 h → 30 min,
-darunter 15 min.
+nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: **bis 6 h keine
+Pause**, über 6 h → 30 min. Kurze Schichten laufen also durch.
 
 Regeln für die Zeiten (alle geprüft, siehe unten):
 
@@ -28,7 +28,9 @@ Regeln für die Zeiten (alle geprüft, siehe unten):
   ausgefüllt, nicht automatisch gestempelt
 - Beginn frühestens **07:00**, Ende spätestens **18:00**. An **15 Tagen** ist
   08:00 der Arbeitsbeginn, so wie er auch im Stundenplan steht.
-- Arbeitstage mindestens **6,50 h**; nur Vorlesungstage dürfen darunter liegen
+- Arbeitstage mindestens **6,50 h**; nur Prüfungstage dürfen darunter liegen
+- **Die Schichten werden über das Semester kürzer**: März hat die längsten Tage
+  (Ø 8,39 h), danach absteigend bis Juli (Ø 7,00 h an den vollen Tagen)
 - Nettostunden in **Viertelstundenschritten**. Nur so sind Dezimalwert *und*
   Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
   Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
@@ -44,8 +46,8 @@ Arbeitstag einer Projektphase.
 |---|---|---|---|---|
 | Vorlesung PP | Mi 10:00–11:30 | 12 | V | — |
 | Vorlesung PP + Praktikum RT | Mi 10:00–11:30 und 15:30–17:00 | 3 | V | — |
-| Praktikum RT allein (01.07.) | Mi 15:30–17:00 | 1 | VA | 08:00–14:00, 5,50 h |
-| Prüfungen | bis 10:00 | 4 | VA | ab ca. 11:00, längstens bis 15:30 |
+| Praktikum RT allein (01.07.) | Mi 15:30–17:00 | 1 | VA | 08:00–14:00, 6,00 h |
+| Prüfungen | bis 10:00 | 4 | VA | ab ca. 11:00, je 4,00 h |
 
 Der 01.07. ist die einzige Ausnahme bei den Lehrveranstaltungen: dort steht im
 Stundenplan ausdrücklich **Betrieb 08:00–14:00**, das Praktikum liegt erst am
@@ -53,12 +55,15 @@ Nachmittag. Genau so ist der Tag eingetragen.
 
 Die vier Prüfungstage stehen in `PRUEFUNGEN` in `generator/bau_nachweis.py`:
 
-| Datum | Fach | Betrieb | Std netto |
-|---|---|---|---|
-| Do 09.07.2026 | PRM | 11:00–15:30 | 4,25 |
-| Fr 17.07.2026 | DA | 11:15–15:30 | 4,00 |
-| Mo 20.07.2026 | GAT | 11:00–15:30 | 4,25 |
-| Di 28.07.2026 | SWV | 11:05–15:20 | 4,00 |
+| Datum | Fach | Betrieb | Pause | Std netto |
+|---|---|---|---|---|
+| Do 09.07.2026 | PRM | 11:00–15:00 | — | 4,00 |
+| Fr 17.07.2026 | DA | 11:05–15:05 | — | 4,00 |
+| Mo 20.07.2026 | GAT | 11:00–15:00 | — | 4,00 |
+| Di 28.07.2026 | SWV | 11:10–15:10 | — | 4,00 |
+
+Diese vier Schichten und der 01.07. (08:00–14:00, 6,00 h) laufen **ohne Pause**
+durch — bis 6 Stunden Arbeitszeit verlangt das Arbeitszeitgesetz keine.
 
 Im Tagesnachweis beginnt der Text dieser Tage mit „Prüfung ⟨Fach⟩ an der OTH
 bis 10:00."; danach folgt die Tätigkeit des jeweiligen Projekts, denn der
@@ -73,11 +78,11 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **664,00 h** |
+| Ist | **661,50 h** |
 | Soll (anteilig auf 87 Anwesenheitstage) | 661,75 h |
-| Differenz | +2,25 h |
-| Spanne | 22,25 h (KW 23) bis 41,50 h (KW 10) |
-| Ø je Woche | 30,18 h |
+| Differenz | −0,25 h |
+| Spanne | 22,25 h (KW 23) bis 42,00 h (KW 11) |
+| Ø je Woche | 30,07 h |
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
@@ -88,24 +93,26 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 
 ### Monatssummen
 
-| Monat | Tage mit Stunden | Std netto | Ø je Tag |
-|---|---|---|---|
-| März | 19 A (+2 V) | 156,75 | 8,25 |
-| April | 15 A (+5 V) | 123,50 | 8,23 |
-| Mai | 14 A (+4 V) | 115,25 | 8,23 |
-| Juni | 17 A (+4 V) | 127,50 | 7,50 |
-| Juli | 17 A + 5 VA | 141,00 | 6,41 |
-| **Gesamt** | **82 A + 5 VA (+15 V)** | **664,00** | **7,63** |
+Die Schichten werden von Monat zu Monat kürzer — am Anfang, während der
+Einarbeitung und der großen Excel-Arbeit, sind die Tage am längsten:
 
-**Juli hat die kürzesten Arbeitstage, Juni die zweitkürzesten** — so ist die
-Vorgabe umgesetzt. Als *kleinste Monatssumme* ist sie unter der 9-Stunden-Grenze
-nicht erreichbar: Juli hat die meisten Anwesenheitstage, Mai mit 14 die
-wenigsten. Wer die Monatssummen angleichen will, ändert
-`generator/stundenplan.py` und baut beide Dateien neu.
+| Monat | Tage mit Stunden | Std netto | Ø je Tag | Spanne |
+|---|---|---|---|---|
+| März | 19 A (+2 V) | 159,50 | **8,39** | 8,25–8,50 |
+| April | 15 A (+5 V) | 122,25 | 8,15 | 7,75–8,50 |
+| Mai | 14 A (+4 V) | 111,25 | 7,95 | 7,50–8,50 |
+| Juni | 17 A (+4 V) | 127,50 | 7,50 | 7,00–8,00 |
+| Juli | 17 A + 5 VA | 141,00 | 6,41 | 4,00–7,50 |
+| **Gesamt** | **82 A + 5 VA (+15 V)** | **661,50** | **7,60** | |
+
+Julis niedriger Tagesschnitt kommt von den fünf kurzen Hochschul-Schichten;
+die vollen Julitage liegen bei Ø 7,00 h. Die Werte stehen in
+`generator/stundenplan.py`; wer die Kurve ändern will, ändert dort `ZIEL_A`
+und baut beide Dateien neu.
 
 Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
 Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
-Achref Najah 690,75 h (33,4 h/Woche). Die 664,00 h liegen mitten in diesem Feld.
+Achref Najah 690,75 h (33,4 h/Woche). Die 661,50 h liegen mitten in diesem Feld.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -130,7 +137,7 @@ Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem über
 PDF ausgelesen):
 
 - **82 Tage** Typ `A` (anwesend), 6,50–8,50 h
-- **5 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 4,00–5,50 h Betrieb —
+- **5 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 4,00–6,00 h Betrieb —
   der 01.07. (Praktikum RT erst am Nachmittag) und die vier Prüfungstage
 - **15 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — alle Mittwoche
   mit der Vorlesung „PP" ab 18.03. Die ersten beiden Mittwoche (04.03., 11.03.)
@@ -139,11 +146,11 @@ PDF ausgelesen):
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **664,00 h** auf 87 Anwesenheitstage = **7,63 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 30,2 h/Woche — unter den 38 h der Stammdaten, weil
+Summe **661,50 h** auf 87 Anwesenheitstage = **7,60 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 30,1 h/Woche — unter den 38 h der Stammdaten, weil
 6 Feiertage, 2 Krankheitstage und 15 Hochschultage in den Zeitraum fallen und weil
 kein Tag über 9:00 Stunden hinausgeht. Bezogen auf die 87 Tage, an denen der
-Betrieb überhaupt möglich war, liegt der Nachweis mit +2,25 h genau auf dem Soll.
+Betrieb überhaupt möglich war, liegt der Nachweis mit −0,25 h genau auf dem Soll.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die

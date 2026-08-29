@@ -4,7 +4,7 @@
 Die Netto-Stunden werden aus dem fertigen Tätigkeitsnachweis gelesen, damit
 beide Dokumente nicht auseinanderlaufen. Beginn, Pause und Ende werden daraus
 zurückgerechnet:
-  Pause  nach Arbeitszeitgesetz: über 6 h -> 30 min, über 9 h -> 45 min
+  Pause  nach Arbeitszeitgesetz: bis 6 h keine, über 6 h -> 30 min
   Ende   = Beginn + Nettozeit + Pause
 An Vorlesungstagen (Mittwoch) beginnt die Arbeit erst nach der Vorlesung.
 Tage, an denen die Hochschule den ganzen Tag belegt (Vorlesung PP und
@@ -44,11 +44,10 @@ HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
 FESTER_BEGINN = {
     dt.date(2026, 7,  1):  8 * 60,
     dt.date(2026, 7,  9): 11 * 60,
-    dt.date(2026, 7, 17): 11 * 60 + 15,
+    dt.date(2026, 7, 17): 11 * 60 + 5,
     dt.date(2026, 7, 20): 11 * 60,
-    dt.date(2026, 7, 28): 11 * 60 + 5,
+    dt.date(2026, 7, 28): 11 * 60 + 10,
 }
-FESTE_PAUSE = {dt.date(2026, 7, 1): 30}       # damit 08:00-14:00 aufgeht
 PRUEFUNGSENDE = 15 * 60 + 30                  # spaetestes Ende an Pruefungstagen
 RT_BEMERKUNG = "danach Praktikum RT 15:30–17:00 an der OTH"
 
@@ -74,10 +73,11 @@ def _hochschultag(text):
 
 
 def pause_minuten(netto):
-    if netto is None or netto <= 0: return 0
+    """Pause nach Arbeitszeitgesetz. Kurze Schichten laufen ohne Pause durch:
+    verlangt ist sie erst ueber 6 Stunden Arbeitszeit."""
+    if netto is None or netto <= 6.0: return 0
     if netto > 9.0: return 45
-    if netto > 6.0: return 30
-    return 15
+    return 30
 
 def zeit(text):
     h, m = map(int, text.split(":"))
@@ -144,7 +144,7 @@ def main():
             ws.cell(zeile, 2, d).number_format = "DD.MM.YYYY"
 
             if typ in ("A", "VA") and netto:
-                pm = FESTE_PAUSE.get(d, pause_minuten(netto))
+                pm = pause_minuten(netto)
                 dauer = round(float(netto) * 60) + pm
                 if dauer > HOECHSTDAUER:
                     raise ValueError(f"{d}: {dauer} min brutto ueber der Grenze von 9:00")
@@ -171,8 +171,10 @@ def main():
                 ende_dt = dt.datetime.combine(d, beg) + dt.timedelta(minutes=dauer)
                 ws.cell(zeile, 3, beg).number_format = "HH:MM"
                 ws.cell(zeile, 4, ende_dt.time()).number_format = "HH:MM"
-                ws.cell(zeile, 5, dt.time(pm // 60, pm % 60)).number_format = "HH:MM"
-                ws.cell(zeile, 6, f"=(D{zeile}-C{zeile}-E{zeile})*24").number_format = "0.00"
+                # Ohne Pause bleibt die Zelle leer statt "00:00"
+                if pm:
+                    ws.cell(zeile, 5, dt.time(pm // 60, pm % 60)).number_format = "HH:MM"
+                ws.cell(zeile, 6, f"=(D{zeile}-C{zeile}-N(E{zeile}))*24").number_format = "0.00"
                 ws.cell(zeile, 7, bem)
                 gesamt += float(netto)
             else:
