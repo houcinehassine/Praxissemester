@@ -33,23 +33,36 @@ Regeln für die Zeiten (alle geprüft, siehe unten):
   Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
   Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
 
-### Hochschultage im Stundenplan
+### Hochschultage und Prüfungen
 
-Der Stundenplan enthält zwei Lehrveranstaltungen. Beide sind jetzt abgebildet:
+An Tagen, an denen die Hochschule den Vormittag belegt, war **keine Anwesenheit
+im Betrieb** — das ist in der Vorlage der Typ **V** („Vorlesung und keine
+Anwesenheit im Betrieb"). Diese Tage haben keine Stunden und zählen nicht als
+Arbeitstag einer Projektphase.
 
-| Veranstaltung | Zeit | Tage | Folge im Nachweis |
+| Anlass | Zeit | Tage | Typ | Betrieb |
+|---|---|---|---|---|
+| Vorlesung PP | Mi 10:00–11:30 | 12 | V | — |
+| Vorlesung PP + Praktikum RT | Mi 10:00–11:30 und 15:30–17:00 | 3 | V | — |
+| Praktikum RT allein (01.07.) | Mi 15:30–17:00 | 1 | VA | 08:00–14:00, 5,50 h |
+| Prüfungen | bis 10:00 | 4 | VA | ab ca. 11:00, längstens bis 15:30 |
+
+Der 01.07. ist die einzige Ausnahme bei den Lehrveranstaltungen: dort steht im
+Stundenplan ausdrücklich **Betrieb 08:00–14:00**, das Praktikum liegt erst am
+Nachmittag. Genau so ist der Tag eingetragen.
+
+Die vier Prüfungstage stehen in `PRUEFUNGEN` in `generator/bau_nachweis.py`:
+
+| Datum | Fach | Betrieb | Std netto |
 |---|---|---|---|
-| Vorlesung PP | Mi 10:00–11:30 | 15 | danach in den Betrieb |
-| Praktikum Regelungstechnik | Mi 15:30–17:00 | 4 | siehe unten |
+| Do 09.07.2026 | PRM | 11:00–15:30 | 4,25 |
+| Fr 17.07.2026 | DA | 11:15–15:30 | 4,00 |
+| Mo 20.07.2026 | GAT | 11:00–15:30 | 4,25 |
+| Di 28.07.2026 | SWV | 11:05–15:20 | 4,00 |
 
-- **12 Tage** nur Vorlesung PP → Typ **VA**, Arbeitsbeginn ab 11:45
-- **3 Tage** (29.04., 20.05., 27.05.) Vorlesung PP *und* Praktikum RT. Die
-  Hochschule belegt den Tag von 10:00 bis 17:00; zwischen Regensburg und Essing
-  bleibt keine sinnvolle Betriebszeit. Diese Tage sind Typ **V** —
-  „Vorlesung und keine Anwesenheit im Betrieb", so wie die Vorlage ihn vorsieht.
-  Sie zählen deshalb auch nicht als Arbeitstag einer Projektphase.
-- **1 Tag** (01.07.) nur Praktikum RT. Der Stundenplan nennt hier ausdrücklich
-  Betrieb 08:00–14:00; genau so steht der Tag in der Zeiterfassung (Typ VA, 5,50 h).
+Im Tagesnachweis beginnt der Text dieser Tage mit „Prüfung ⟨Fach⟩ an der OTH
+bis 10:00."; danach folgt die Tätigkeit des jeweiligen Projekts, denn der
+Nachmittag lief im Betrieb.
 
 ### Wochenübersicht
 
@@ -60,11 +73,11 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **739,25 h** |
-| Soll (anteilig auf 99 Arbeitstage) | 753,00 h |
-| Differenz | −13,75 h |
-| Spanne | 23,75 h (KW 22) bis 41,50 h (KW 10) |
-| Ø je Woche | 33,60 h |
+| Ist | **664,00 h** |
+| Soll (anteilig auf 87 Anwesenheitstage) | 661,75 h |
+| Differenz | +2,25 h |
+| Spanne | 22,25 h (KW 23) bis 41,50 h (KW 10) |
+| Ø je Woche | 30,18 h |
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
@@ -75,21 +88,24 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 
 ### Monatssummen
 
-| Monat | Arbeitstage | Std netto | Ø je Arbeitstag |
+| Monat | Tage mit Stunden | Std netto | Ø je Tag |
 |---|---|---|---|
-| März | 19 A + 2 VA | 167,75 | 7,99 |
-| April | 15 A + 4 VA (+1 V) | 145,00 | 7,63 |
-| Mai | 14 A + 2 VA (+2 V) | 126,00 | 7,88 |
-| Juni | 17 A + 4 VA | 148,00 | 7,05 |
-| Juli | 21 A + 1 VA | 152,50 | 6,93 |
-| **Gesamt** | **86 A + 13 VA + 3 V** | **739,25** | **7,47** |
+| März | 19 A (+2 V) | 156,75 | 8,25 |
+| April | 15 A (+5 V) | 123,50 | 8,23 |
+| Mai | 14 A (+4 V) | 115,25 | 8,23 |
+| Juni | 17 A (+4 V) | 127,50 | 7,50 |
+| Juli | 17 A + 5 VA | 141,00 | 6,41 |
+| **Gesamt** | **82 A + 5 VA (+15 V)** | **664,00** | **7,63** |
 
 **Juli hat die kürzesten Arbeitstage, Juni die zweitkürzesten** — so ist die
 Vorgabe umgesetzt. Als *kleinste Monatssumme* ist sie unter der 9-Stunden-Grenze
-nicht erreichbar: Juli hat mit 21 die meisten Arbeitstage und käme selbst am
-Minimum von 6,50 h auf 142,00 h, während Mai mit nur 14 Arbeitstagen auch am
-Maximum von 8,50 h nur 130,50 h erreicht. Wer die Monatssummen angleichen will,
-ändert `generator/stundenplan.py` und baut beide Dateien neu.
+nicht erreichbar: Juli hat die meisten Anwesenheitstage, Mai mit 14 die
+wenigsten. Wer die Monatssummen angleichen will, ändert
+`generator/stundenplan.py` und baut beide Dateien neu.
+
+Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
+Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
+Achref Najah 690,75 h (33,4 h/Woche). Die 664,00 h liegen mitten in diesem Feld.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -113,21 +129,21 @@ ziehen alle Kopfzeilen des Nachweises automatisch nach. Im Word stehen sie im Bl
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
 PDF ausgelesen):
 
-- **86 Tage** Typ `A` (anwesend), 6,50–8,50 h
-- **13 Tage** Typ `VA` (Vorlesung und anwesend), 5,00–5,75 h Betrieb — 12 Mittwoche
-  mit der Vorlesung „PP" 10:00–11:30 und der 01.07. mit dem Praktikum
-  Regelungstechnik am Nachmittag. Die ersten beiden Mittwoche (04.03., 11.03.) sind
-  `A`, da die Vorlesungen erst am 18.03. beginnen.
-- **3 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — 29.04., 20.05.,
-  27.05.: an diesen Mittwochen liegen Vorlesung PP und Praktikum RT im selben Tag.
+- **82 Tage** Typ `A` (anwesend), 6,50–8,50 h
+- **5 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 4,00–5,50 h Betrieb —
+  der 01.07. (Praktikum RT erst am Nachmittag) und die vier Prüfungstage
+- **15 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — alle Mittwoche
+  mit der Vorlesung „PP" ab 18.03. Die ersten beiden Mittwoche (04.03., 11.03.)
+  sind `A`, da die Vorlesungen erst am 18.03. beginnen; die letzte ist der 24.06.
 - **2 Tage** Typ `K` — 20.03. und 03.07.
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **739,25 h** auf 99 Arbeitstage = **7,47 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 34,1 h/Woche — unter den 38 h der Stammdaten, weil
-6 Feiertage, 2 Krankheitstage und 3 Hochschultage in den Zeitraum fallen und weil
-kein Tag über 9:00 Stunden hinausgeht.
+Summe **664,00 h** auf 87 Anwesenheitstage = **7,63 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 30,2 h/Woche — unter den 38 h der Stammdaten, weil
+6 Feiertage, 2 Krankheitstage und 15 Hochschultage in den Zeitraum fallen und weil
+kein Tag über 9:00 Stunden hinausgeht. Bezogen auf die 87 Tage, an denen der
+Betrieb überhaupt möglich war, liegt der Nachweis mit +2,25 h genau auf dem Soll.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
@@ -142,22 +158,24 @@ Der **Tagesnachweis dokumentiert alle Projekte**, der Word-Bericht nur fünf dav
 | Thema | Zeitraum | Tage | im Word-Bericht |
 |---|---|---|---|
 | Einarbeitung | 02.03. – 04.03. | 3 | — |
-| Material- und Schraubenlager (5S) | 05.03. – 18.03. | 10 | — |
-| Lagerbestand-System in Excel/VBA | 19.03. – 20.04. | 20 | Bericht 1 |
-| Lagersystem als Web-Anwendung | 21.04. – 23.04. | 3 | in Bericht 1 |
-| Schweißarbeitsplatz | 24.04. – 18.05. | 14 | Bericht 2 |
-| Schweißtisch-Konstruktion | 19.05. – 11.06. | 14 | Bericht 3 |
-| Schweißmaschinen-Wagen nach 5S | 12.06. – 30.06. | 13 | Bericht 4 |
-| Zerspanarbeitsplatz | 01.07. – 20.07. | 13 | Bericht 5 |
-| Rostschutz-Konzept Schienenprofile | 21.07. – 31.07. | 9 | — |
+| Material- und Schraubenlager (5S) | 05.03. – 17.03. | 9 | — |
+| Lagerbestand-System in Excel/VBA | 19.03. – 23.04. | 18 | Bericht 1 |
+| Lagersystem als Web-Anwendung | 24.04. – 28.04. | 3 | in Bericht 1 |
+| Schweißarbeitsplatz | 30.04. – 22.05. | 12 | Bericht 2 |
+| Schweißtisch-Konstruktion | 26.05. – 16.06. | 12 | Bericht 3 |
+| Schweißmaschinen-Wagen nach 5S | 18.06. – 06.07. | 11 | Bericht 4 |
+| Zerspanarbeitsplatz | 07.07. – 21.07. | 11 | Bericht 5 |
+| Rostschutz-Konzept Schienenprofile | 22.07. – 31.07. | 8 | — |
 
 Das Schraubenlager hat bewusst weniger Tage als die übrigen Projekte. Die
 Web-Anwendung entstand mit KI-Unterstützung und beansprucht deshalb nur drei Tage;
 sie ist im Word-Bericht als Abschluss von Bericht 1 beschrieben.
 
 Die Arbeitsanweisungen laufen als einzelne Tageseinträge in den jeweiligen
-Projektphasen mit. Die drei Tage vom Typ `V` zählen nicht als Arbeitstag einer
-Phase — an ihnen war keine Anwesenheit im Betrieb.
+Projektphasen mit. Die 15 Tage vom Typ `V` zählen nicht als Arbeitstag einer
+Phase — an ihnen war keine Anwesenheit im Betrieb. Die vier Prüfungstage zählen
+mit, weil der Nachmittag im Betrieb lief; die Datumsgrenzen der Phasen springen
+deshalb über die Mittwoche hinweg.
 
 Die Zeiträume der fünf Word-Berichte werden aus `generator/zeitraeume.json`
 gelesen, das `bau_nachweis.py` beim Bauen schreibt. Ändert sich die Aufteilung

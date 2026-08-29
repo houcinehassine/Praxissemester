@@ -27,21 +27,25 @@ ZIEL_A = {
     4: (15, 123.50, 7.75, 8.50),
     5: (14, 115.25, 7.75, 8.50),
     6: (17, 127.50, 7.00, 8.00),
-    7: (21, 147.00, 6.50, 7.50),
+    7: (17, 119.00, 6.50, 7.50),
 }
-# Vorlesungstage: erst die Vorlesung PP 10:00-11:30, danach in den Betrieb.
-# Frueheste Ankunft 11:45, spaetestes Ende 18:00, davon 30 min Pause.
-ZIEL_VA = {
-    3: (2, 11.00, 5.25, 5.75),
-    4: (4, 21.50, 5.25, 5.75),
-    5: (2, 10.75, 5.25, 5.75),
-    6: (4, 20.50, 5.00, 5.50),
-    7: (1,  5.50, 5.50, 5.50),
-}
+# An den Vorlesungstagen (Mittwoch, PP 10:00-11:30) war keine Anwesenheit
+# im Betrieb - sie stehen als Typ V ohne Stunden im Nachweis. Es bleiben nur
+# der 01.07. (Praktikum RT erst am Nachmittag) und die vier Pruefungstage;
+# beide sind unten fest hinterlegt.
+ZIEL_VA = {}
 
 # Der 01.07. steht so im Stundenplan: Betrieb 08:00-14:00, danach das
 # Praktikum Regelungstechnik 15:30-17:00. 6:00 abzueglich 30 min Pause.
-FESTE_TAGE = {dt.date(2026, 7, 1): 5.50}
+# Die vier Pruefungstage enden um 10:00, der Betrieb lief danach von etwa
+# 11:00 bis spaetestens 15:30, abzueglich 15 min Pause.
+FESTE_TAGE = {
+    dt.date(2026, 7,  1): 5.50,
+    dt.date(2026, 7,  9): 4.25,
+    dt.date(2026, 7, 17): 4.00,
+    dt.date(2026, 7, 20): 4.25,
+    dt.date(2026, 7, 28): 4.00,
+}
 
 
 def _reihe(n, summe, lo, hi):
@@ -84,20 +88,22 @@ def stunden(datum, typ, lfd):
     """Nettostunden fuer den lfd-ten Tag dieses Typs im Monat des Datums."""
     if datum in FESTE_TAGE:
         return FESTE_TAGE[datum]
-    ziel = ZIEL_A if typ == "A" else ZIEL_VA
-    return _reihe(*ziel[datum.month])[lfd]
+    if typ != "A":
+        raise ValueError(f"{datum}: Typ {typ} braucht einen Eintrag in FESTE_TAGE")
+    return _reihe(*ZIEL_A[datum.month])[lfd]
 
 
 if __name__ == "__main__":
     MON = {3: "März", 4: "April", 5: "Mai", 6: "Juni", 7: "Juli"}
     gesamt = 0
-    print(f"{'Monat':7} {'A-Tage':>28} {'Summe A':>8} {'VA-Tage':>20} {'Monat':>9}")
+    print(f"{'Monat':7} {'A-Tage':>28} {'Summe A':>8} {'feste Tage':>20} {'Monat':>9}")
     for m in MON:
         a = _reihe(*ZIEL_A[m])
-        v = _reihe(*ZIEL_VA[m])
+        v = [h for d, h in FESTE_TAGE.items() if d.month == m]
         gesamt += sum(a) + sum(v)
+        fest = f"{min(v):.2f}–{max(v):.2f} ({len(v)})" if v else "–"
         print(f"{MON[m]:7} {min(a):.2f}–{max(a):.2f} (Ø {sum(a)/len(a):.2f}, {len(a):2} Tage) {sum(a):8.2f} "
-              f"{min(v):.2f}–{max(v):.2f} ({len(v)}) {sum(a)+sum(v):9.2f}")
+              f"{fest:>20} {sum(a)+sum(v):9.2f}")
     print(f"{'Gesamt':7} {'':28} {'':8} {'':20} {gesamt:9.2f}")
     print(f"  hoechster Tag: {max(max(_reihe(*ZIEL_A[m])) for m in MON):.2f} h netto "
           f"= 9:00 brutto mit 30 min Pause")

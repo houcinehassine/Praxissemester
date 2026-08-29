@@ -13,7 +13,7 @@ Betriebszeiten.
 
 Ein Arbeitstag dauert hoechstens 9:00 Stunden einschliesslich Pause.
 """
-import os, sys, datetime as dt
+import os, sys, re, datetime as dt
 HIER = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HIER)
 import openpyxl
@@ -39,11 +39,18 @@ VERSATZ_VORLESUNG = [15, 0, 25, 10, 20, 5, 30, 15, 0, 20]
 HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
 
 # Am 01.07. steht im Stundenplan Betrieb 08:00-14:00 und danach das
-# Praktikum Regelungstechnik 15:30-17:00.
-FESTER_BEGINN = {dt.date(2026, 7, 1): 8 * 60}
-FESTE_PAUSE  = {dt.date(2026, 7, 1): 30}      # damit 08:00-14:00 aufgeht
+# Praktikum Regelungstechnik 15:30-17:00. An den vier Pruefungstagen war die
+# Pruefung um 10:00 zu Ende, der Betrieb lief ab etwa 11:00 bis 15:30.
+FESTER_BEGINN = {
+    dt.date(2026, 7,  1):  8 * 60,
+    dt.date(2026, 7,  9): 11 * 60,
+    dt.date(2026, 7, 17): 11 * 60 + 15,
+    dt.date(2026, 7, 20): 11 * 60,
+    dt.date(2026, 7, 28): 11 * 60 + 5,
+}
+FESTE_PAUSE = {dt.date(2026, 7, 1): 30}       # damit 08:00-14:00 aufgeht
+PRUEFUNGSENDE = 15 * 60 + 30                  # spaetestes Ende an Pruefungstagen
 RT_BEMERKUNG = "danach Praktikum RT 15:30–17:00 an der OTH"
-V_BEMERKUNG = "Vorlesung PP und Praktikum RT an der OTH"
 
 DUENN = Side(style="thin", color="9AA3AB")
 KRAEFTIG = Side(style="medium", color="1F3A52")
@@ -52,6 +59,19 @@ KOPF_FUELLUNG = PatternFill("solid", fgColor="1F3A52")
 WE_FUELLUNG = PatternFill("solid", fgColor="F0F2F4")
 FREI_FUELLUNG = PatternFill("solid", fgColor="FBF3E2")
 WOCHE_FUELLUNG = PatternFill("solid", fgColor="E6EDF4")
+
+def _pruefung(text):
+    """Kuerzel der Pruefung aus dem Text des Nachweises, sonst None."""
+    treffer = re.match(r"Prüfung (\S+) an der OTH", text or "")
+    return treffer.group(1) if treffer else None
+
+
+def _hochschultag(text):
+    """Kurze Bemerkung fuer einen Tag ohne Anwesenheit im Betrieb."""
+    if "Praktikum" in (text or ""):
+        return "Vorlesung PP und Praktikum RT an der OTH"
+    return "Vorlesung PP 10:00–11:30 an der OTH"
+
 
 def pause_minuten(netto):
     if netto is None or netto <= 0: return 0
@@ -131,7 +151,10 @@ def main():
                 if d in FESTER_BEGINN:
                     frueh = versatz = 0
                     start = FESTER_BEGINN[d]
-                    bem = RT_BEMERKUNG
+                    kuerzel = _pruefung(info["text"])
+                    bem = f"Prüfung {kuerzel} bis 10:00, danach im Betrieb" if kuerzel else RT_BEMERKUNG
+                    if kuerzel and start + dauer > PRUEFUNGSENDE:
+                        raise ValueError(f"{d}: Ende nach 15:30 an einem Prüfungstag")
                 else:
                     if typ == "VA":
                         frueh, versatz = NACH_VORLESUNG, VERSATZ_VORLESUNG[i_vorl % len(VERSATZ_VORLESUNG)]
@@ -153,7 +176,7 @@ def main():
                 ws.cell(zeile, 7, bem)
                 gesamt += float(netto)
             else:
-                bem = {"K": "Krank", "V": V_BEMERKUNG,
+                bem = {"K": "Krank", "V": _hochschultag(info["text"] if info else ""),
                        "F": info["text"] if info else "Feiertag"}.get(typ, "")
                 if d.weekday() >= 5: bem = "Wochenende"
                 ws.cell(zeile, 7, bem)

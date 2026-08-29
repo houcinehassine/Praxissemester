@@ -21,22 +21,32 @@ KRANK = {dt.date(2026,3,20), dt.date(2026,7,3)}
 # ergeben sich daraus und werden am Ende ausgegeben.
 PHASEN = [
     ("Einarbeitung",          3),
-    ("Schraubenlager",       10),
-    ("ExcelLagersystem",     20),
+    ("Schraubenlager",        9),
+    ("ExcelLagersystem",     18),
     ("CloudAnwendung",        3),
-    ("Schweissarbeitsplatz", 14),
-    ("Schweisstisch",        14),
-    ("Schweisswagen",        13),
-    ("Zerspanarbeitsplatz",  13),
-    ("Rostschutz",            9),
+    ("Schweissarbeitsplatz", 12),
+    ("Schweisstisch",        12),
+    ("Schweisswagen",        11),
+    ("Zerspanarbeitsplatz",  11),
+    ("Rostschutz",            8),
 ]
+
+# Pruefungen an der OTH. Sie enden um 10:00; danach ging es in den Betrieb,
+# spaetestens 15:30 war Schluss. Diese Tage sind Typ VA.
+PRUEFUNGEN = {
+    dt.date(2026, 7,  9): "PRM",
+    dt.date(2026, 7, 17): "DA",
+    dt.date(2026, 7, 20): "GAT",
+    dt.date(2026, 7, 28): "SWV",
+}
 
 # Die Nettostunden je Monat stehen in stundenplan.py.
 from stundenplan import stunden
 
-# Text fuer die Tage, an denen die Hochschule den ganzen Tag belegt
-V_TEXT = ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
-          "an der OTH, dazwischen keine Anwesenheit im Betrieb")
+# Texte fuer die Tage ohne Anwesenheit im Betrieb
+V_TEXT_PP = "Vorlesung PP 10:00-11:30 an der OTH, keine Anwesenheit im Betrieb"
+V_TEXT_PP_RT = ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
+                "an der OTH, keine Anwesenheit im Betrieb")
 
 
 def medien_zusammenfassen(pfad):
@@ -89,6 +99,7 @@ def tagtyp(d, hochschule):
     if d.weekday() >= 5: return "WE"
     if d in FEIER:       return "F"
     if d in KRANK:       return "K"
+    if d in PRUEFUNGEN:  return "P"
     return hochschule.get(d, "A")
 
 def main():
@@ -98,8 +109,8 @@ def main():
         titel = [e["titel"] for e in v["eintraege"]]
         pp = any("PP" in t for t in titel)
         rt = any("RT" in t for t in titel)
-        if pp and rt:   hochschule[dt.date.fromisoformat(k)] = "V"
-        elif pp or rt:  hochschule[dt.date.fromisoformat(k)] = "VA"
+        if pp:          hochschule[dt.date.fromisoformat(k)] = "VPP_RT" if rt else "VPP"
+        elif rt:        hochschule[dt.date.fromisoformat(k)] = "VA"
 
     wb = openpyxl.load_workbook(VORLAGE)
     st = wb["Stammdaten"]
@@ -157,24 +168,28 @@ def main():
             typ, txt = "F", FEIER[d]
         elif t == "K":
             typ, txt = "K", "Krank"
-        elif t == "V":
-            # ganzer Tag an der Hochschule, keine Betriebsstunden und
+        elif t in ("VPP", "VPP_RT"):
+            # Vorlesungstag an der Hochschule, keine Betriebsstunden und
             # deshalb auch kein Arbeitstag einer Projektphase
-            typ, txt = "V", V_TEXT
+            typ = "V"
+            txt = V_TEXT_PP_RT if t == "VPP_RT" else V_TEXT_PP
         else:
-            typ = t
+            # A = nur Betrieb, VA = Betrieb neben Vorlesung oder Pruefung
+            typ = "A" if t == "A" else "VA"
             thema = plan[arbeitstag] if arbeitstag < len(plan) else None
             arbeitstag += 1
             if thema:
                 erst, _ = spanne.get(thema, (d, d))
                 spanne[thema] = (erst, d)
                 txt = rest[thema].pop(0) if rest[thema] else None
+            if t == "P":
+                txt = f"Prüfung {PRUEFUNGEN[d]} an der OTH bis 10:00. " + (txt or "")
             k = (d.month, t)
             std = stunden(d, t, zaehler.get(k, 0))
             zaehler[k] = zaehler.get(k, 0) + 1
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
-        ws.cell(r, 7).value = "ja" if t in ("VA", "V") else "nein"
+        ws.cell(r, 7).value = "ja" if t in ("VA", "P", "VPP", "VPP_RT") else "nein"
         ws.cell(r, 8).value = txt
         if typ: protokoll.append((d, typ, std, txt, thema))
 
