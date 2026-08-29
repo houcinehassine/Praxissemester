@@ -43,8 +43,8 @@ HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
 # Am 01.07. steht im Stundenplan Betrieb 08:00-14:00 und danach das
 # Praktikum Regelungstechnik 15:30-17:00. An den vier Pruefungstagen war die
 # Pruefung um 10:00 zu Ende, der Betrieb lief ab etwa 11:00 bis 15:30.
-# In Feiertagswochen folgt auf die Vorlesung PP eine kurze Schicht
-# (12:15 bis 16:00); die Termine kommen aus hochschultage.py.
+# Auf die Vorlesung PP folgt eine Schicht von vier Stunden ab etwa 12:15;
+# die Termine kommen aus hochschultage.py.
 KURZSCHICHTEN = kurzschichten()
 FESTER_BEGINN = {
     dt.date(2026, 7,  1):  8 * 60,
@@ -161,7 +161,7 @@ def main():
                     if kuerzel:
                         bem = f"Prüfung {kuerzel} bis 10:00, danach im Betrieb"
                     elif d in KURZSCHICHTEN:
-                        bem = "Vorlesung PP bis 11:30, danach kurze Schicht"
+                        bem = "Vorlesung PP 10:00–11:30, danach im Betrieb"
                     else:
                         bem = RT_BEMERKUNG
                     if kuerzel and start + dauer > PRUEFUNGSENDE:
@@ -271,9 +271,13 @@ def main():
         info = tage.get(d)
         if info and info["typ"] in ("A", "VA") and info["netto"]:
             kw = d.isocalendar()[:2]
-            e = wochen.setdefault(kw, {"von": d, "bis": d, "std": 0.0, "tage": 0})
+            e = wochen.setdefault(kw, {"von": d, "bis": d, "std": 0.0,
+                                       "tage": 0, "anteile": 0.0})
             e["von"] = min(e["von"], d); e["bis"] = max(e["bis"], d)
             e["std"] += float(info["netto"]); e["tage"] += 1
+            # Ein Hochschul- oder Pruefungstag zaehlt beim Soll als halber Tag:
+            # der Vormittag gehoert der OTH, der Nachmittag dem Betrieb.
+            e["anteile"] += 0.5 if info["typ"] == "VA" else 1.0
         d += dt.timedelta(days=1)
 
     ue = wb.create_sheet("Wochenübersicht", 0)
@@ -302,7 +306,7 @@ def main():
     z = 5
     for kw in sorted(wochen):
         e = wochen[kw]
-        soll = round(SOLL_WOCHE / 5 * e["tage"] * 4) / 4      # anteilig je Arbeitstag
+        soll = round(SOLL_WOCHE / 5 * e["anteile"] * 4) / 4   # halbe Tage zaehlen halb
         ue.cell(z, 1, f"KW {kw[1]}")
         ue.cell(z, 2, f'{e["von"].strftime("%d.%m.")} – {e["bis"].strftime("%d.%m.%Y")}')
         ue.cell(z, 3, e["tage"])
@@ -332,8 +336,8 @@ def main():
     ue.cell(z + 1, 7).alignment = Alignment(horizontal="center")
     ue.cell(z + 2, 2, "Wochen über einen Monatswechsel sind hier vollständig zusammengefasst; "
                       "in den Monatsblättern erscheinen sie anteilig.")
-    ue.cell(z + 3, 2, "Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. An Vorlesungs-, "
-                      "Praktikums- und Prüfungstagen war nur ein Teil des Tages im Betrieb möglich.")
+    ue.cell(z + 3, 2, "Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. Vorlesungs-, Praktikums- "
+                      "und Prüfungstage zählen als halber Tag, weil der Vormittag an der OTH war.")
     for zz in (z + 2, z + 3):
         ue.cell(zz, 2).font = Font(name="Arial", size=8, italic=True, color="595959")
 

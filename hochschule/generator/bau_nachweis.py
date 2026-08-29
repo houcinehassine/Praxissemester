@@ -17,14 +17,14 @@ ZIEL    = os.path.join(os.path.dirname(HIER), "Hassine_3399727_Tätigkeitsnachwe
 # ergeben sich daraus und werden am Ende ausgegeben.
 PHASEN = [
     ("Einarbeitung",          3),
-    ("Schraubenlager",        9),
-    ("ExcelLagersystem",     19),
+    ("Schraubenlager",       10),
+    ("ExcelLagersystem",     20),
     ("CloudAnwendung",        3),
-    ("Schweissarbeitsplatz", 13),
-    ("Schweisstisch",        13),
-    ("Schweisswagen",        11),
-    ("Zerspanarbeitsplatz",  12),
-    ("Rostschutz",            8),
+    ("Schweissarbeitsplatz", 14),
+    ("Schweisstisch",        14),
+    ("Schweisswagen",        12),
+    ("Zerspanarbeitsplatz",  14),
+    ("Rostschutz",            9),
 ]
 
 # Die Nettostunden je Monat stehen in stundenplan.py.
@@ -151,7 +151,7 @@ def main():
             if t == "P":
                 txt = f"Prüfung {PRUEFUNGEN[d]} an der OTH bis 10:00. " + (txt or "")
             elif t == "KS":
-                txt = "Vorlesung PP bis 11:30, danach kurze Schicht im Betrieb. " + (txt or "")
+                txt = "Vorlesung PP bis 11:30, danach im Betrieb. " + (txt or "")
             if t == "KS":
                 std = KURZSCHICHT_STUNDEN
             else:

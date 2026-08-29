@@ -8,7 +8,7 @@ ausgelesen), die bayerischen Feiertage und die Pruefungstermine.
 Rueckgabecodes von `tagtypen()`:
   A    nur Betrieb
   V    Vorlesung an der OTH, keine Anwesenheit im Betrieb
-  KS   Vorlesung, danach eine kurze Schicht - nur in Feiertagswochen
+  KS   Vorlesung, danach eine Schicht von vier Stunden
   P    Pruefung bis 10:00, danach im Betrieb
   VRT  Praktikum Regelungstechnik am Nachmittag, davor im Betrieb
   K    krank        F  Feiertag        WE  Wochenende
@@ -39,10 +39,11 @@ PRUEFUNGEN = {
     dt.date(2026, 7, 28): "SWV",
 }
 
-# Kurzschicht in einer Feiertagswoche: nach der Vorlesung PP in den Betrieb,
-# 12:15 bis 16:00. Die Startzeiten streuen um eine Viertelstunde.
-KURZSCHICHT_STUNDEN = 3.75
-KURZSCHICHT_STARTS = [12 * 60 + 15, 12 * 60 + 15, 12 * 60 + 10, 12 * 60 + 20]
+# Nach der Vorlesung PP geht es fuer vier Stunden in den Betrieb, ab etwa
+# 12:15 und damit ohne Pause. Die Startzeiten streuen um eine Viertelstunde.
+KURZSCHICHT_STUNDEN = 4.00
+KURZSCHICHT_STARTS = [12 * 60 + 15, 12 * 60 + 10, 12 * 60 + 20, 12 * 60 + 15,
+                      12 * 60 + 25, 12 * 60 + 10, 12 * 60 + 15, 12 * 60 + 20]
 
 
 def _stundenplan():
@@ -61,12 +62,7 @@ def _stundenplan():
 def tagtypen():
     """date -> Code, fuer jeden Tag des Praktikumszeitraums."""
     plan = _stundenplan()
-    # Wochen mit einem Feiertag: dort wird die Vorlesung mit einer kurzen
-    # Schicht verbunden, damit die Woche nicht zweimal ausfaellt.
-    feiertagswochen = {d.isocalendar()[:2] for d in FEIER}
-
     typen = {}
-    kurz = 0
     d = START
     while d <= ENDE:
         pp, rt = plan.get(d, (False, False))
@@ -76,10 +72,10 @@ def tagtypen():
         elif d in PRUEFUNGEN:  typ = "P"
         elif pp and rt:
             # Die Hochschule belegt 10:00 bis 17:00 - dazwischen bleibt keine
-            # Zeit fuer die Fahrt nach Essing, auch nicht in einer Feiertagswoche.
+            # Zeit fuer die Fahrt nach Essing und zurueck.
             typ = "V"
         elif pp:
-            typ = "KS" if d.isocalendar()[:2] in feiertagswochen else "V"
+            typ = "KS"
         elif rt:               typ = "VRT"
         else:                  typ = "A"
         typen[d] = typ
