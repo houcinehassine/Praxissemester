@@ -5,6 +5,24 @@ HIER = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HIER)
 from berichtstexte import BERICHTE
 
+# Der Zeitraum je Bericht wird aus den tatsaechlichen Phasengrenzen gelesen
+# (bau_nachweis.py schreibt sie nach zeitraeume.json), damit Bericht und
+# Taetigkeitsnachweis nicht auseinanderlaufen.
+PHASEN_JE_BERICHT = {
+ 1: ["ExcelLagersystem", "CloudAnwendung"],
+ 2: ["Schweissarbeitsplatz"],
+ 3: ["Schweisstisch"],
+ 4: ["Schweisswagen"],
+ 5: ["Zerspanarbeitsplatz"],
+}
+_spanne = json.load(open(os.path.join(HIER, "zeitraeume.json"), encoding="utf-8"))
+
+def zeitraum(nr):
+    tage = [t for name in PHASEN_JE_BERICHT[nr] for t in _spanne[name]]
+    von, bis = min(tage), max(tage)
+    d = lambda x: f"{x[8:10]}.{x[5:7]}.{x[0:4]}"
+    return f"{d(von)} – {d(bis)}"
+
 ABBILDUNGEN = {
  1: [("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich", "Screenshot aus Excel"),
      ("Tablet-Modus für die Bedienung an der Maschine", "Screenshot aus Excel"),
@@ -35,7 +53,7 @@ daten = {
  "betreuer": {"anrede": "Herr", "vorname": "Amine", "name": "Halloul",
               "email": "⟨E-Mail Betreuer eintragen⟩", "telefon": "⟨Telefon Betreuer eintragen⟩"},
  "berichte": [
-   {"titel": b["titel"], "zeitraum": b["zeitraum"], "absaetze": b["absaetze"],
+   {"titel": b["titel"], "zeitraum": zeitraum(i + 1), "absaetze": b["absaetze"],
     "abbildungen": [{"nr": j + 1, "text": txt, "hinweis": hin}
                     for j, (txt, hin) in enumerate(ABBILDUNGEN[i + 1])]}
    for i, b in enumerate(BERICHTE)],

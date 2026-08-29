@@ -5,7 +5,6 @@ Präteritum, Ich-Form, Aufbau Ziel -> Randbedingungen -> Vorgehen -> Ergebnis ->
 BERICHTE = [
  dict(
   titel="Digitalisierung der Lagerbestandsführung mit Excel und VBA",
-  zeitraum="19.03.2026 – 23.04.2026",
   absaetze=[
    "Ein wesentlicher Teil meines Praxissemesters bei der Mechanischen Werkstätte Schmidt e.K. bestand darin, die Lagerbestandsführung von Papier auf ein digitales System umzustellen. Bis dahin wurden Entnahmen und Zugänge nicht systematisch festgehalten. Dadurch war der tatsächliche Bestand nur durch Nachzählen zu ermitteln, und Verschnitt aus dem Zuschnitt ging in der Regel verloren. Ziel war ein System, das sich wie eine kleine Anwendung bedienen lässt, ohne dass im Betrieb neue Software eingeführt werden muss.",
    "Als Grundlage wählte ich Excel mit VBA-Makros. Diese Entscheidung traf ich bewusst: Excel ist im Betrieb vorhanden und allen vertraut, es entstehen keine Lizenzkosten, und die Datei lässt sich ohne Installation weitergeben. Zu Beginn legte ich den Aufbau der Arbeitsmappe fest. Ich erstellte eine Artikelliste mit den Feldern Barcode, Bezeichnung, Profil, Maß, Material, Materialgruppe, Ort, Menge und Preis sowie ein zweites Blatt für das Verlaufsprotokoll, in dem jede Buchung mit Zeitstempel, Buchungsart und Mengenänderung festgehalten wird.",
@@ -21,7 +20,6 @@ BERICHTE = [
   ]),
  dict(
   titel="Konzeption und Planung eines Schweißarbeitsplatzes nach 5S",
-  zeitraum="24.04.2026 – 18.05.2026",
   absaetze=[
    "Im Anschluss an das Lagerprojekt beschäftigte ich mich mit der Planung eines Schweißarbeitsplatzes. Der Platz sollte von drei Mitarbeitern genutzt werden und auf der vorhandenen Fläche von rund 29 m² untergebracht werden. Ziel war ein vollständig ausgestatteter Arbeitsplatz, der nach der 5S-Methode geordnet ist und die geltenden Sicherheitsanforderungen erfüllt.",
    "Zu Beginn nahm ich den bestehenden Platz auf. Ich besichtigte und fotografierte die Situation, maß die verfügbare Fläche und besprach mit meinem Betreuer, welche Schweißverfahren eingesetzt werden. Im Betrieb wird sowohl mit MAG/MIG als auch mit E-Hand geschweißt. Diese Unterscheidung war für die spätere Ausstattung wichtig, da sich Zubehör, Verbrauchsmaterial und Schutzausrüstung je nach Verfahren unterscheiden.",
@@ -36,7 +34,6 @@ BERICHTE = [
   ]),
  dict(
   titel="Konstruktion eines neuen Schweißtisch-Konzepts",
-  zeitraum="19.05.2026 – 10.06.2026",
   absaetze=[
    "Aufbauend auf der Planung des Schweißarbeitsplatzes konstruierte ich einen neuen Schweißtisch. Der vorhandene Tisch war für lange Bauteile zu klein und bot keine flexiblen Spannmöglichkeiten. Ziel war ein Tisch, der lange Werkstücke aufnehmen kann, im Normalzustand aber nicht mehr Platz beansprucht als bisher, und der ein Spannsystem für wechselnde Aufspannungen bietet.",
    "Zu Beginn sammelte ich gemeinsam mit meinem Betreuer die Anforderungen und vermaß den vorhandenen Tisch. Zusätzlich nahm ich auf, welche Schwachstellen im Alltag auftreten. Anschließend recherchierte ich bestehende Schweißtisch-Konzepte und Spannsysteme, sammelte Beispiele und bewertete sie hinsichtlich Aufwand und Nutzen für unseren Betrieb.",
@@ -51,7 +48,6 @@ BERICHTE = [
   ]),
  dict(
   titel="Optimierung des Schweißmaschinen-Wagens und der Werkzeugplätze nach 5S",
-  zeitraum="11.06.2026 – 29.06.2026",
   absaetze=[
    "Als mobile Ergänzung zur festen Schweißstation befasste ich mich mit der Optimierung des Schweißmaschinen-Wagens. Der Wagen soll Schweißgerät, Gasflasche und die wichtigsten Werkzeuge zum Werkstück bringen, damit nicht das Werkstück zur Maschine transportiert werden muss. Ziel war ein Wagen, auf dem jedes Werkzeug einen festen Platz hat und der die Anforderungen an Standsicherheit und Gasflaschensicherung erfüllt.",
    "Zunächst nahm ich den vorhandenen Wagen auf. Ich fotografierte ihn im Betrieb und dokumentierte seinen Zustand. Anschließend vermaß ich das Schweißgerät und die Gasflasche vor Ort und hielt die Maße in einer Handskizze fest. Aus diesen Maßen erstellte ich vereinfachte CAD-Platzhalter für Gerät und Flasche, um den benötigten Bauraum in den späteren Entwürfen realistisch abzubilden.",
@@ -66,7 +62,6 @@ BERICHTE = [
   ]),
  dict(
   titel="Konzeption und Planung eines Zerspanarbeitsplatzes",
-  zeitraum="30.06.2026 – 20.07.2026",
   absaetze=[
    "Den letzten Projektabschnitt meines Praktikums bildete die Planung eines Arbeitsplatzes zum konventionellen Drehen und Fräsen. Der Platz wird von drei Personen in einer Schicht genutzt. Ziel war ein vollständig ausgestatteter Zerspanarbeitsplatz, der nach der 5S-Methode geordnet ist und für den mehrere Ausführungsvarianten technisch und wirtschaftlich verglichen werden.",
    "Zu Beginn nahm ich die Rahmenbedingungen auf. Ich besichtigte den bestehenden Bereich, fotografierte die Maschinen und die vorhandene Ausstattung und hielt fest, welche Arbeiten dort tatsächlich anfallen. Aus den Rahmenbedingungen ergaben sich bereits die ersten Festlegungen: Da drei Personen gleichzeitig arbeiten, muss personengebundenes Handwerkzeug mehrfach vorhanden sein, während die Werkbank zentral für alle drei ausgelegt wird.",

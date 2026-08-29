@@ -13,9 +13,43 @@ Zwei Dateien für die Abgabe über GRIPS, erzeugt in der Form der OTH-Vorlagen.
 
 Fünf Monatsblätter mit den Spalten Tag, Datum, Beginn, Ende, Pause, Std netto
 und Bemerkung, je Blatt eine A4-Seite mit Monatssumme und Unterschriftszeilen
-für Praktikant und Betrieb. Innerhalb der Monatsblätter steht nach jedem Sonntag
-eine hinterlegte Zeile **Summe KW nn**; die Monatssumme addiert genau diese
-Wochenzeilen.
+für Praktikant und Betrieb.
+
+Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
+Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
+nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: über 6 h → 30 min,
+darunter 15 min.
+
+Regeln für die Zeiten (alle geprüft, siehe unten):
+
+- Ein Arbeitstag dauert **höchstens 9:00 Stunden einschließlich Pause**.
+  Mit 30 min Pause sind das 8,50 h netto — das ist der längste Tag im Nachweis.
+- Beginn, Ende und Pause nur in **5-Minuten-Schritten** — die Karte wird von Hand
+  ausgefüllt, nicht automatisch gestempelt
+- Beginn frühestens **07:00**, Ende spätestens **18:00**. An **15 Tagen** ist
+  08:00 der Arbeitsbeginn, so wie er auch im Stundenplan steht.
+- Arbeitstage mindestens **6,50 h**; nur Vorlesungstage dürfen darunter liegen
+- Nettostunden in **Viertelstundenschritten**. Nur so sind Dezimalwert *und*
+  Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
+  Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
+
+### Hochschultage im Stundenplan
+
+Der Stundenplan enthält zwei Lehrveranstaltungen. Beide sind jetzt abgebildet:
+
+| Veranstaltung | Zeit | Tage | Folge im Nachweis |
+|---|---|---|---|
+| Vorlesung PP | Mi 10:00–11:30 | 15 | danach in den Betrieb |
+| Praktikum Regelungstechnik | Mi 15:30–17:00 | 4 | siehe unten |
+
+- **12 Tage** nur Vorlesung PP → Typ **VA**, Arbeitsbeginn ab 11:45
+- **3 Tage** (29.04., 20.05., 27.05.) Vorlesung PP *und* Praktikum RT. Die
+  Hochschule belegt den Tag von 10:00 bis 17:00; zwischen Regensburg und Essing
+  bleibt keine sinnvolle Betriebszeit. Diese Tage sind Typ **V** —
+  „Vorlesung und keine Anwesenheit im Betrieb", so wie die Vorlage ihn vorsieht.
+  Sie zählen deshalb auch nicht als Arbeitstag einer Projektphase.
+- **1 Tag** (01.07.) nur Praktikum RT. Der Stundenplan nennt hier ausdrücklich
+  Betrieb 08:00–14:00; genau so steht der Tag in der Zeiterfassung (Typ VA, 5,50 h).
 
 ### Wochenübersicht
 
@@ -26,55 +60,38 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **824,75 h** |
-| Soll (anteilig) | 776,00 h |
-| Differenz | **+48,75 h** |
-| Spanne | 33,50 h (KW 30) bis 47,75 h (KW 10) |
-| Ø je Woche | 37,49 h |
-
-Der Vorlauf entsteht zwangsläufig aus zwei Vorgaben: Juli und Juni sollen die
-kleinsten Monatssummen haben, und kein Arbeitstag darf unter 6,50 h liegen.
-Die frühen Monate müssen die Stunden also vorziehen. Wer das flacher haben
-möchte, ändert die Monatsziele in `generator/stundenplan.py` und baut Nachweis
-und Zeiterfassung neu.
+| Ist | **739,25 h** |
+| Soll (anteilig auf 99 Arbeitstage) | 753,00 h |
+| Differenz | −13,75 h |
+| Spanne | 23,75 h (KW 22) bis 41,50 h (KW 10) |
+| Ø je Woche | 33,60 h |
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
 dort entsprechend beschriftet.
 
-Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
-Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
-nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: über 6 h → 30 min,
-über 9 h → 45 min, darunter 15 min. An Vorlesungstagen beginnt die Arbeit erst
-nach der Vorlesung, frühestens 11:55.
+Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
+**Summe KW nn**; die Monatssumme addiert genau diese Wochenzeilen.
 
-Regeln für die Zeiten (alle geprüft, siehe unten):
+### Monatssummen
 
-- Beginn, Ende und Pause nur in **5-Minuten-Schritten** — die Karte wird von Hand
-  ausgefüllt, nicht automatisch gestempelt
-- Beginn frühestens **07:00**, Ende spätestens **18:00**
-- Arbeitstage mindestens **6,50 h**; nur Vorlesungstage dürfen darunter liegen
-- Nettostunden in **Viertelstundenschritten**. Nur so sind Dezimalwert *und*
-  Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
-  Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
+| Monat | Arbeitstage | Std netto | Ø je Arbeitstag |
+|---|---|---|---|
+| März | 19 A + 2 VA | 167,75 | 7,99 |
+| April | 15 A + 4 VA (+1 V) | 145,00 | 7,63 |
+| Mai | 14 A + 2 VA (+2 V) | 126,00 | 7,88 |
+| Juni | 17 A + 4 VA | 148,00 | 7,05 |
+| Juli | 21 A + 1 VA | 152,50 | 6,93 |
+| **Gesamt** | **86 A + 13 VA + 3 V** | **739,25** | **7,47** |
 
-Die Nettostunden je Monat stehen in `generator/stundenplan.py`. Dort ist auch
-festgelegt, dass **Juli die kleinste und Juni die zweitkleinste** Monatssumme
-bekommt:
+**Juli hat die kürzesten Arbeitstage, Juni die zweitkürzesten** — so ist die
+Vorgabe umgesetzt. Als *kleinste Monatssumme* ist sie unter der 9-Stunden-Grenze
+nicht erreichbar: Juli hat mit 21 die meisten Arbeitstage und käme selbst am
+Minimum von 6,50 h auf 142,00 h, während Mai mit nur 14 Arbeitstagen auch am
+Maximum von 8,50 h nur 130,50 h erreicht. Wer die Monatssummen angleichen will,
+ändert `generator/stundenplan.py` und baut beide Dateien neu.
 
-| Monat | Arbeitstage | Std netto |
-|---|---|---|
-| Juli | 21 A + 1 VA | 147,25 |
-| Juni | 17 A + 4 VA | 153,75 |
-| Mai | 14 A + 4 VA | 158,50 |
-| April | 15 A + 5 VA | 173,75 |
-| März | 19 A + 2 VA | 191,50 |
-| **Gesamt** | | **824,75** = 38,0 h/Woche |
-
-Juli hat die meisten Arbeitstage, deshalb liegen seine Tage nahe an der
-Untergrenze von 6,50 h — anders wäre die kleinste Monatssumme nicht erreichbar.
-
-Reihenfolge beim Bauen: erst `bau_nachweis.py`, dann `bau_zeiterfassung.py`.
+Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
 Die Dateinamen entsprechen der Vorgabe aus dem Reiter „Anleitung" der Excel-Vorlage
 (`NAME_MATRIKELNUMMER_…`). Bitte nicht umbenennen.
@@ -96,15 +113,21 @@ ziehen alle Kopfzeilen des Nachweises automatisch nach. Im Word stehen sie im Bl
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
 PDF ausgelesen):
 
-- **86 Tage** Typ `A` (anwesend), 7,5–9,5 h
-- **16 Tage** Typ `VA` (Vorlesung und anwesend) — alle Mittwoch, 5–6,5 h Betrieb,
-  Vorlesung „PP" 10:00–11:30. Die ersten beiden Mittwoche (04.03., 11.03.) sind `A`,
-  da die Vorlesungen erst am 18.03. beginnen.
+- **86 Tage** Typ `A` (anwesend), 6,50–8,50 h
+- **13 Tage** Typ `VA` (Vorlesung und anwesend), 5,00–5,75 h Betrieb — 12 Mittwoche
+  mit der Vorlesung „PP" 10:00–11:30 und der 01.07. mit dem Praktikum
+  Regelungstechnik am Nachmittag. Die ersten beiden Mittwoche (04.03., 11.03.) sind
+  `A`, da die Vorlesungen erst am 18.03. beginnen.
+- **3 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — 29.04., 20.05.,
+  27.05.: an diesen Mittwochen liegen Vorlesung PP und Praktikum RT im selben Tag.
 - **2 Tage** Typ `K` — 20.03. und 03.07.
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **824,75 h** auf 21,7 Wochen = **38,0 h/Woche**, stimmig zu den 38 h in den Stammdaten.
+Summe **739,25 h** auf 99 Arbeitstage = **7,47 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 34,1 h/Woche — unter den 38 h der Stammdaten, weil
+6 Feiertage, 2 Krankheitstage und 3 Hochschultage in den Zeitraum fallen und weil
+kein Tag über 9:00 Stunden hinausgeht.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
@@ -122,10 +145,10 @@ Der **Tagesnachweis dokumentiert alle Projekte**, der Word-Bericht nur fünf dav
 | Material- und Schraubenlager (5S) | 05.03. – 18.03. | 10 | — |
 | Lagerbestand-System in Excel/VBA | 19.03. – 20.04. | 20 | Bericht 1 |
 | Lagersystem als Web-Anwendung | 21.04. – 23.04. | 3 | in Bericht 1 |
-| Schweißarbeitsplatz | 24.04. – 18.05. | 15 | Bericht 2 |
-| Schweißtisch-Konstruktion | 19.05. – 10.06. | 15 | Bericht 3 |
-| Schweißmaschinen-Wagen nach 5S | 11.06. – 29.06. | 13 | Bericht 4 |
-| Zerspanarbeitsplatz | 30.06. – 20.07. | 14 | Bericht 5 |
+| Schweißarbeitsplatz | 24.04. – 18.05. | 14 | Bericht 2 |
+| Schweißtisch-Konstruktion | 19.05. – 11.06. | 14 | Bericht 3 |
+| Schweißmaschinen-Wagen nach 5S | 12.06. – 30.06. | 13 | Bericht 4 |
+| Zerspanarbeitsplatz | 01.07. – 20.07. | 13 | Bericht 5 |
 | Rostschutz-Konzept Schienenprofile | 21.07. – 31.07. | 9 | — |
 
 Das Schraubenlager hat bewusst weniger Tage als die übrigen Projekte. Die
@@ -133,13 +156,22 @@ Web-Anwendung entstand mit KI-Unterstützung und beansprucht deshalb nur drei Ta
 sie ist im Word-Bericht als Abschluss von Bericht 1 beschrieben.
 
 Die Arbeitsanweisungen laufen als einzelne Tageseinträge in den jeweiligen
-Projektphasen mit.
+Projektphasen mit. Die drei Tage vom Typ `V` zählen nicht als Arbeitstag einer
+Phase — an ihnen war keine Anwesenheit im Betrieb.
+
+Die Zeiträume der fünf Word-Berichte werden aus `generator/zeitraeume.json`
+gelesen, das `bau_nachweis.py` beim Bauen schreibt. Ändert sich die Aufteilung
+der Phasen, ziehen die Berichtsköpfe automatisch nach.
 
 ## Neu erzeugen
 
-    python3 generator/bau_nachweis.py        # Excel
+    python3 generator/bau_nachweis.py        # Excel-Nachweis + zeitraeume.json
+    python3 generator/bau_zeiterfassung.py   # Stempelkarte aus dem Nachweis
     python3 generator/bau_berichtsdaten.py   # Daten für das Word
     node    generator/bau_bericht.js         # Word
+
+Die Reihenfolge ist bindend: die Zeiterfassung liest die Stunden aus dem fertigen
+Nachweis, die Berichtsdaten lesen die Phasengrenzen aus `zeitraeume.json`.
 
 `generator/tagestexte.py` enthält die Tagesbeschreibungen nach Phasen,
 `generator/berichtstexte.py` die fünf Berichtstexte. Beides ist reiner Text und

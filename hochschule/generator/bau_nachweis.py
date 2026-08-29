@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Füllt die OTH-Vorlage 'Tätigkeitsnachweis' mit den echten Daten.
 Formeln, benannte Bereiche und Layout der Vorlage bleiben unangetastet."""
-import os, sys, json, random, datetime as dt
+import os, sys, json, random, hashlib, re, shutil, zipfile, datetime as dt
 HIER = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HIER)
 import openpyxl
@@ -24,27 +24,82 @@ PHASEN = [
     ("Schraubenlager",       10),
     ("ExcelLagersystem",     20),
     ("CloudAnwendung",        3),
-    ("Schweissarbeitsplatz", 15),
-    ("Schweisstisch",        15),
+    ("Schweissarbeitsplatz", 14),
+    ("Schweisstisch",        14),
     ("Schweisswagen",        13),
-    ("Zerspanarbeitsplatz",  14),
+    ("Zerspanarbeitsplatz",  13),
     ("Rostschutz",            9),
 ]
 
 # Die Nettostunden je Monat stehen in stundenplan.py.
 from stundenplan import stunden
 
-def tagtyp(d, vorlesungstage):
+# Text fuer die Tage, an denen die Hochschule den ganzen Tag belegt
+V_TEXT = ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
+          "an der OTH, dazwischen keine Anwesenheit im Betrieb")
+
+
+def medien_zusammenfassen(pfad):
+    """Doppelte Bilddateien in der Arbeitsmappe auf eine zusammenziehen.
+
+    Die Vorlage haengt dasselbe Logo an jeden der 13 Druckbloecke. openpyxl
+    schreibt es beim Speichern als 13 einzelne Dateien heraus, was die Mappe
+    unnoetig aufblaeht. Hier bleibt je Bildinhalt eine Datei uebrig, alle
+    Verweise zeigen darauf.
+    """
+    with zipfile.ZipFile(pfad) as z:
+        eintraege = [(i, z.read(i.filename)) for i in z.infolist()]
+    erste = {}
+    ersetzen = {}
+    for info, roh in eintraege:
+        if not info.filename.startswith("xl/media/"):
+            continue
+        schluessel = hashlib.md5(roh).hexdigest()
+        if schluessel in erste:
+            ersetzen[os.path.basename(info.filename)] = os.path.basename(erste[schluessel])
+        else:
+            erste[schluessel] = info.filename
+    if not ersetzen:
+        return 0
+    vorlaeufig = pfad + ".tmp"
+    with zipfile.ZipFile(vorlaeufig, "w", zipfile.ZIP_DEFLATED) as neu:
+        for info, roh in eintraege:
+            name = os.path.basename(info.filename)
+            if info.filename.startswith("xl/media/") and name in ersetzen:
+                continue
+            if info.filename.endswith(".rels") or info.filename.endswith("[Content_Types].xml"):
+                text = roh.decode("utf-8")
+                for alt, behalten in ersetzen.items():
+                    text = text.replace("media/" + alt + '"', "media/" + behalten + '"')
+                    text = text.replace("/xl/media/" + alt + '"', "/xl/media/" + behalten + '"')
+                roh = text.encode("utf-8")
+            neu.writestr(info, roh)
+    shutil.move(vorlaeufig, pfad)
+    return len(ersetzen)
+
+def tagtyp(d, hochschule):
+    """A = nur Betrieb, VA = Vorlesung und Betrieb, V = nur Hochschule.
+
+    Die Einstufung kommt aus dem Stundenplan: An drei Mittwochen liegen die
+    Vorlesung PP (10:00-11:30) und das Praktikum Regelungstechnik (15:30-17:00)
+    so, dass der Tag an der Hochschule verbracht wird. Das ist in der Vorlage
+    der Typ V. Am 01.07. faellt die Vorlesung PP aus, dort steht Betrieb
+    08:00-14:00 und danach das Praktikum - also VA.
+    """
     if d.weekday() >= 5: return "WE"
     if d in FEIER:       return "F"
     if d in KRANK:       return "K"
-    if d in vorlesungstage: return "VA"
-    return "A"
+    return hochschule.get(d, "A")
 
 def main():
     kal = json.load(open(KALENDER, encoding="utf-8"))
-    vorlesung = {dt.date.fromisoformat(k) for k, v in kal.items()
-                 if any("Vorlesung" in e["titel"] for e in v["eintraege"])}
+    hochschule = {}
+    for k, v in kal.items():
+        titel = [e["titel"] for e in v["eintraege"]]
+        pp = any("PP" in t for t in titel)
+        rt = any("RT" in t for t in titel)
+        if pp and rt:   hochschule[dt.date.fromisoformat(k)] = "V"
+        elif pp or rt:  hochschule[dt.date.fromisoformat(k)] = "VA"
 
     wb = openpyxl.load_workbook(VORLAGE)
     st = wb["Stammdaten"]
@@ -94,7 +149,7 @@ def main():
         if i >= tage:                       # nach dem letzten Arbeitstag alles leeren
             for sp in (4, 5, 7, 8): ws.cell(r, sp).value = None
             continue
-        t = tagtyp(d, vorlesung)
+        t = tagtyp(d, hochschule)
         typ = txt = thema = None; std = None
         if t == "WE":
             pass
@@ -102,6 +157,10 @@ def main():
             typ, txt = "F", FEIER[d]
         elif t == "K":
             typ, txt = "K", "Krank"
+        elif t == "V":
+            # ganzer Tag an der Hochschule, keine Betriebsstunden und
+            # deshalb auch kein Arbeitstag einer Projektphase
+            typ, txt = "V", V_TEXT
         else:
             typ = t
             thema = plan[arbeitstag] if arbeitstag < len(plan) else None
@@ -111,11 +170,11 @@ def main():
                 spanne[thema] = (erst, d)
                 txt = rest[thema].pop(0) if rest[thema] else None
             k = (d.month, t)
-            std = stunden(d.month, t, zaehler.get(k, 0))
+            std = stunden(d, t, zaehler.get(k, 0))
             zaehler[k] = zaehler.get(k, 0) + 1
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
-        ws.cell(r, 7).value = "ja" if t == "VA" else "nein"
+        ws.cell(r, 7).value = "ja" if t in ("VA", "V") else "nein"
         ws.cell(r, 8).value = txt
         if typ: protokoll.append((d, typ, std, txt, thema))
 
@@ -134,10 +193,12 @@ def main():
     # Excel soll beim Öffnen alle Formeln neu rechnen (openpyxl schreibt keine Ergebniswerte)
     wb.calculation.fullCalcOnLoad = True
     wb.save(ZIEL)
+    doppelt = medien_zusammenfassen(ZIEL)
     gesamt = sum(p[2] for p in protokoll if p[2])
     wochen = tage / 7
     print(f"geschrieben: {ZIEL}")
-    print(f"  Zeilen im Blatt: {len(datenzeilen)} | belegte Tage: {len(protokoll)}")
+    print(f"  Zeilen im Blatt: {len(datenzeilen)} | belegte Tage: {len(protokoll)}"
+          f" | doppelte Bilder zusammengefasst: {doppelt}")
     print(f"  Stunden gesamt: {gesamt:.2f} h | Ø {gesamt/wochen:.1f} h/Woche (Stammdaten: 38)")
     from collections import Counter
     print("  Tagestypen:", dict(Counter(p[1] for p in protokoll)))

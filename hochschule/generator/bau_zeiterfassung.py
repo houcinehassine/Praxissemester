@@ -7,6 +7,11 @@ zurückgerechnet:
   Pause  nach Arbeitszeitgesetz: über 6 h -> 30 min, über 9 h -> 45 min
   Ende   = Beginn + Nettozeit + Pause
 An Vorlesungstagen (Mittwoch) beginnt die Arbeit erst nach der Vorlesung.
+Tage, an denen die Hochschule den ganzen Tag belegt (Vorlesung PP und
+Praktikum Regelungstechnik), sind im Nachweis Typ V und haben keine
+Betriebszeiten.
+
+Ein Arbeitstag dauert hoechstens 9:00 Stunden einschliesslich Pause.
 """
 import os, sys, datetime as dt
 HIER = os.path.dirname(os.path.abspath(__file__))
@@ -27,8 +32,18 @@ WT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 FRUEHESTENS = 7 * 60          # 07:00
 SPAETESTENS = 18 * 60         # 18:00
 NACH_VORLESUNG = 11 * 60 + 45 # Vorlesung endet 11:30
-VERSATZ_NORMAL = [0, 15, 5, 20, 10, 30, 5, 25, 0, 15, 10, 20, 5, 30, 15]
+# 60 bedeutet Arbeitsbeginn um 08:00 - so steht es auch im Stundenplan.
+VERSATZ_NORMAL = [0, 15, 60, 20, 10, 30, 5, 25, 60, 15, 10, 20, 5, 30, 15,
+                  60, 5, 25, 0, 45, 10, 60, 20, 5, 35, 15, 0, 30, 60, 10]
 VERSATZ_VORLESUNG = [15, 0, 25, 10, 20, 5, 30, 15, 0, 20]
+HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
+
+# Am 01.07. steht im Stundenplan Betrieb 08:00-14:00 und danach das
+# Praktikum Regelungstechnik 15:30-17:00.
+FESTER_BEGINN = {dt.date(2026, 7, 1): 8 * 60}
+FESTE_PAUSE  = {dt.date(2026, 7, 1): 30}      # damit 08:00-14:00 aufgeht
+RT_BEMERKUNG = "danach Praktikum RT 15:30–17:00 an der OTH"
+V_BEMERKUNG = "Vorlesung PP und Praktikum RT an der OTH"
 
 DUENN = Side(style="thin", color="9AA3AB")
 KRAEFTIG = Side(style="medium", color="1F3A52")
@@ -109,19 +124,26 @@ def main():
             ws.cell(zeile, 2, d).number_format = "DD.MM.YYYY"
 
             if typ in ("A", "VA") and netto:
-                pm = pause_minuten(netto)
+                pm = FESTE_PAUSE.get(d, pause_minuten(netto))
                 dauer = round(float(netto) * 60) + pm
-                if typ == "VA":
-                    frueh, versatz = NACH_VORLESUNG, VERSATZ_VORLESUNG[i_vorl % len(VERSATZ_VORLESUNG)]
-                    i_vorl += 1
-                    bem = "Vorlesung 10:00–11:30, danach im Betrieb"
+                if dauer > HOECHSTDAUER:
+                    raise ValueError(f"{d}: {dauer} min brutto ueber der Grenze von 9:00")
+                if d in FESTER_BEGINN:
+                    frueh = versatz = 0
+                    start = FESTER_BEGINN[d]
+                    bem = RT_BEMERKUNG
                 else:
-                    frueh, versatz = FRUEHESTENS, VERSATZ_NORMAL[i_norm % len(VERSATZ_NORMAL)]
-                    i_norm += 1
-                    bem = ""
-                spaetester_beginn = SPAETESTENS - dauer
-                start = min(frueh + versatz, spaetester_beginn)
-                start = max(frueh, start - start % 5)          # auf 5 Minuten runden
+                    if typ == "VA":
+                        frueh, versatz = NACH_VORLESUNG, VERSATZ_VORLESUNG[i_vorl % len(VERSATZ_VORLESUNG)]
+                        i_vorl += 1
+                        bem = "Vorlesung PP 10:00–11:30, danach im Betrieb"
+                    else:
+                        frueh, versatz = FRUEHESTENS, VERSATZ_NORMAL[i_norm % len(VERSATZ_NORMAL)]
+                        i_norm += 1
+                        bem = ""
+                    spaetester_beginn = SPAETESTENS - dauer
+                    start = min(frueh + versatz, spaetester_beginn)
+                    start = max(frueh, start - start % 5)      # auf 5 Minuten runden
                 beg = dt.time(start // 60, start % 60)
                 ende_dt = dt.datetime.combine(d, beg) + dt.timedelta(minutes=dauer)
                 ws.cell(zeile, 3, beg).number_format = "HH:MM"
@@ -131,7 +153,8 @@ def main():
                 ws.cell(zeile, 7, bem)
                 gesamt += float(netto)
             else:
-                bem = {"K": "Krank", "F": info["text"] if info else "Feiertag"}.get(typ, "")
+                bem = {"K": "Krank", "V": V_BEMERKUNG,
+                       "F": info["text"] if info else "Feiertag"}.get(typ, "")
                 if d.weekday() >= 5: bem = "Wochenende"
                 ws.cell(zeile, 7, bem)
                 for j in range(1, 8):
