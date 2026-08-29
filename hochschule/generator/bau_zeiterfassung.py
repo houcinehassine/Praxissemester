@@ -19,6 +19,8 @@ ROOT = os.path.dirname(HIER)
 import openpyxl
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 from openpyxl.utils import get_column_letter
+sys.path.insert(0, HIER)
+from hochschultage import kurzschichten
 
 NACHWEIS = os.path.join(ROOT, "Hassine_3399727_Tätigkeitsnachweis.xlsx")
 ZIEL     = os.path.join(ROOT, "Hassine_3399727_Zeiterfassung.xlsx")
@@ -41,12 +43,16 @@ HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
 # Am 01.07. steht im Stundenplan Betrieb 08:00-14:00 und danach das
 # Praktikum Regelungstechnik 15:30-17:00. An den vier Pruefungstagen war die
 # Pruefung um 10:00 zu Ende, der Betrieb lief ab etwa 11:00 bis 15:30.
+# In Feiertagswochen folgt auf die Vorlesung PP eine kurze Schicht
+# (12:15 bis 16:00); die Termine kommen aus hochschultage.py.
+KURZSCHICHTEN = kurzschichten()
 FESTER_BEGINN = {
     dt.date(2026, 7,  1):  8 * 60,
     dt.date(2026, 7,  9): 11 * 60,
     dt.date(2026, 7, 17): 11 * 60 + 5,
     dt.date(2026, 7, 20): 11 * 60,
     dt.date(2026, 7, 28): 11 * 60 + 10,
+    **KURZSCHICHTEN,
 }
 PRUEFUNGSENDE = 15 * 60 + 30                  # spaetestes Ende an Pruefungstagen
 RT_BEMERKUNG = "danach Praktikum RT 15:30–17:00 an der OTH"
@@ -152,7 +158,12 @@ def main():
                     frueh = versatz = 0
                     start = FESTER_BEGINN[d]
                     kuerzel = _pruefung(info["text"])
-                    bem = f"Prüfung {kuerzel} bis 10:00, danach im Betrieb" if kuerzel else RT_BEMERKUNG
+                    if kuerzel:
+                        bem = f"Prüfung {kuerzel} bis 10:00, danach im Betrieb"
+                    elif d in KURZSCHICHTEN:
+                        bem = "Vorlesung PP bis 11:30, danach kurze Schicht"
+                    else:
+                        bem = RT_BEMERKUNG
                     if kuerzel and start + dauer > PRUEFUNGSENDE:
                         raise ValueError(f"{d}: Ende nach 15:30 an einem Prüfungstag")
                 else:
@@ -321,9 +332,12 @@ def main():
     ue.cell(z + 1, 7).alignment = Alignment(horizontal="center")
     ue.cell(z + 2, 2, "Wochen über einen Monatswechsel sind hier vollständig zusammengefasst; "
                       "in den Monatsblättern erscheinen sie anteilig.")
-    ue.cell(z + 2, 2).font = Font(name="Arial", size=8, italic=True, color="595959")
+    ue.cell(z + 3, 2, "Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. An Vorlesungs-, "
+                      "Praktikums- und Prüfungstagen war nur ein Teil des Tages im Betrieb möglich.")
+    for zz in (z + 2, z + 3):
+        ue.cell(zz, 2).font = Font(name="Arial", size=8, italic=True, color="595959")
 
-    ue.print_area = f"A1:G{z+2}"
+    ue.print_area = f"A1:G{z+3}"
     ue.page_setup.orientation = "portrait"
     ue.page_setup.paperSize = ue.PAPERSIZE_A4
     ue.page_setup.fitToPage = True

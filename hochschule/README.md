@@ -44,7 +44,8 @@ Arbeitstag einer Projektphase.
 
 | Anlass | Zeit | Tage | Typ | Betrieb |
 |---|---|---|---|---|
-| Vorlesung PP | Mi 10:00–11:30 | 12 | V | — |
+| Vorlesung PP | Mi 10:00–11:30 | 8 | V | — |
+| Vorlesung PP in einer Feiertagswoche | Mi 10:00–11:30 | 4 | VA | 12:15–16:00, 3,75 h |
 | Vorlesung PP + Praktikum RT | Mi 10:00–11:30 und 15:30–17:00 | 3 | V | — |
 | Praktikum RT allein (01.07.) | Mi 15:30–17:00 | 1 | VA | 08:00–14:00, 6,00 h |
 | Prüfungen | bis 10:00 | 4 | VA | ab ca. 11:00, je 4,00 h |
@@ -52,6 +53,24 @@ Arbeitstag einer Projektphase.
 Der 01.07. ist die einzige Ausnahme bei den Lehrveranstaltungen: dort steht im
 Stundenplan ausdrücklich **Betrieb 08:00–14:00**, das Praktikum liegt erst am
 Nachmittag. Genau so ist der Tag eingetragen.
+
+#### Kurzschichten in Feiertagswochen
+
+Fällt in eine Woche ein Feiertag, wäre sie durch Feiertag *und* Vorlesungstag
+zweimal verkürzt. In diesen Wochen geht es nach der Vorlesung noch für eine
+kurze Schicht in den Betrieb — 12:15 bis 16:00, 3,75 h, ohne Pause:
+
+| Datum | KW | Feiertag der Woche | Betrieb |
+|---|---|---|---|
+| Mi 01.04.2026 | 14 | Karfreitag 03.04. | 12:15–16:00 |
+| Mi 08.04.2026 | 15 | Ostermontag 06.04. | 12:15–16:00 |
+| Mi 13.05.2026 | 20 | Christi Himmelfahrt 14.05. | 12:10–15:55 |
+| Mi 03.06.2026 | 23 | Fronleichnam 04.06. | 12:20–16:05 |
+
+Zwei Feiertagswochen bleiben ohne Kurzschicht: in **KW 18** (Tag der Arbeit)
+und **KW 22** (Pfingstmontag) fällt der Mittwoch auf einen Tag mit Vorlesung PP
+*und* Praktikum RT. Die Hochschule belegt dort 10:00 bis 17:00; für die Fahrt
+nach Essing und zurück bleibt keine Zeit.
 
 Die vier Prüfungstage stehen in `PRUEFUNGEN` in `generator/bau_nachweis.py`:
 
@@ -78,11 +97,15 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **661,50 h** |
-| Soll (anteilig auf 87 Anwesenheitstage) | 661,75 h |
-| Differenz | −0,25 h |
-| Spanne | 22,25 h (KW 23) bis 42,00 h (KW 11) |
-| Ø je Woche | 30,07 h |
+| Ist | **676,50 h** |
+| Soll (anteilig auf 91 Anwesenheitstage) | 692,75 h |
+| Differenz | −16,25 h |
+| Spanne | 23,00 h (KW 22) bis 42,00 h (KW 11) |
+| Ø je Woche | 30,75 h |
+
+Das Soll rechnet jeden Anwesenheitstag als vollen Tag. An den neun Tagen mit
+Vorlesung, Praktikum oder Prüfung war aber nur ein Teil des Tages im Betrieb
+möglich — daher die 16,25 h. Eine Fußnote auf dem Blatt sagt das ebenfalls.
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
@@ -96,23 +119,24 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 Die Schichten werden von Monat zu Monat kürzer — am Anfang, während der
 Einarbeitung und der großen Excel-Arbeit, sind die Tage am längsten:
 
-| Monat | Tage mit Stunden | Std netto | Ø je Tag | Spanne |
+| Monat | Tage mit Stunden | Std netto | Ø voller Tag | Spanne |
 |---|---|---|---|---|
 | März | 19 A (+2 V) | 159,50 | **8,39** | 8,25–8,50 |
-| April | 15 A (+5 V) | 122,25 | 8,15 | 7,75–8,50 |
-| Mai | 14 A (+4 V) | 111,25 | 7,95 | 7,50–8,50 |
-| Juni | 17 A (+4 V) | 127,50 | 7,50 | 7,00–8,00 |
-| Juli | 17 A + 5 VA | 141,00 | 6,41 | 4,00–7,50 |
-| **Gesamt** | **82 A + 5 VA (+15 V)** | **661,50** | **7,60** | |
+| April | 15 A + 2 VA (+3 V) | 129,75 | 8,15 | 7,75–8,50 |
+| Mai | 14 A + 1 VA (+3 V) | 115,00 | 7,95 | 7,50–8,50 |
+| Juni | 17 A + 1 VA (+3 V) | 131,25 | 7,50 | 7,00–8,00 |
+| Juli | 17 A + 5 VA | 141,00 | 7,00 | 6,50–7,50 |
+| **Gesamt** | **82 A + 9 VA (+11 V)** | **676,50** | | |
 
-Julis niedriger Tagesschnitt kommt von den fünf kurzen Hochschul-Schichten;
-die vollen Julitage liegen bei Ø 7,00 h. Die Werte stehen in
+„Ø voller Tag" ist der Schnitt der reinen Betriebstage; die kurzen Schichten an
+Hochschul- und Prüfungstagen sind darin nicht enthalten. Über alle 91
+Anwesenheitstage liegt der Schnitt bei 7,43 h. Die Werte stehen in
 `generator/stundenplan.py`; wer die Kurve ändern will, ändert dort `ZIEL_A`
 und baut beide Dateien neu.
 
 Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
 Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
-Achref Najah 690,75 h (33,4 h/Woche). Die 661,50 h liegen mitten in diesem Feld.
+Achref Najah 690,75 h (33,4 h/Woche). Die 676,50 h liegen mitten in diesem Feld.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -137,20 +161,21 @@ Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem über
 PDF ausgelesen):
 
 - **82 Tage** Typ `A` (anwesend), 6,50–8,50 h
-- **5 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 4,00–6,00 h Betrieb —
-  der 01.07. (Praktikum RT erst am Nachmittag) und die vier Prüfungstage
-- **15 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — alle Mittwoche
-  mit der Vorlesung „PP" ab 18.03. Die ersten beiden Mittwoche (04.03., 11.03.)
-  sind `A`, da die Vorlesungen erst am 18.03. beginnen; die letzte ist der 24.06.
+- **9 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 3,75–6,00 h Betrieb —
+  vier Kurzschichten in Feiertagswochen, die vier Prüfungstage und der 01.07.
+  (Praktikum RT erst am Nachmittag)
+- **11 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — die übrigen
+  Mittwoche mit der Vorlesung „PP" ab 18.03. Die ersten beiden Mittwoche
+  (04.03., 11.03.) sind `A`, da die Vorlesungen erst am 18.03. beginnen;
+  der letzte Vorlesungstermin ist der 24.06.
 - **2 Tage** Typ `K` — 20.03. und 03.07.
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **661,50 h** auf 87 Anwesenheitstage = **7,60 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 30,1 h/Woche — unter den 38 h der Stammdaten, weil
-6 Feiertage, 2 Krankheitstage und 15 Hochschultage in den Zeitraum fallen und weil
-kein Tag über 9:00 Stunden hinausgeht. Bezogen auf die 87 Tage, an denen der
-Betrieb überhaupt möglich war, liegt der Nachweis mit −0,25 h genau auf dem Soll.
+Summe **676,50 h** auf 91 Anwesenheitstage = **7,43 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 31,2 h/Woche — unter den 38 h der Stammdaten, weil
+6 Feiertage, 2 Krankheitstage und 11 volle Hochschultage in den Zeitraum fallen
+und weil kein Tag über 9:00 Stunden hinausgeht.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
@@ -166,12 +191,12 @@ Der **Tagesnachweis dokumentiert alle Projekte**, der Word-Bericht nur fünf dav
 |---|---|---|---|
 | Einarbeitung | 02.03. – 04.03. | 3 | — |
 | Material- und Schraubenlager (5S) | 05.03. – 17.03. | 9 | — |
-| Lagerbestand-System in Excel/VBA | 19.03. – 23.04. | 18 | Bericht 1 |
-| Lagersystem als Web-Anwendung | 24.04. – 28.04. | 3 | in Bericht 1 |
-| Schweißarbeitsplatz | 30.04. – 22.05. | 12 | Bericht 2 |
-| Schweißtisch-Konstruktion | 26.05. – 16.06. | 12 | Bericht 3 |
-| Schweißmaschinen-Wagen nach 5S | 18.06. – 06.07. | 11 | Bericht 4 |
-| Zerspanarbeitsplatz | 07.07. – 21.07. | 11 | Bericht 5 |
+| Lagerbestand-System in Excel/VBA | 19.03. – 21.04. | 19 | Bericht 1 |
+| Lagersystem als Web-Anwendung | 23.04. – 27.04. | 3 | in Bericht 1 |
+| Schweißarbeitsplatz | 28.04. – 21.05. | 13 | Bericht 2 |
+| Schweißtisch-Konstruktion | 22.05. – 15.06. | 13 | Bericht 3 |
+| Schweißmaschinen-Wagen nach 5S | 16.06. – 02.07. | 11 | Bericht 4 |
+| Zerspanarbeitsplatz | 06.07. – 21.07. | 12 | Bericht 5 |
 | Rostschutz-Konzept Schienenprofile | 22.07. – 31.07. | 8 | — |
 
 Das Schraubenlager hat bewusst weniger Tage als die übrigen Projekte. Die
@@ -179,10 +204,10 @@ Web-Anwendung entstand mit KI-Unterstützung und beansprucht deshalb nur drei Ta
 sie ist im Word-Bericht als Abschluss von Bericht 1 beschrieben.
 
 Die Arbeitsanweisungen laufen als einzelne Tageseinträge in den jeweiligen
-Projektphasen mit. Die 15 Tage vom Typ `V` zählen nicht als Arbeitstag einer
-Phase — an ihnen war keine Anwesenheit im Betrieb. Die vier Prüfungstage zählen
-mit, weil der Nachmittag im Betrieb lief; die Datumsgrenzen der Phasen springen
-deshalb über die Mittwoche hinweg.
+Projektphasen mit. Die 11 Tage vom Typ `V` zählen nicht als Arbeitstag einer
+Phase — an ihnen war keine Anwesenheit im Betrieb. Die Prüfungstage und die
+Kurzschichten zählen mit, weil an ihnen im Betrieb gearbeitet wurde; die
+Datumsgrenzen der Phasen springen deshalb über die reinen Vorlesungstage hinweg.
 
 Die Zeiträume der fünf Word-Berichte werden aus `generator/zeitraeume.json`
 gelesen, das `bau_nachweis.py` beim Bauen schreibt. Ändert sich die Aufteilung
@@ -190,6 +215,7 @@ der Phasen, ziehen die Berichtsköpfe automatisch nach.
 
 ## Neu erzeugen
 
+    python3 generator/hochschultage.py       # nur zur Kontrolle: Tagestypen
     python3 generator/bau_nachweis.py        # Excel-Nachweis + zeitraeume.json
     python3 generator/bau_zeiterfassung.py   # Stempelkarte aus dem Nachweis
     python3 generator/bau_berichtsdaten.py   # Daten für das Word
@@ -198,7 +224,9 @@ der Phasen, ziehen die Berichtsköpfe automatisch nach.
 Die Reihenfolge ist bindend: die Zeiterfassung liest die Stunden aus dem fertigen
 Nachweis, die Berichtsdaten lesen die Phasengrenzen aus `zeitraeume.json`.
 
-`generator/tagestexte.py` enthält die Tagesbeschreibungen nach Phasen,
+`generator/hochschultage.py` stuft jeden Kalendertag ein — Vorlesung, Praktikum,
+Prüfung, Feiertag, Kurzschicht — und ist die gemeinsame Quelle für Nachweis und
+Zeiterfassung. `generator/tagestexte.py` enthält die Tagesbeschreibungen nach Phasen,
 `generator/berichtstexte.py` die fünf Berichtstexte. Beides ist reiner Text und
 lässt sich direkt bearbeiten; danach das jeweilige Skript erneut laufen lassen.
 

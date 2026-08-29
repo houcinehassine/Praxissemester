@@ -1,44 +1,31 @@
 # -*- coding: utf-8 -*-
 """Füllt die OTH-Vorlage 'Tätigkeitsnachweis' mit den echten Daten.
 Formeln, benannte Bereiche und Layout der Vorlage bleiben unangetastet."""
-import os, sys, json, random, hashlib, re, shutil, zipfile, datetime as dt
+import os, sys, json, hashlib, re, shutil, zipfile, datetime as dt
 HIER = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HIER)
 import openpyxl
 from tagestexte import PHASENTEXTE
+from hochschultage import (START, ENDE, FEIER, KRANK, PRUEFUNGEN,
+                           KURZSCHICHT_STUNDEN, tagtypen, doppelt_belegte_tage)
 
 VORLAGE = os.path.join(HIER, "vorlage_taetigkeitsnachweis.xlsx")
 ZIEL    = os.path.join(os.path.dirname(HIER), "Hassine_3399727_Tätigkeitsnachweis.xlsx")
-KALENDER= os.path.join(HIER, "kalender.json")
 
-START, ENDE = dt.date(2026, 3, 2), dt.date(2026, 7, 31)
-FEIER = {dt.date(2026,4,3): "Karfreitag", dt.date(2026,4,6): "Ostermontag",
-         dt.date(2026,5,1): "Tag der Arbeit", dt.date(2026,5,14): "Christi Himmelfahrt",
-         dt.date(2026,5,25): "Pfingstmontag", dt.date(2026,6,4): "Fronleichnam"}
-KRANK = {dt.date(2026,3,20), dt.date(2026,7,3)}
 # Die Phasen laufen nacheinander und sind über die Anzahl der Arbeitstage
 # festgelegt, nicht über feste Datumsgrenzen. Die tatsächlichen Zeiträume
 # ergeben sich daraus und werden am Ende ausgegeben.
 PHASEN = [
     ("Einarbeitung",          3),
     ("Schraubenlager",        9),
-    ("ExcelLagersystem",     18),
+    ("ExcelLagersystem",     19),
     ("CloudAnwendung",        3),
-    ("Schweissarbeitsplatz", 12),
-    ("Schweisstisch",        12),
+    ("Schweissarbeitsplatz", 13),
+    ("Schweisstisch",        13),
     ("Schweisswagen",        11),
-    ("Zerspanarbeitsplatz",  11),
+    ("Zerspanarbeitsplatz",  12),
     ("Rostschutz",            8),
 ]
-
-# Pruefungen an der OTH. Sie enden um 10:00; danach ging es in den Betrieb,
-# spaetestens 15:30 war Schluss. Diese Tage sind Typ VA.
-PRUEFUNGEN = {
-    dt.date(2026, 7,  9): "PRM",
-    dt.date(2026, 7, 17): "DA",
-    dt.date(2026, 7, 20): "GAT",
-    dt.date(2026, 7, 28): "SWV",
-}
 
 # Die Nettostunden je Monat stehen in stundenplan.py.
 from stundenplan import stunden
@@ -87,30 +74,9 @@ def medien_zusammenfassen(pfad):
     shutil.move(vorlaeufig, pfad)
     return len(ersetzen)
 
-def tagtyp(d, hochschule):
-    """A = nur Betrieb, VA = Vorlesung und Betrieb, V = nur Hochschule.
-
-    Die Einstufung kommt aus dem Stundenplan: An drei Mittwochen liegen die
-    Vorlesung PP (10:00-11:30) und das Praktikum Regelungstechnik (15:30-17:00)
-    so, dass der Tag an der Hochschule verbracht wird. Das ist in der Vorlage
-    der Typ V. Am 01.07. faellt die Vorlesung PP aus, dort steht Betrieb
-    08:00-14:00 und danach das Praktikum - also VA.
-    """
-    if d.weekday() >= 5: return "WE"
-    if d in FEIER:       return "F"
-    if d in KRANK:       return "K"
-    if d in PRUEFUNGEN:  return "P"
-    return hochschule.get(d, "A")
-
 def main():
-    kal = json.load(open(KALENDER, encoding="utf-8"))
-    hochschule = {}
-    for k, v in kal.items():
-        titel = [e["titel"] for e in v["eintraege"]]
-        pp = any("PP" in t for t in titel)
-        rt = any("RT" in t for t in titel)
-        if pp:          hochschule[dt.date.fromisoformat(k)] = "VPP_RT" if rt else "VPP"
-        elif rt:        hochschule[dt.date.fromisoformat(k)] = "VA"
+    typen = tagtypen()
+    doppelt_belegt = doppelt_belegte_tage()
 
     wb = openpyxl.load_workbook(VORLAGE)
     st = wb["Stammdaten"]
@@ -160,7 +126,7 @@ def main():
         if i >= tage:                       # nach dem letzten Arbeitstag alles leeren
             for sp in (4, 5, 7, 8): ws.cell(r, sp).value = None
             continue
-        t = tagtyp(d, hochschule)
+        t = typen[d]
         typ = txt = thema = None; std = None
         if t == "WE":
             pass
@@ -168,11 +134,11 @@ def main():
             typ, txt = "F", FEIER[d]
         elif t == "K":
             typ, txt = "K", "Krank"
-        elif t in ("VPP", "VPP_RT"):
+        elif t == "V":
             # Vorlesungstag an der Hochschule, keine Betriebsstunden und
             # deshalb auch kein Arbeitstag einer Projektphase
             typ = "V"
-            txt = V_TEXT_PP_RT if t == "VPP_RT" else V_TEXT_PP
+            txt = V_TEXT_PP_RT if d in doppelt_belegt else V_TEXT_PP
         else:
             # A = nur Betrieb, VA = Betrieb neben Vorlesung oder Pruefung
             typ = "A" if t == "A" else "VA"
@@ -184,12 +150,17 @@ def main():
                 txt = rest[thema].pop(0) if rest[thema] else None
             if t == "P":
                 txt = f"Prüfung {PRUEFUNGEN[d]} an der OTH bis 10:00. " + (txt or "")
-            k = (d.month, t)
-            std = stunden(d, t, zaehler.get(k, 0))
-            zaehler[k] = zaehler.get(k, 0) + 1
+            elif t == "KS":
+                txt = "Vorlesung PP bis 11:30, danach kurze Schicht im Betrieb. " + (txt or "")
+            if t == "KS":
+                std = KURZSCHICHT_STUNDEN
+            else:
+                k = (d.month, t)
+                std = stunden(d, t, zaehler.get(k, 0))
+                zaehler[k] = zaehler.get(k, 0) + 1
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
-        ws.cell(r, 7).value = "ja" if t in ("VA", "P", "VPP", "VPP_RT") else "nein"
+        ws.cell(r, 7).value = "ja" if t in ("V", "KS", "P", "VRT") else "nein"
         ws.cell(r, 8).value = txt
         if typ: protokoll.append((d, typ, std, txt, thema))
 
@@ -224,8 +195,7 @@ def main():
     for name, _ in PHASEN:
         a, b = spanne[name]
         print(f"    {name:22} {themen[name]:3} Tage   {a.strftime('%d.%m.')} – {b.strftime('%d.%m.%Y')}")
-    import json as _j
-    _j.dump({k: [v[0].isoformat(), v[1].isoformat()] for k, v in spanne.items()},
+    json.dump({k: [v[0].isoformat(), v[1].isoformat()] for k, v in spanne.items()},
             open(os.path.join(HIER, "zeitraeume.json"), "w", encoding="utf-8"), indent=1)
 
 if __name__ == "__main__":
