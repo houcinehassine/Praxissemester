@@ -26,6 +26,7 @@ NACHWEIS = os.path.join(ROOT, "Hassine_3399727_Tätigkeitsnachweis.xlsx")
 ZIEL     = os.path.join(ROOT, "Hassine_3399727_Zeiterfassung.xlsx")
 START, ENDE = dt.date(2026, 3, 2), dt.date(2026, 7, 31)
 SOLL_WOCHE = 38.0     # Wochenarbeitszeit laut Stammdaten
+VERTRAG_WOCHEN = 18   # Dauer des Praktikums laut Vertrag
 
 MONATE = {3: "März", 4: "April", 5: "Mai", 6: "Juni", 7: "Juli"}
 WT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
@@ -332,16 +333,44 @@ def main():
     ue.cell(z, 7, f"=D{z}/{len(wochen)}").number_format = "0.00"
     ue.cell(z, 7).font = Font(name="Arial", size=9, bold=True)
     ue.cell(z, 7).alignment = Alignment(horizontal="center")
-    ue.cell(z + 1, 7, "Ø je Woche").font = Font(name="Arial", size=8, italic=True, color="595959")
+    ue.cell(z + 1, 7, "Ø je Kalenderwoche").font = Font(name="Arial", size=8, italic=True, color="595959")
     ue.cell(z + 1, 7).alignment = Alignment(horizontal="center")
-    ue.cell(z + 2, 2, "Wochen über einen Monatswechsel sind hier vollständig zusammengefasst; "
-                      "in den Monatsblättern erscheinen sie anteilig.")
-    ue.cell(z + 3, 2, "Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. Vorlesungs-, Praktikums- "
-                      "und Prüfungstage zählen als halber Tag, weil der Vormittag an der OTH war.")
-    for zz in (z + 2, z + 3):
+
+    # ---- Abgleich mit dem Vertrag -----------------------------------------
+    # Die Spalte "Soll" oben vergleicht Woche für Woche. Der Vertrag nennt
+    # dagegen eine feste Gesamtzahl: 38,0 h in 18 Wochen.
+    vertrag = z + 3
+    zeilen = (("Soll laut Vertrag", f"38,0 h/Woche × {VERTRAG_WOCHEN} Wochen",
+               SOLL_WOCHE * VERTRAG_WOCHEN),
+              ("Ist laut Tätigkeitsnachweis", "", f"=D{z}"),
+              ("Differenz", "", f"=D{z}-{SOLL_WOCHE * VERTRAG_WOCHEN}"))
+    for i, (kopf, hinweis, wert) in enumerate(zeilen):
+        r = vertrag + i
+        fett = i == 2
+        ue.cell(r, 2, kopf).font = Font(name="Arial", size=9, bold=fett)
+        ue.cell(r, 2).alignment = Alignment(horizontal="right")
+        c = ue.cell(r, 4, wert)
+        c.number_format = "+0.00;-0.00;0.00" if fett else "0.00"
+        c.font = Font(name="Arial", size=9, bold=fett, color="1F3A52" if fett else "000000")
+        c.alignment = Alignment(horizontal="center")
+        c.border = Border(top=KRAEFTIG if fett else DUENN, bottom=KRAEFTIG if fett else DUENN,
+                          left=DUENN, right=DUENN)
+        c.fill = WOCHE_FUELLUNG
+        if hinweis:
+            ue.cell(r, 5, hinweis).font = Font(name="Arial", size=8, italic=True, color="595959")
+
+    fuss = vertrag + 4
+    ue.cell(fuss, 2, "Wochen über einen Monatswechsel sind hier vollständig zusammengefasst; "
+                     "in den Monatsblättern erscheinen sie anteilig.")
+    ue.cell(fuss + 1, 2, "Spalte Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. Vorlesungs-, "
+                         "Praktikums- und Prüfungstage zählen als halber Tag, weil der Vormittag "
+                         "an der OTH war.")
+    ue.cell(fuss + 2, 2, "Ø je Kalenderwoche rechnet über alle 22 Wochen des Zeitraums, also "
+                         "einschließlich der Wochen mit Feiertag, Krankheit oder Hochschultag.")
+    for zz in (fuss, fuss + 1, fuss + 2):
         ue.cell(zz, 2).font = Font(name="Arial", size=8, italic=True, color="595959")
 
-    ue.print_area = f"A1:G{z+3}"
+    ue.print_area = f"A1:G{fuss + 2}"
     ue.page_setup.orientation = "portrait"
     ue.page_setup.paperSize = ue.PAPERSIZE_A4
     ue.page_setup.fitToPage = True

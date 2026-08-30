@@ -96,15 +96,27 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 | | |
 |---|---|
 | Ist | **709,50 h** |
-| Soll (anteilig auf 99 Anwesenheitstage) | 687,75 h |
-| Differenz | **+21,75 h** |
+| **Soll laut Vertrag** (38,0 h × 18 Wochen) | **684,00 h** |
+| **Differenz** | **+25,50 h** |
 | Spanne | 23,00 h (KW 22) bis 42,00 h (KW 11) |
-| Ø je Woche | 32,25 h |
+| Ø je Kalenderwoche (22 KW) | 32,25 h |
 
-Beim Soll zählt ein Vorlesungs-, Praktikums- oder Prüfungstag als **halber Tag**:
-der Vormittag gehört der OTH, der Nachmittag dem Betrieb. Ein voller Tag zählt
-mit 7,60 h. Eine Fußnote auf dem Blatt sagt das ebenfalls. Die Differenz je
-Woche bleibt so überall zwischen −2,50 h und +4,00 h.
+Unter der Tabelle steht der Abgleich mit dem Vertrag: **38,0 h/Woche × 18 Wochen
+= 684,00 h**. Der Nachweis liegt mit 709,50 h um **25,50 h darüber**.
+
+Die Spalte *Soll* in der Tabelle ist etwas anderes — sie vergleicht Woche für
+Woche und rechnet 38,0 h anteilig je Anwesenheitstag, wobei ein Vorlesungs-,
+Praktikums- oder Prüfungstag als **halber Tag** zählt (der Vormittag gehört der
+OTH). Über alle Wochen ergibt das 687,75 h; die Abweichung je Woche bleibt
+zwischen −2,50 h und +4,00 h.
+
+Der Ø von 32,25 h/Woche wirkt niedrig, weil er über alle **22 Kalenderwochen**
+des Zeitraums teilt — einschließlich der Wochen mit Feiertag, Krankheit oder
+vollem Hochschultag. Gegen das Vertrags-Soll gerechnet ist der Nachweis im Plus.
+Ein höherer Wochenschnitt wäre nur zu erreichen, wenn die 9-Stunden-Grenze
+fiele: 82 volle Tage × 8,50 h + 70,00 h an Hochschul- und Prüfungstagen ergeben
+höchstens 767,00 h, also Ø 34,86 — und das nur, wenn jeder Tag exakt am Maximum
+liegt, ohne jede Streuung.
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
