@@ -39,7 +39,7 @@ Die reinen Betriebstage folgen drei Abschnitten (`generator/stundenplan.py`):
 | Abschnitt | Zeitraum | A-Tage | Spanne | Ø | Summe |
 |---|---|---|---|---|---|
 | **Startphase** | 02.03. – 13.03. | 10 | 9,00–10,00 | 9,53 | 95,25 |
-| **Sammelphase** | 16.03. – 12.06. | 45 | 7,25–9,75 | 7,93 | 357,00 |
+| **Sammelphase** | 16.03. – 12.06. | 46 | 7,25–9,75 | 7,92 | 364,50 |
 | **Prüfungsphase** | ab 15.06. | 27 | 6,75–7,50 | 7,22 | 195,00 |
 
 - **Startphase** — die ersten zwei Wochen sind Einarbeitung, jeden Tag 9 bis 10
@@ -59,7 +59,7 @@ und stehen im Nachweis als Typ **VA**:
 
 | Anlass | Tage | Betrieb | Pause | Std netto |
 |---|---|---|---|---|
-| Vorlesung PP (bis 12.06.) | 10 | 07:00–09:30 **und** 12:00–17:00 | 2:30 | 7,50 |
+| Vorlesung PP (bis 12.06.) | 9 | 07:00–09:30 **und** 12:00–17:00 | 2:30 | 7,50 |
 | Vorlesung PP (ab 15.06.) | 2 | 07:00–09:30 **und** 12:00–15:00 | 2:30 | 5,50 |
 | Vorlesung PP + Praktikum RT | 3 | 07:00–09:30 | — | 2,50 |
 | nur Praktikum RT (01.07.) | 1 | 08:00–14:00 | — | 6,00 |
@@ -79,6 +79,16 @@ sie deckt Fahrt, Vorlesung und die gesetzliche Ruhepause ab.
 Im Tagesnachweis beginnt der Text dieser Tage mit einem Vorspann („Vorlesung PP
 10:00-11:30 an der OTH, davor und danach im Betrieb.", „Prüfung PRM an der OTH
 bis 10:00." …); danach folgt die Tätigkeit des jeweiligen Projekts.
+
+**Korrektur 08.04.2026:** Der ausgelesene Stundenplan (`kalender.json`) führt an
+diesem Mittwoch noch eine „Vorlesung PP", der Tag liegt aber laut Semesterkalender
+der OTH Regensburg in der vorlesungsfreien Zeit rund um Ostern (§ 2 Abs. 5 der
+Vorlesungszeit-Ordnung). Die Korrektur (`VORLESUNGSFREI` in
+`generator/hochschultage.py`) überschreibt den Eintrag, der Tag steht im Nachweis
+als normaler Betriebstag (Typ A). Die Prüfung stützt sich auf eine Websuche, nicht
+auf ein direktes Lesen des offiziellen Semesterkalender-PDFs (der Abruf von
+`www.oth-regensburg.de` ist aus dieser Umgebung heraus blockiert) — bei
+Unsicherheit lohnt ein Blick in den echten Kalender vor der Abgabe.
 
 ### Wochenübersicht
 
@@ -118,11 +128,11 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 | Monat | Tage mit Stunden | Std netto | Ø je Tag |
 |---|---|---|---|
 | März | 19 A + 2 VA | 182,50 | 8,69 |
-| April | 15 A + 5 VA | 150,00 | 7,50 |
+| April | 16 A + 4 VA | 150,00 | 7,50 |
 | Mai | 14 A + 4 VA | 129,75 | 7,21 |
 | Juni | 17 A + 4 VA | 156,00 | 7,43 |
 | Juli | 17 A + 5 VA | 144,50 | 6,57 |
-| **Gesamt** | **82 A + 20 VA** | **762,75** | **7,48** |
+| **Gesamt** | **83 A + 19 VA** | **762,75** | **7,48** |
 
 März liegt vorn, weil dort die Startphase mit 9 bis 10 Stunden am Tag liegt;
 Juli hinten, weil dort die Prüfungsphase und vier Prüfungstage liegen.
@@ -153,9 +163,9 @@ ziehen alle Kopfzeilen des Nachweises automatisch nach. Im Word stehen sie im Bl
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
 PDF ausgelesen):
 
-- **82 Tage** Typ `A` (anwesend), 6,75–10,00 h je nach Abschnitt
-- **20 Tage** Typ `VA` (Vorlesung/Praktikum/Prüfung und anwesend), 2,50–7,50 h —
-  12 Vorlesungstage, 3 Tage mit Vorlesung und Praktikum RT, der 01.07. und die
+- **83 Tage** Typ `A` (anwesend), 6,75–10,00 h je nach Abschnitt
+- **19 Tage** Typ `VA` (Vorlesung/Praktikum/Prüfung und anwesend), 2,50–7,50 h —
+  11 Vorlesungstage, 3 Tage mit Vorlesung und Praktikum RT, der 01.07. und die
   vier Prüfungstage
 - **keine Tage** vom Typ `V` — an jedem Hochschultag war auch Betriebszeit
 - **2 Tage** Typ `K` — 20.03. und 03.07.
@@ -256,3 +266,6 @@ dabei unverändert; alle Formeln und benannten Bereiche der Hochschule sind erha
 3. Nachweis ausdrucken, vom Betrieb unterschreiben und stempeln lassen, scannen
 4. Praktikumszeugnis vom Betrieb besorgen (wird nicht hier erzeugt)
 5. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
+6. 08.04.2026 gegen den echten Semesterkalender-PDF der OTH gegenprüfen (siehe
+   „Korrektur 08.04.2026" oben) — die Einstufung als vorlesungsfrei stützt sich
+   bislang nur auf eine Websuche, nicht auf das Original-PDF

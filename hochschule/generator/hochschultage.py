@@ -39,6 +39,14 @@ FEIER = {
 }
 KRANK = {dt.date(2026, 3, 20), dt.date(2026, 7, 3)}
 
+# Vorlesungsfreie Tage laut Semesterkalender der OTH Regensburg (SoSe 2026),
+# die im ausgelesenen Stundenplan (kalender.json) faelschlich noch einen
+# Vorlesungstermin fuehren. An diesen Tagen entfaellt die Vorlesung, es wird
+# ganz normal im Betrieb gearbeitet (Typ A statt PP/PPRT/VRT).
+VORLESUNGSFREI = {
+    dt.date(2026, 4, 8),   # Mittwoch der Osterwoche, laut Semesterkalender vorlesungsfrei
+}
+
 # Pruefungen an der OTH, jeweils bis 10:00
 PRUEFUNGEN = {
     dt.date(2026, 7,  9): "PRM",
@@ -79,6 +87,8 @@ def tagtypen():
     d = START
     while d <= ENDE:
         pp, rt = plan.get(d, (False, False))
+        if d in VORLESUNGSFREI:
+            pp, rt = False, False
         if d.weekday() >= 5:   typ = "WE"
         elif d in FEIER:       typ = "F"
         elif d in KRANK:       typ = "K"
