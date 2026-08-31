@@ -217,12 +217,19 @@ Nachweis, die Berichtsdaten lesen die Phasengrenzen aus `zeitraeume.json`.
 ### Abbildungen im Word-Bericht
 
 `generator/bau_berichtsdaten.py` verweist je Bild auf eine echte Datei aus den
-Projektordnern (`ABBILDUNGEN`, repo-relativer Pfad); `bau_bericht.js` bettet sie
-mit `docx.ImageRun` direkt ein, verkleinert auf höchstens 480×380 px und setzt
-die Bildunterschrift „Abbildung n.m: …" darunter. Projekt 3 (Web-Anwendung) und
-Projekt 4 (Schweißarbeitsplatz) haben keine Bilder in der Website hinterlegt;
-Bericht 2 bleibt deshalb bewusst ohne Abbildung, mit einem kurzen Hinweissatz
-statt eines erfundenen Bildes. Für Bericht 5 liegt unter
+Projektordnern (`ABBILDUNGEN`, repo-relativer Pfad plus die Nummer des Absatzes,
+nach dem das Bild erscheinen soll); `bau_bericht.js` bettet sie mit
+`docx.ImageRun` direkt an dieser Stelle im Fließtext ein — nicht gesammelt am
+Ende des Berichts —, verkleinert auf höchstens 480×380 px und setzt die
+Bildunterschrift „Abbildung n.m: …" darunter. So steht jedes Bild dort, wo der
+Text es anspricht, wie von Prof. Galka gefordert („auf jede Abbildung muss auch
+im Text eingegangen werden").
+
+Projekt 3 (Web-Anwendung) hat keine Bilder in der Website hinterlegt; dort steht
+statt eines erfundenen Bildes ein kurzer Hinweissatz. Für Bericht 2
+(Schweißarbeitsplatz) liegt die Bildstelle in `ABBILDUNGEN[2]` bereits vor —
+Absatz 9, Ausstattung der festen Station —, wartet aber noch auf die Bilddatei
+(`projekte/projekt-4/img/`). Für Bericht 5 liegt unter
 `generator/berichtsbilder/zerspan-vier-varianten.png` eine 2×2-Montage der vier
 Werkbank-Varianten aus Projekt 7 — die einzige Bilddatei, die nicht 1:1 aus der
 Website stammt, sondern für den Bericht zusammengesetzt wurde.

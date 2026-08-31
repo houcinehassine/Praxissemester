@@ -23,38 +23,44 @@ def zeitraum(nr):
     d = lambda x: f"{x[8:10]}.{x[5:7]}.{x[0:4]}"
     return f"{d(von)} – {d(bis)}"
 
-# Bildunterschrift, Datei (repo-relativ) - nur echte, vorhandene Bilder aus den
-# Projektordnern bzw. dem Montage-Ordner. Projekt 3 (Web-Anwendung) und Projekt 4
-# (Schweißarbeitsplatz) haben keine Bilder in der Website hinterlegt und bleiben
-# deshalb ohne Abbildungen - besser keine als erfundene.
+# Bildunterschrift, Datei (repo-relativ), "nach" = Nummer des Absatzes, nach dem
+# das Bild im Fliesstext erscheinen soll (1-basiert, siehe berichtstexte.py).
+# So steht jede Abbildung genau dort, wo sie im Text angesprochen wird, statt
+# gesammelt am Ende - nur echte, vorhandene Bilder aus den Projektordnern bzw.
+# dem Montage-Ordner. Projekt 3 (Web-Anwendung) hat keine Bilder in der Website
+# hinterlegt und bleibt deshalb ohne Abbildung - besser keine als erfundene.
 ABBILDUNGEN = {
- 1: [("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich",
-      "projekte/projekt-2/img/design-dashboard.jpg"),
+ 1: [("Verlaufsprotokoll mit Zeitstempel und Mengenänderung",
+      "projekte/projekt-2/img/verlauf-testdaten.jpg", 2),
+     ("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich",
+      "projekte/projekt-2/img/design-dashboard.jpg", 3),
      ("Tablet-Modus für die Bedienung an der Maschine",
-      "projekte/projekt-2/img/tablet-modus.jpg"),
-     ("Verlaufsprotokoll mit Zeitstempel und Mengenänderung",
-      "projekte/projekt-2/img/verlauf-testdaten.jpg")],
+      "projekte/projekt-2/img/tablet-modus.jpg", 7)],
+ # Das Foto "Feste Station mit Materialregal, Lochwaenden, Schraenken und
+ # Schweisstisch" passt inhaltlich genau zu Absatz 9 (Ausstattung der festen
+ # Station). Es liegt mir noch nicht als Datei vor - sobald es als Anhang
+ # ankommt, hier eintragen: (text, "projekte/projekt-4/img/<datei>", 9).
  2: [],
- 3: [("3D-Modell des Schweißtisches im Gesamtzusammenbau",
-      "projekte/projekt-5/img/grundkonzept-3d-modell.png"),
-     ("Lochplatten-Spannsystem auf dem Tischrahmen",
-      "projekte/projekt-5/img/lochplatten-auf-rahmen.png"),
+ 3: [("Lochplatten-Spannsystem auf dem Tischrahmen",
+      "projekte/projekt-5/img/lochplatten-auf-rahmen.png", 5),
+     ("3D-Modell des Schweißtisches im Gesamtzusammenbau",
+      "projekte/projekt-5/img/grundkonzept-3d-modell.png", 6),
      ("Zeichnungsblatt des Endstands mit Schriftfeld",
-      "projekte/projekt-5/img/endstand-blatt1-15-17april.jpg")],
+      "projekte/projekt-5/img/endstand-blatt1-15-17april.jpg", 7)],
  4: [("Vorhandener Schweißwagen im Betrieb",
-      "projekte/projekt-6/img/ist-wagen-foto1.jpg"),
+      "projekte/projekt-6/img/ist-wagen-foto1.jpg", 2),
      ("Handskizze mit dem Aufmaß von Gerät und Gasflasche",
-      "projekte/projekt-6/img/ist-handskizze-aufmass.jpg"),
+      "projekte/projekt-6/img/ist-handskizze-aufmass.jpg", 2),
      ("Gewähltes Wagenkonzept mit Gasflaschenhalterung und mehreren Ablagen",
-      "projekte/projekt-6/img/zusatzwagen-v2-mit-bestandswagen.jpg"),
+      "projekte/projekt-6/img/zusatzwagen-v2-mit-bestandswagen.jpg", 8),
      ("Zeichnungsblatt der Gesamtbaugruppe mit Stückliste",
-      "projekte/projekt-6/img/zeichnung-blatt21-gesamtbaugruppe.jpg")],
- 5: [("Vier untersuchte Bauvarianten der Werkbank im Vergleich",
-      "hochschule/generator/berichtsbilder/zerspan-vier-varianten.png"),
-     ("Gewähltes Layout-Konzept mit den Zonen A, B und C",
-      "projekte/projekt-7/img/konzept2-3d-zonen.png"),
+      "projekte/projekt-6/img/zeichnung-blatt21-gesamtbaugruppe.jpg", 9)],
+ 5: [("Gewähltes Layout-Konzept mit den Zonen A, B und C",
+      "projekte/projekt-7/img/konzept2-3d-zonen.png", 5),
+     ("Vier untersuchte Bauvarianten der Werkbank im Vergleich",
+      "hochschule/generator/berichtsbilder/zerspan-vier-varianten.png", 7),
      ("Maßstäblicher Werkstatt-Grundriss",
-      "projekte/projekt-7/img/werkstatt-grundriss.png")],
+      "projekte/projekt-7/img/werkstatt-grundriss.png", 7)],
 }
 
 daten = {
@@ -68,8 +74,8 @@ daten = {
               "email": "⟨E-Mail Betreuer eintragen⟩", "telefon": "⟨Telefon Betreuer eintragen⟩"},
  "berichte": [
    {"titel": b["titel"], "zeitraum": zeitraum(i + 1), "absaetze": b["absaetze"],
-    "abbildungen": [{"nr": j + 1, "text": txt, "datei": datei}
-                    for j, (txt, datei) in enumerate(ABBILDUNGEN[i + 1])]}
+    "abbildungen": [{"nr": j + 1, "text": txt, "datei": datei, "nach": nach}
+                    for j, (txt, datei, nach) in enumerate(ABBILDUNGEN[i + 1])]}
    for i, b in enumerate(BERICHTE)],
 }
 ziel = os.path.join(HIER, "berichtsdaten.json")

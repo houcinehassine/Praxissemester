@@ -133,22 +133,33 @@ daten.berichte.forEach((b, i) => {
   inhalt.push(new Paragraph({ children: [ new PageBreak() ] }));
   inhalt.push(berichtsKopf(nr, b.titel, b.zeitraum));
   inhalt.push(p("", { after: 120 }));
-  b.absaetze.forEach(a => inhalt.push(p(a, { after: 160 })));
-  inhalt.push(p("Beschreibung und Abbildungen", { size: 16, color: "595959", after: 200 }));
+
+  // Jede Abbildung steht direkt nach dem Absatz, der ihren Inhalt anspricht
+  // (Feld "nach" in bau_berichtsdaten.py), statt gesammelt am Ende.
+  const bildFuerAbsatz = new Map();
+  b.abbildungen.forEach(bild => {
+    if (!bildFuerAbsatz.has(bild.nach)) bildFuerAbsatz.set(bild.nach, []);
+    bildFuerAbsatz.get(bild.nach).push(bild);
+  });
+  const einfuegen = bild => {
+    inhalt.push(new Paragraph({
+      children: [ bildRun(bild.datei) ],
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 120, after: 60 },
+    }));
+    inhalt.push(p(`Abbildung ${nr}.${bild.nr}: ${bild.text}`,
+      { size: 18, align: AlignmentType.CENTER, after: 240 }));
+  };
+
+  b.absaetze.forEach((a, j) => {
+    inhalt.push(p(a, { after: 160 }));
+    (bildFuerAbsatz.get(j + 1) || []).forEach(einfuegen);
+  });
   if (b.abbildungen.length === 0) {
     inhalt.push(p("Dieser Abschnitt wird ausschließlich im Fließtext beschrieben; " +
       "aus dem Betrieb liegen dazu keine verwertbaren Bilddateien vor.",
       { italics: true, color: "595959", after: 160 }));
   }
-  b.abbildungen.forEach(bild => {
-    inhalt.push(new Paragraph({
-      children: [ bildRun(bild.datei) ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 60 },
-    }));
-    inhalt.push(p(`Abbildung ${nr}.${bild.nr}: ${bild.text}`,
-      { size: 18, align: AlignmentType.CENTER, after: 240 }));
-  });
   inhalt.push(endeTabelle(nr));
 });
 
