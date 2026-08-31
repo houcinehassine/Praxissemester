@@ -140,7 +140,7 @@ Die Dateinamen entsprechen der Vorgabe aus dem Reiter „Anleitung" der Excel-Vo
 
 Drei Felder konnte ich nicht füllen. Sie stehen in beiden Dateien als `⟨…⟩`:
 
-- Position bzw. Funktion von Amine Halloul im Unternehmen
+- Position bzw. Funktion von Amin Halloul im Unternehmen
 - E-Mail des Betreuers
 - Telefonnummer des Betreuers
 
@@ -250,8 +250,9 @@ dabei unverändert; alle Formeln und benannten Bereiche der Hochschule sind erha
 
 ## Vor der Abgabe
 
-1. Die drei Betreuer-Felder ausfüllen
-2. In den Word-Bericht die Abbildungen einsetzen — die Plätze sind mit
-   `[ Hier Abbildung einfügen: … ]` und fertiger Bildunterschrift markiert
+1. Die drei Betreuer-Felder ausfüllen (Stammdaten `I17`/`I20`/`I23`, siehe oben)
+2. Bild für Bericht 2 nachreichen (siehe „Abbildungen im Word-Bericht") — optional,
+   Minimum von 3 bebilderten Berichten ist bereits erfüllt
 3. Nachweis ausdrucken, vom Betrieb unterschreiben und stempeln lassen, scannen
-4. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
+4. Praktikumszeugnis vom Betrieb besorgen (wird nicht hier erzeugt)
+5. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
