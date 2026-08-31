@@ -23,24 +23,38 @@ def zeitraum(nr):
     d = lambda x: f"{x[8:10]}.{x[5:7]}.{x[0:4]}"
     return f"{d(von)} – {d(bis)}"
 
+# Bildunterschrift, Datei (repo-relativ) - nur echte, vorhandene Bilder aus den
+# Projektordnern bzw. dem Montage-Ordner. Projekt 3 (Web-Anwendung) und Projekt 4
+# (Schweißarbeitsplatz) haben keine Bilder in der Website hinterlegt und bleiben
+# deshalb ohne Abbildungen - besser keine als erfundene.
 ABBILDUNGEN = {
- 1: [("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich", "Screenshot aus Excel"),
-     ("Tablet-Modus für die Bedienung an der Maschine", "Screenshot aus Excel"),
-     ("Verlaufsprotokoll mit Zeitstempel und Mengenänderung", "Screenshot aus Excel"),
-     ("Oberfläche der Web-Anwendung", "Screenshot der Anwendung")],
- 2: [("Bestehender Schweißarbeitsplatz vor der Planung", "Foto aus der Werkstatt"),
-     ("Gewähltes Layout-Konzept des Schweißarbeitsplatzes", "Skizze oder CAD-Ansicht"),
-     ("Werkzeugwand mit Schattenbrett", "Foto oder Entwurf")],
- 3: [("3D-Modell des Schweißtisches im Gesamtzusammenbau", "Screenshot aus dem CAD"),
-     ("Lochplatten-Spannsystem auf dem Tischrahmen", "Screenshot aus dem CAD"),
-     ("Zeichnungsblatt des Endstands mit Schriftfeld", "Ausschnitt aus dem Zeichnungssatz")],
- 4: [("Vorhandener Schweißwagen im Betrieb", "Foto aus der Werkstatt"),
-     ("Handskizze mit dem Aufmaß von Gerät und Gasflasche", "Foto der Skizze"),
-     ("Gewähltes Konzept: modularer Aufbau in vier Etagen", "Screenshot aus dem CAD"),
-     ("Zeichnungsblatt der Gesamtbaugruppe mit Stückliste", "Ausschnitt aus dem Zeichnungssatz")],
- 5: [("Vier Bauvarianten der Werkbank im Vergleich", "3D-Darstellungen"),
-     ("Gewähltes Layout-Konzept mit den Zonen A, B und C", "3D-Darstellung"),
-     ("Maßstäblicher Werkstatt-Grundriss", "Zeichnung der Draufsicht")],
+ 1: [("Dashboard des Lagerbestand-Systems mit Barcode-Eingabe, Suchergebnis und Exportbereich",
+      "projekte/projekt-2/img/design-dashboard.jpg"),
+     ("Tablet-Modus für die Bedienung an der Maschine",
+      "projekte/projekt-2/img/tablet-modus.jpg"),
+     ("Verlaufsprotokoll mit Zeitstempel und Mengenänderung",
+      "projekte/projekt-2/img/verlauf-testdaten.jpg")],
+ 2: [],
+ 3: [("3D-Modell des Schweißtisches im Gesamtzusammenbau",
+      "projekte/projekt-5/img/grundkonzept-3d-modell.png"),
+     ("Lochplatten-Spannsystem auf dem Tischrahmen",
+      "projekte/projekt-5/img/lochplatten-auf-rahmen.png"),
+     ("Zeichnungsblatt des Endstands mit Schriftfeld",
+      "projekte/projekt-5/img/endstand-blatt1-15-17april.jpg")],
+ 4: [("Vorhandener Schweißwagen im Betrieb",
+      "projekte/projekt-6/img/ist-wagen-foto1.jpg"),
+     ("Handskizze mit dem Aufmaß von Gerät und Gasflasche",
+      "projekte/projekt-6/img/ist-handskizze-aufmass.jpg"),
+     ("Gewähltes Wagenkonzept mit Gasflaschenhalterung und mehreren Ablagen",
+      "projekte/projekt-6/img/zusatzwagen-v2-mit-bestandswagen.jpg"),
+     ("Zeichnungsblatt der Gesamtbaugruppe mit Stückliste",
+      "projekte/projekt-6/img/zeichnung-blatt21-gesamtbaugruppe.jpg")],
+ 5: [("Vier untersuchte Bauvarianten der Werkbank im Vergleich",
+      "hochschule/generator/berichtsbilder/zerspan-vier-varianten.png"),
+     ("Gewähltes Layout-Konzept mit den Zonen A, B und C",
+      "projekte/projekt-7/img/konzept2-3d-zonen.png"),
+     ("Maßstäblicher Werkstatt-Grundriss",
+      "projekte/projekt-7/img/werkstatt-grundriss.png")],
 }
 
 daten = {
@@ -54,8 +68,8 @@ daten = {
               "email": "⟨E-Mail Betreuer eintragen⟩", "telefon": "⟨Telefon Betreuer eintragen⟩"},
  "berichte": [
    {"titel": b["titel"], "zeitraum": zeitraum(i + 1), "absaetze": b["absaetze"],
-    "abbildungen": [{"nr": j + 1, "text": txt, "hinweis": hin}
-                    for j, (txt, hin) in enumerate(ABBILDUNGEN[i + 1])]}
+    "abbildungen": [{"nr": j + 1, "text": txt, "datei": datei}
+                    for j, (txt, datei) in enumerate(ABBILDUNGEN[i + 1])]}
    for i, b in enumerate(BERICHTE)],
 }
 ziel = os.path.join(HIER, "berichtsdaten.json")

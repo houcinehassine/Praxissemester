@@ -204,6 +204,7 @@ der Phasen, ziehen die Berichtsköpfe automatisch nach.
 
 ## Neu erzeugen
 
+    npm install docx image-size --prefix generator   # einmalig
     python3 generator/hochschultage.py       # nur zur Kontrolle: Tagestypen
     python3 generator/bau_nachweis.py        # Excel-Nachweis + zeitraeume.json
     python3 generator/bau_zeiterfassung.py   # Stempelkarte aus dem Nachweis
@@ -212,6 +213,23 @@ der Phasen, ziehen die Berichtsköpfe automatisch nach.
 
 Die Reihenfolge ist bindend: die Zeiterfassung liest die Stunden aus dem fertigen
 Nachweis, die Berichtsdaten lesen die Phasengrenzen aus `zeitraeume.json`.
+
+### Abbildungen im Word-Bericht
+
+`generator/bau_berichtsdaten.py` verweist je Bild auf eine echte Datei aus den
+Projektordnern (`ABBILDUNGEN`, repo-relativer Pfad); `bau_bericht.js` bettet sie
+mit `docx.ImageRun` direkt ein, verkleinert auf höchstens 480×380 px und setzt
+die Bildunterschrift „Abbildung n.m: …" darunter. Projekt 3 (Web-Anwendung) und
+Projekt 4 (Schweißarbeitsplatz) haben keine Bilder in der Website hinterlegt;
+Bericht 2 bleibt deshalb bewusst ohne Abbildung, mit einem kurzen Hinweissatz
+statt eines erfundenen Bildes. Für Bericht 5 liegt unter
+`generator/berichtsbilder/zerspan-vier-varianten.png` eine 2×2-Montage der vier
+Werkbank-Varianten aus Projekt 7 — die einzige Bilddatei, die nicht 1:1 aus der
+Website stammt, sondern für den Bericht zusammengesetzt wurde.
+
+Laut Informationsveranstaltung von Prof. Galka (Folie „Anforderungen") müssen
+mindestens 3 der 5 Berichte Abbildungen enthalten; aktuell sind es 4 (Berichte
+1, 3, 4, 5) mit zusammen 13 Bildern.
 
 `generator/hochschultage.py` stuft jeden Kalendertag ein — Vorlesung, Praktikum,
 Prüfung, Feiertag — und ist die gemeinsame Quelle für Nachweis und

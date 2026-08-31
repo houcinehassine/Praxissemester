@@ -3,10 +3,30 @@ const fs = require("fs");
 const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
-  WidthType, BorderStyle, AlignmentType, ShadingType, PageBreak,
+  WidthType, BorderStyle, AlignmentType, ShadingType, PageBreak, ImageRun,
 } = require("docx");
+const sizeOf = require("image-size").default || require("image-size");
 
 const HIER = __dirname;
+const ROOT = path.dirname(path.dirname(HIER));
+
+// Bildbreite im Bericht: Textbreite (BREITE unten) entspricht 6,29 Zoll;
+// 480 px bei 96 dpi = 5,0 Zoll, laesst links/rechts sichtbar Rand.
+const BILD_BREITE_PX = 480;
+const BILD_HOEHE_PX = 380;    // Deckel fuer hochformatige Fotos, sonst fast eine Seitenhoehe
+
+function bildRun(datei) {
+  const voll = path.join(ROOT, datei);
+  const puffer = fs.readFileSync(voll);
+  const { width, height } = sizeOf(puffer);
+  let breite = Math.min(BILD_BREITE_PX, width);
+  let hoehe = Math.round(height * (breite / width));
+  if (hoehe > BILD_HOEHE_PX) {
+    hoehe = BILD_HOEHE_PX;
+    breite = Math.round(width * (hoehe / height));
+  }
+  return new ImageRun({ data: puffer, transformation: { width: breite, height: hoehe } });
+}
 const daten = JSON.parse(fs.readFileSync(path.join(HIER, "berichtsdaten.json"), "utf8"));
 
 const FONT = "Arial";
@@ -115,9 +135,17 @@ daten.berichte.forEach((b, i) => {
   inhalt.push(p("", { after: 120 }));
   b.absaetze.forEach(a => inhalt.push(p(a, { after: 160 })));
   inhalt.push(p("Beschreibung und Abbildungen", { size: 16, color: "595959", after: 200 }));
+  if (b.abbildungen.length === 0) {
+    inhalt.push(p("Dieser Abschnitt wird ausschließlich im Fließtext beschrieben; " +
+      "aus dem Betrieb liegen dazu keine verwertbaren Bilddateien vor.",
+      { italics: true, color: "595959", after: 160 }));
+  }
   b.abbildungen.forEach(bild => {
-    inhalt.push(p(`[ Hier Abbildung einfügen: ${bild.hinweis} ]`,
-      { italics: true, color: "808080", align: AlignmentType.CENTER, after: 60 }));
+    inhalt.push(new Paragraph({
+      children: [ bildRun(bild.datei) ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 60 },
+    }));
     inhalt.push(p(`Abbildung ${nr}.${bild.nr}: ${bild.text}`,
       { size: 18, align: AlignmentType.CENTER, after: 240 }));
   });
