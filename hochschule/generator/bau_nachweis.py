@@ -76,6 +76,36 @@ def medien_zusammenfassen(pfad):
     shutil.move(vorlaeufig, pfad)
     return len(ersetzen)
 
+
+def kopfzeile_reparieren(pfad):
+    """Mehrzeilige Kopf-/Fusszeilen aus der Vorlage druckbar machen.
+
+    Die Vorlage kodiert Zeilenumbrueche in Kopf-/Fusszeile als das Excel-
+    interne Escape "_x000a_"; openpyxl gibt das beim Speichern unveraendert
+    wieder aus. Excel selbst loest das beim Drucken korrekt auf, andere
+    Programme (z. B. LibreOffice) zeigen stattdessen den Text "_x000a_"
+    woertlich an und schneiden die Fusszeile am unteren Seitenrand ab -
+    genau dort, wo die Unterschriftszeile "Datum / Unterschrift und
+    Firmenstempel" steht. Deshalb hier durch einen echten Zeilenumbruch
+    ersetzt und der untere Seitenrand vergroessert, damit die komplette
+    Fusszeile auf jedem Programm sichtbar bleibt, das die Mappe druckt.
+    """
+    with zipfile.ZipFile(pfad) as z:
+        eintraege = [(i, z.read(i.filename)) for i in z.infolist()]
+    vorlaeufig = pfad + ".tmp"
+    with zipfile.ZipFile(vorlaeufig, "w", zipfile.ZIP_DEFLATED) as neu:
+        for info, roh in eintraege:
+            if info.filename.startswith("xl/worksheets/sheet") and info.filename.endswith(".xml"):
+                text = roh.decode("utf-8")
+                if "_x000a_" in text:
+                    text = text.replace("_x000a_", "&#10;")
+                if "Ausbildungsbetriebes" in text:
+                    text = re.sub(r'(<pageMargins\b[^/]*\bbottom=")[^"]*(")', r'\g<1>1.9\g<2>', text)
+                roh = text.encode("utf-8")
+            neu.writestr(info, roh)
+    shutil.move(vorlaeufig, pfad)
+
+
 def main():
     typen = tagtypen()
     stunden = stunden_je_tag()
@@ -170,6 +200,7 @@ def main():
     # Excel soll beim Öffnen alle Formeln neu rechnen (openpyxl schreibt keine Ergebniswerte)
     wb.calculation.fullCalcOnLoad = True
     wb.save(ZIEL)
+    kopfzeile_reparieren(ZIEL)
     doppelt = medien_zusammenfassen(ZIEL)
     gesamt = sum(p[2] for p in protokoll if p[2])
     wochen = tage / 7
