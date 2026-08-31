@@ -50,7 +50,7 @@ daten = {
              "email": "houcine1.hassine@hs-regensburg.de"},
  "betrieb": {"name": "Mechanische Werkstätte Schmidt e.K.",
              "anschrift": "Stiftstraße 20, 93343 Essing"},
- "betreuer": {"anrede": "Herr", "vorname": "Amine", "name": "Halloul",
+ "betreuer": {"anrede": "Herr", "vorname": "Amin", "name": "Halloul",
               "email": "⟨E-Mail Betreuer eintragen⟩", "telefon": "⟨Telefon Betreuer eintragen⟩"},
  "berichte": [
    {"titel": b["titel"], "zeitraum": zeitraum(i + 1), "absaetze": b["absaetze"],

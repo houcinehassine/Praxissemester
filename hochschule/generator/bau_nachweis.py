@@ -91,7 +91,7 @@ def main():
         "B46": "Konstruktion",                # Schweißtisch und Schweißmaschinenwagen
         "B49": "Beratung und Planung",        # Zerspanarbeitsplatz
         "I5": "Mechanische Werkstätte Schmidt e.K.", "I8": "Herr",
-        "I11": "Halloul", "I14": "Amine",
+        "I11": "Halloul", "I14": "Amin",   # Schreibweise nach Vertrag §4
         "I17": "⟨Position im Unternehmen⟩", "I20": "⟨E-Mail Betreuer⟩",
         "I23": "⟨Telefon Betreuer⟩", "I26": "Stiftstraße", "N26": 20,
         "I29": "93343", "L29": "Essing", "I32": "Deutschland",
