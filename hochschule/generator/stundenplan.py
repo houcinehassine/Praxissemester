@@ -1,111 +1,104 @@
 # -*- coding: utf-8 -*-
-"""Nettostunden je Monat.
+"""Nettostunden je Tag.
 
 Alle Werte sind Vielfache von 0,25 h. Nur so ist beides zugleich glatt:
 der Dezimalwert (8,25) und die Uhrzeit (8:15). Bei 5-Minuten-Schritten wie
 8:05 waere der Dezimalwert 8,0833 und liesse sich nicht sauber anzeigen.
 
-Vorgaben:
-  - Ein Tag dauert hoechstens 9:00 Stunden einschliesslich Pause.
-    Bei 30 min Pause sind das hoechstens 8,50 h netto.
-  - Arbeitstage mindestens 6,50 h, Pruefungstage duerfen darunter liegen
-  - Die Schichten werden zum Ende hin kuerzer: Maerz die laengsten Tage,
-    danach absteigend bis Juli
-  - Beginn ab 07:00, Ende bis 18:00
+Die reinen Betriebstage (Typ A) folgen den drei Abschnitten aus
+hochschultage.py:
 
-Zur Monatssumme statt Tageslaenge: die absteigende Kurve gilt fuer die
-Tageslaenge, nicht fuer die Monatssummen. Die haengen zusaetzlich an der Zahl
-der Anwesenheitstage je Monat (Mai hat 14, Maerz 19), und die laesst sich nicht
-frei waehlen.
+  Startphase 02.03.-13.03.
+      Einarbeitung, jeden Tag 9 bis 10 Stunden.
+
+  Sammelphase 16.03.-12.06.
+      Grundlast 7,25 bis 7,75 h. Dazu bekommt jeder Monat vier laengere
+      Tage, um Stunden vorzuarbeiten: zweimal 8,00 h und zweimal zwischen
+      9 und 10 h. Sie liegen ueber den Monat verteilt.
+
+  Pruefungsphase ab 15.06.
+      Feierabend spaetestens 15:00, also hoechstens 7,50 h netto. Der Rest
+      des Tages geht in die Pruefungsvorbereitung.
+
+Die Tage mit Vorlesung, Praktikum oder Pruefung haben feste Zeitfenster;
+ihre Stunden stehen in hochschultage.FENSTER.
+
+Obergrenze: 10,00 h netto am Tag - mehr laesst das Arbeitszeitgesetz auch
+im Ausnahmefall nicht zu (§ 3 ArbZG).
 """
-import datetime as dt
+import os, sys, datetime as dt
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from hochschultage import (STARTPHASE_ENDE, PRUEFUNGSPHASE_START,
+                           abschnitt, tagtypen, zeitfenster)
 
-# Monat -> (Anzahl A-Tage, Zielsumme, Untergrenze, Obergrenze)
-# Die Schichten werden von Monat zu Monat kuerzer: am Anfang, waehrend der
-# Einarbeitung und der grossen Softwarearbeit, sind die Tage am laengsten.
-ZIEL_A = {
-    3: (19, 159.50, 8.25, 8.50),   # Ø 8,39
-    4: (15, 122.25, 7.75, 8.50),   # Ø 8,15
-    5: (14, 111.25, 7.50, 8.50),   # Ø 7,95
-    6: (17, 127.50, 7.00, 8.00),   # Ø 7,50
-    7: (17, 119.00, 6.50, 7.50),   # Ø 7,00
-}
-# An den Vorlesungstagen (Mittwoch, PP 10:00-11:30) war keine Anwesenheit
-# im Betrieb - sie stehen als Typ V ohne Stunden im Nachweis. Es bleiben nur
-# der 01.07. (Praktikum RT erst am Nachmittag) und die vier Pruefungstage;
-# beide sind unten fest hinterlegt.
-ZIEL_VA = {}
+HOECHSTNETTO = 10.00
 
-# Kurze Schichten laufen ohne Pause durch - das Arbeitszeitgesetz verlangt
-# eine Pause erst ueber 6 Stunden.
-# Der 01.07. steht so im Stundenplan: Betrieb 08:00-14:00, danach das
-# Praktikum Regelungstechnik 15:30-17:00. Das sind glatte 6:00 ohne Pause.
-# Die vier Pruefungstage enden um 10:00, danach vier Stunden im Betrieb.
-FESTE_TAGE = {
-    dt.date(2026, 7,  1): 6.00,
-    dt.date(2026, 7,  9): 4.00,
-    dt.date(2026, 7, 17): 4.00,
-    dt.date(2026, 7, 20): 4.00,
-    dt.date(2026, 7, 28): 4.00,
-}
+# Startphase: zehn Arbeitstage, 9 bis 10 Stunden
+STARTPHASE = [9.50, 9.75, 9.25, 10.00, 9.50, 9.25, 9.75, 9.00, 9.50, 9.75]
+
+# Sammelphase: Grundlast und die vier laengeren Tage je Monat
+SAMMEL_GRUND = [7.25, 7.50, 7.75, 7.50]
+SAMMEL_EXTRA = [8.00, 9.75, 8.00, 9.25]
+SAMMEL_LAGE  = (0.15, 0.35, 0.60, 0.85)   # relative Lage im Monat
+
+# Pruefungsphase: hoechstens 7,50 h, damit um 15:00 Schluss ist
+PRUEFUNGSPHASE = [7.50, 7.25, 7.00, 7.50, 6.75, 7.25, 7.50, 7.00]
 
 
-def _reihe(n, summe, lo, hi):
-    """n Werte in 0,25er-Schritten zwischen lo und hi mit exakt dieser Summe."""
-    schritte_lo, schritte_hi = round(lo * 4), round(hi * 4)
-    ziel = round(summe * 4)
-    if not n:
-        return []
-    if not (schritte_lo * n <= ziel <= schritte_hi * n):
-        raise ValueError(f"Summe {summe} mit {n} Tagen zwischen {lo} und {hi} nicht erreichbar")
-    grund = ziel // n
-    rest = ziel - grund * n
-    werte = [grund] * n
-    # Rest gleichmaessig verteilt aufschlagen, damit die Werte streuen
-    for k in range(rest):
-        werte[(k * 7) % n] += 1
-    # zusaetzlich auf und ab variieren, ohne die Summe zu aendern
-    muster = [2, -1, 1, -2, 0, 1, -1, 2, -2, 1, 0, -1]
-    for k in range(0, n - 1, 2):
-        d = muster[(k // 2) % len(muster)]
-        if schritte_lo <= werte[k] + d <= schritte_hi and schritte_lo <= werte[k + 1] - d <= schritte_hi:
-            werte[k] += d
-            werte[k + 1] -= d
-    werte = [min(max(w, schritte_lo), schritte_hi) for w in werte]
-    # Rundungsreste ausgleichen
-    diff = ziel - sum(werte)
-    i = 0
-    while diff != 0:
-        s = 1 if diff > 0 else -1
-        if schritte_lo <= werte[i % n] + s <= schritte_hi:
-            werte[i % n] += s
-            diff -= s
-        i += 1
-        if i > 40 * n:
-            raise ValueError("Summe nicht erreichbar")
-    return [w / 4 for w in werte]
+def _reihe(werte, muster):
+    return {d: muster[i % len(muster)] for i, d in enumerate(sorted(werte))}
 
 
-def stunden(datum, typ, lfd):
-    """Nettostunden fuer den lfd-ten Tag dieses Typs im Monat des Datums."""
-    if datum in FESTE_TAGE:
-        return FESTE_TAGE[datum]
-    if typ != "A":
-        raise ValueError(f"{datum}: Typ {typ} braucht einen Eintrag in FESTE_TAGE")
-    return _reihe(*ZIEL_A[datum.month])[lfd]
+def stunden_je_tag():
+    """date -> Nettostunden, fuer jeden Tag mit Anwesenheit im Betrieb."""
+    typen = tagtypen()
+    aus = {}
+
+    # Tage mit festem Zeitfenster (Vorlesung, Praktikum, Pruefung)
+    for d, (beginn, ende, pause) in zeitfenster().items():
+        aus[d] = (ende - beginn - pause) / 60
+
+    a_tage = sorted(d for d, c in typen.items() if c == "A")
+    aus.update(_reihe([d for d in a_tage if abschnitt(d) == "Start"], STARTPHASE))
+    aus.update(_reihe([d for d in a_tage if abschnitt(d) == "Pruefung"], PRUEFUNGSPHASE))
+
+    # Sammelphase monatsweise, damit jeder Monat seine vier langen Tage bekommt
+    for monat in sorted({d.month for d in a_tage if abschnitt(d) == "Sammel"}):
+        tage = [d for d in a_tage if abschnitt(d) == "Sammel" and d.month == monat]
+        lage = {int(len(tage) * f): v for f, v in zip(SAMMEL_LAGE, SAMMEL_EXTRA)}
+        grund = 0
+        for i, d in enumerate(tage):
+            if i in lage:
+                aus[d] = lage[i]
+            else:
+                aus[d] = SAMMEL_GRUND[grund % len(SAMMEL_GRUND)]
+                grund += 1
+
+    zuviel = {d: h for d, h in aus.items() if h > HOECHSTNETTO}
+    if zuviel:
+        raise ValueError(f"ueber der Grenze von {HOECHSTNETTO} h: {zuviel}")
+    return aus
+
+
+def stunden(datum):
+    return stunden_je_tag()[datum]
 
 
 if __name__ == "__main__":
+    import collections
+    werte = stunden_je_tag()
+    typen = tagtypen()
     MON = {3: "März", 4: "April", 5: "Mai", 6: "Juni", 7: "Juli"}
-    gesamt = 0
-    print(f"{'Monat':7} {'A-Tage':>28} {'Summe A':>8} {'feste Tage':>20} {'Monat':>9}")
-    for m in MON:
-        a = _reihe(*ZIEL_A[m])
-        v = [h for d, h in FESTE_TAGE.items() if d.month == m]
-        gesamt += sum(a) + sum(v)
-        fest = f"{min(v):.2f}–{max(v):.2f} ({len(v)})" if v else "–"
-        print(f"{MON[m]:7} {min(a):.2f}–{max(a):.2f} (Ø {sum(a)/len(a):.2f}, {len(a):2} Tage) {sum(a):8.2f} "
-              f"{fest:>20} {sum(a)+sum(v):9.2f}")
-    print(f"{'Gesamt':7} {'':28} {'':8} {'':20} {gesamt:9.2f}")
-    print(f"  hoechster Tag: {max(max(_reihe(*ZIEL_A[m])) for m in MON):.2f} h netto "
-          f"= 9:00 brutto mit 30 min Pause")
+    mon = collections.defaultdict(list)
+    for d, h in werte.items():
+        mon[d.month].append(h)
+    print(f"{'Monat':7} {'Tage':>5} {'Summe':>8} {'Ø':>6}")
+    for m in sorted(mon):
+        a = mon[m]
+        print(f"{MON[m]:7} {len(a):5} {sum(a):8.2f} {sum(a)/len(a):6.2f}")
+    ges = sum(werte.values())
+    print(f"{'Gesamt':7} {len(werte):5} {ges:8.2f} {ges/len(werte):6.2f}"
+          f"   -> Ø {ges/22:.2f} h je Kalenderwoche")
+    for name in ("Start", "Sammel", "Pruefung"):
+        a = [werte[d] for d, c in typen.items() if c == "A" and abschnitt(d) == name]
+        print(f"  A-Tage {name:9} {len(a):3} Tage  {min(a):.2f}–{max(a):.2f}  Ø {sum(a)/len(a):.2f}")

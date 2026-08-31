@@ -6,8 +6,7 @@ HIER = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HIER)
 import openpyxl
 from tagestexte import PHASENTEXTE
-from hochschultage import (START, ENDE, FEIER, KRANK, PRUEFUNGEN,
-                           KURZSCHICHT_STUNDEN, tagtypen, doppelt_belegte_tage)
+from hochschultage import START, ENDE, FEIER, KRANK, PRUEFUNGEN, tagtypen
 
 VORLAGE = os.path.join(HIER, "vorlage_taetigkeitsnachweis.xlsx")
 ZIEL    = os.path.join(os.path.dirname(HIER), "Hassine_3399727_Tätigkeitsnachweis.xlsx")
@@ -22,18 +21,21 @@ PHASEN = [
     ("CloudAnwendung",        3),
     ("Schweissarbeitsplatz", 14),
     ("Schweisstisch",        14),
-    ("Schweisswagen",        12),
-    ("Zerspanarbeitsplatz",  14),
-    ("Rostschutz",            9),
+    ("Schweisswagen",        13),
+    ("Zerspanarbeitsplatz",  15),
+    ("Rostschutz",           10),
 ]
 
-# Die Nettostunden je Monat stehen in stundenplan.py.
-from stundenplan import stunden
+# Die Nettostunden je Tag stehen in stundenplan.py.
+from stundenplan import stunden_je_tag
 
-# Texte fuer die Tage ohne Anwesenheit im Betrieb
-V_TEXT_PP = "Vorlesung PP 10:00-11:30 an der OTH, keine Anwesenheit im Betrieb"
-V_TEXT_PP_RT = ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
-                "an der OTH, keine Anwesenheit im Betrieb")
+# Vorspann im Tagestext fuer die Tage mit Hochschultermin
+VORSPANN = {
+    "PP":   "Vorlesung PP 10:00-11:30 an der OTH, davor und danach im Betrieb. ",
+    "PPRT": ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
+             "an der OTH, Vormittag im Betrieb. "),
+    "VRT":  "Im Anschluss Praktikum Regelungstechnik 15:30-17:00 an der OTH. ",
+}
 
 
 def medien_zusammenfassen(pfad):
@@ -76,7 +78,7 @@ def medien_zusammenfassen(pfad):
 
 def main():
     typen = tagtypen()
-    doppelt_belegt = doppelt_belegte_tage()
+    stunden = stunden_je_tag()
 
     wb = openpyxl.load_workbook(VORLAGE)
     st = wb["Stammdaten"]
@@ -110,7 +112,6 @@ def main():
     for name, anzahl in PHASEN:
         plan += [name] * anzahl
     rest = {name: list(PHASENTEXTE[name]) for name, _ in PHASEN}
-    zaehler = {}          # (Monat, Typ) -> laufende Nummer
     arbeitstag = 0
     spanne = {}              # Phase -> (erster, letzter Arbeitstag)
     tage = (ENDE - START).days + 1
@@ -134,13 +135,8 @@ def main():
             typ, txt = "F", FEIER[d]
         elif t == "K":
             typ, txt = "K", "Krank"
-        elif t == "V":
-            # Vorlesungstag an der Hochschule, keine Betriebsstunden und
-            # deshalb auch kein Arbeitstag einer Projektphase
-            typ = "V"
-            txt = V_TEXT_PP_RT if d in doppelt_belegt else V_TEXT_PP
         else:
-            # A = nur Betrieb, VA = Betrieb neben Vorlesung oder Pruefung
+            # A = nur Betrieb, VA = Betrieb neben Vorlesung, Praktikum oder Pruefung
             typ = "A" if t == "A" else "VA"
             thema = plan[arbeitstag] if arbeitstag < len(plan) else None
             arbeitstag += 1
@@ -150,17 +146,12 @@ def main():
                 txt = rest[thema].pop(0) if rest[thema] else None
             if t == "P":
                 txt = f"Prüfung {PRUEFUNGEN[d]} an der OTH bis 10:00. " + (txt or "")
-            elif t == "KS":
-                txt = "Vorlesung PP bis 11:30, danach im Betrieb. " + (txt or "")
-            if t == "KS":
-                std = KURZSCHICHT_STUNDEN
-            else:
-                k = (d.month, t)
-                std = stunden(d, t, zaehler.get(k, 0))
-                zaehler[k] = zaehler.get(k, 0) + 1
+            elif t in VORSPANN:
+                txt = VORSPANN[t] + (txt or "")
+            std = stunden[d]
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
-        ws.cell(r, 7).value = "ja" if t in ("V", "KS", "P", "VRT") else "nein"
+        ws.cell(r, 7).value = "ja" if t != "A" else "nein"
         ws.cell(r, 8).value = txt
         if typ: protokoll.append((d, typ, std, txt, thema))
 

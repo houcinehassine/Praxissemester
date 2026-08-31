@@ -6,13 +6,18 @@ Grundlage sind der Stundenplan (kalender.json, aus dem uebergebenen PDF
 ausgelesen), die bayerischen Feiertage und die Pruefungstermine.
 
 Rueckgabecodes von `tagtypen()`:
-  A    nur Betrieb
-  V    Vorlesung an der OTH, keine Anwesenheit im Betrieb
-  KS   Vorlesung, danach eine Schicht von vier Stunden
-  P    Pruefung bis 10:00, danach im Betrieb
-  VRT  Praktikum Regelungstechnik am Nachmittag, davor im Betrieb
-  K    krank        F  Feiertag        WE  Wochenende
-Die drei Codes KS, P und VRT stehen im Nachweis als Typ VA.
+  A     nur Betrieb
+  PP    Vorlesung PP 10:00-11:30, davor und danach im Betrieb
+  PPRT  Vorlesung PP und Praktikum RT - nur der Vormittag im Betrieb
+  VRT   nur Praktikum RT am Nachmittag, davor im Betrieb (01.07.)
+  P     Pruefung bis 10:00, danach im Betrieb
+  K     krank        F  Feiertag        WE  Wochenende
+Die vier Codes PP, PPRT, VRT und P stehen im Nachweis als Typ VA.
+
+Der Zeitraum zerfaellt in drei Abschnitte:
+  Startphase     02.03.-13.03.  lange Tage zum Einarbeiten (9 bis 10 h)
+  Sammelphase    16.03.-12.06.  Grundlast, dazu je Monat vier laengere Tage
+  Pruefungsphase ab 15.06.      Feierabend spaetestens 15:00, Zeit zum Lernen
 """
 import os, json, datetime as dt
 
@@ -20,6 +25,9 @@ HIER = os.path.dirname(os.path.abspath(__file__))
 KALENDER = os.path.join(HIER, "kalender.json")
 
 START, ENDE = dt.date(2026, 3, 2), dt.date(2026, 7, 31)
+STARTPHASE_ENDE      = dt.date(2026, 3, 13)   # Ende der ersten zwei Wochen
+PRUEFUNGSPHASE_START = dt.date(2026, 6, 15)   # zweite Junihaelfte und Juli
+PRUEFUNGSPHASE_ENDE  = 15 * 60                # ab dann taeglich um 15:00 Schluss
 
 FEIER = {
     dt.date(2026, 4,  3): "Karfreitag",
@@ -39,11 +47,16 @@ PRUEFUNGEN = {
     dt.date(2026, 7, 28): "SWV",
 }
 
-# Nach der Vorlesung PP geht es fuer vier Stunden in den Betrieb, ab etwa
-# 12:15 und damit ohne Pause. Die Startzeiten streuen um eine Viertelstunde.
-KURZSCHICHT_STUNDEN = 4.00
-KURZSCHICHT_STARTS = [12 * 60 + 15, 12 * 60 + 10, 12 * 60 + 20, 12 * 60 + 15,
-                      12 * 60 + 25, 12 * 60 + 10, 12 * 60 + 15, 12 * 60 + 20]
+# Feste Zeitfenster (Beginn, Ende, Pause) in Minuten seit Mitternacht.
+# An Vorlesungstagen wird vor und nach der Vorlesung gearbeitet; die Luecke
+# 09:30-12:00 deckt Fahrt, Vorlesung und die gesetzliche Pause ab.
+FENSTER = {
+    "PP":      (7 * 60, 17 * 60, 150),          # 07:00-09:30 und 12:00-17:00
+    "PP_kurz": (7 * 60, 15 * 60, 150),          # in der Pruefungsphase
+    "PPRT":    (7 * 60,  9 * 60 + 30, 0),       # nur der Vormittag
+    "VRT":     (8 * 60, 14 * 60, 0),            # laut Stundenplan 08:00-14:00
+    "P":      (11 * 60, 15 * 60, 0),            # nach der Pruefung
+}
 
 
 def _stundenplan():
@@ -70,12 +83,8 @@ def tagtypen():
         elif d in FEIER:       typ = "F"
         elif d in KRANK:       typ = "K"
         elif d in PRUEFUNGEN:  typ = "P"
-        elif pp and rt:
-            # Die Hochschule belegt 10:00 bis 17:00 - dazwischen bleibt keine
-            # Zeit fuer die Fahrt nach Essing und zurueck.
-            typ = "V"
-        elif pp:
-            typ = "KS"
+        elif pp and rt:        typ = "PPRT"
+        elif pp:               typ = "PP"
         elif rt:               typ = "VRT"
         else:                  typ = "A"
         typen[d] = typ
@@ -83,21 +92,30 @@ def tagtypen():
     return typen
 
 
-def doppelt_belegte_tage():
-    """Tage, an denen Vorlesung PP und Praktikum RT zusammenfallen."""
-    return {d for d, (pp, rt) in _stundenplan().items() if pp and rt}
+def zeitfenster():
+    """date -> (Beginn, Ende, Pause) in Minuten, fuer alle Tage mit festem Ablauf."""
+    aus = {}
+    for d, typ in tagtypen().items():
+        if typ == "PP":
+            aus[d] = FENSTER["PP_kurz" if d >= PRUEFUNGSPHASE_START else "PP"]
+        elif typ in FENSTER:
+            aus[d] = FENSTER[typ]
+    return aus
 
 
-def kurzschichten():
-    """date -> Beginn in Minuten seit Mitternacht, fuer die Kurzschichten."""
-    tage = sorted(d for d, t in tagtypen().items() if t == "KS")
-    return {d: KURZSCHICHT_STARTS[i % len(KURZSCHICHT_STARTS)]
-            for i, d in enumerate(tage)}
+def abschnitt(d):
+    """Start-, Sammel- oder Pruefungsphase."""
+    if d <= STARTPHASE_ENDE:          return "Start"
+    if d < PRUEFUNGSPHASE_START:      return "Sammel"
+    return "Pruefung"
 
 
 if __name__ == "__main__":
     from collections import Counter
     t = tagtypen()
     print("Tagestypen:", dict(Counter(t.values())))
-    for d, m in kurzschichten().items():
-        print(f"  Kurzschicht {d:%d.%m.%Y} (KW {d.isocalendar()[1]}) ab {m//60:02}:{m%60:02}")
+    print("A-Tage je Abschnitt:",
+          dict(Counter(abschnitt(d) for d, c in t.items() if c == "A")))
+    for d, (b, e, p) in sorted(zeitfenster().items()):
+        print(f"  {d:%d.%m.%Y} {t[d]:5} {b//60:02}:{b%60:02}-{e//60:02}:{e%60:02} "
+              f"Pause {p:3} min -> {(e-b-p)/60:.2f} h")

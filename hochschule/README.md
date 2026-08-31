@@ -18,73 +18,67 @@ für Praktikant und Betrieb.
 Die Netto-Stunden werden **aus dem fertigen Tätigkeitsnachweis gelesen**;
 Beginn, Pause und Ende sind daraus zurückgerechnet. Beide Dateien können damit
 nicht auseinanderlaufen. Die Pause folgt dem Arbeitszeitgesetz: **bis 6 h keine
-Pause**, über 6 h → 30 min. Kurze Schichten laufen also durch.
+Pause**, über 6 h → 30 min, über 9 h → 45 min. Kurze Schichten laufen durch.
 
 Regeln für die Zeiten (alle geprüft, siehe unten):
 
-- Ein Arbeitstag dauert **höchstens 9:00 Stunden einschließlich Pause**.
-  Mit 30 min Pause sind das 8,50 h netto — das ist der längste Tag im Nachweis.
+- Ein Arbeitstag hat höchstens **10,00 h netto** — mehr lässt das
+  Arbeitszeitgesetz auch im Ausnahmefall nicht zu (§ 3 ArbZG).
 - Beginn, Ende und Pause nur in **5-Minuten-Schritten** — die Karte wird von Hand
   ausgefüllt, nicht automatisch gestempelt
-- Beginn frühestens **07:00**, Ende spätestens **18:00**. An **15 Tagen** ist
-  08:00 der Arbeitsbeginn, so wie er auch im Stundenplan steht.
-- Arbeitstage mindestens **6,50 h**; nur Prüfungstage dürfen darunter liegen
-- **Die Schichten werden über das Semester kürzer**: März hat die längsten Tage
-  (Ø 8,39 h), danach absteigend bis Juli (Ø 7,00 h an den vollen Tagen)
+- Beginn frühestens **07:00**, Ende spätestens **18:00** — in der Prüfungsphase
+  ab 15.06. spätestens **15:00**
 - Nettostunden in **Viertelstundenschritten**. Nur so sind Dezimalwert *und*
   Uhrzeit zugleich glatt: 8,25 h = 8:15. Bei 5-Minuten-Schritten wäre der
   Dezimalwert 8,0833 und ließe sich nicht sauber anzeigen.
 
+### Die drei Abschnitte
+
+Die reinen Betriebstage folgen drei Abschnitten (`generator/stundenplan.py`):
+
+| Abschnitt | Zeitraum | A-Tage | Spanne | Ø | Summe |
+|---|---|---|---|---|---|
+| **Startphase** | 02.03. – 13.03. | 10 | 9,00–10,00 | 9,53 | 95,25 |
+| **Sammelphase** | 16.03. – 12.06. | 45 | 7,25–9,75 | 7,93 | 357,00 |
+| **Prüfungsphase** | ab 15.06. | 27 | 6,75–7,50 | 7,22 | 195,00 |
+
+- **Startphase** — die ersten zwei Wochen sind Einarbeitung, jeden Tag 9 bis 10
+  Stunden.
+- **Sammelphase** — Grundlast 7,25 bis 7,75 h. Dazu bekommt **jeder Monat vier
+  längere Tage**, um Stunden vorzuarbeiten: zweimal 8,00 h und zweimal zwischen
+  9 und 10 h, über den Monat verteilt (`SAMMEL_EXTRA` und `SAMMEL_LAGE`).
+- **Prüfungsphase** — ab der zweiten Junihälfte ist täglich um **15:00** Schluss,
+  damit Zeit für die Prüfungsvorbereitung bleibt. Das begrenzt den Tag auf
+  7,50 h netto (07:00 + 8:00 brutto − 30 min Pause).
+
 ### Hochschultage und Prüfungen
 
-An Tagen, an denen die Hochschule den Vormittag belegt, war **keine Anwesenheit
-im Betrieb** — das ist in der Vorlage der Typ **V** („Vorlesung und keine
-Anwesenheit im Betrieb"). Diese Tage haben keine Stunden und zählen nicht als
-Arbeitstag einer Projektphase.
+An Tagen mit Hochschultermin wird **vor und nach dem Termin** gearbeitet. Diese
+Tage haben ein festes Zeitfenster (`FENSTER` in `generator/hochschultage.py`)
+und stehen im Nachweis als Typ **VA**:
 
-| Anlass | Zeit | Tage | Typ | Betrieb |
+| Anlass | Tage | Betrieb | Pause | Std netto |
 |---|---|---|---|---|
-| Vorlesung PP | Mi 10:00–11:30 | 12 | VA | ab ca. 12:15, je 4,00 h |
-| Vorlesung PP + Praktikum RT | Mi 10:00–11:30 und 15:30–17:00 | 3 | V | — |
-| Praktikum RT allein (01.07.) | Mi 15:30–17:00 | 1 | VA | 08:00–14:00, 6,00 h |
-| Prüfungen | bis 10:00 | 4 | VA | ab ca. 11:00, je 4,00 h |
+| Vorlesung PP (bis 12.06.) | 10 | 07:00–09:30 **und** 12:00–17:00 | 2:30 | 7,50 |
+| Vorlesung PP (ab 15.06.) | 2 | 07:00–09:30 **und** 12:00–15:00 | 2:30 | 5,50 |
+| Vorlesung PP + Praktikum RT | 3 | 07:00–09:30 | — | 2,50 |
+| nur Praktikum RT (01.07.) | 1 | 08:00–14:00 | — | 6,00 |
+| Prüfungen | 4 | 11:00–15:00 | — | 4,00 |
 
-Der 01.07. ist die einzige Ausnahme bei den Lehrveranstaltungen: dort steht im
-Stundenplan ausdrücklich **Betrieb 08:00–14:00**, das Praktikum liegt erst am
-Nachmittag. Genau so ist der Tag eingetragen.
+In der Stempelkarte steht die Lücke von 09:30 bis 12:00 als **Pause 2:30** —
+sie deckt Fahrt, Vorlesung und die gesetzliche Ruhepause ab.
 
-#### Die Schicht nach der Vorlesung
+- Die **drei Tage mit Vorlesung PP *und* Praktikum RT** (29.04., 20.05., 27.05.)
+  sind von 10:00 bis 17:00 durch die OTH belegt; dort bleibt nur der Vormittag
+  im Betrieb.
+- Der **01.07.** steht so im Stundenplan: Betrieb 08:00–14:00, danach das
+  Praktikum. Ohne Pause sind das glatte 6,00 h.
+- Die **vier Prüfungstage** (09.07. PRM, 17.07. DA, 20.07. GAT, 28.07. SWV):
+  Prüfung bis 10:00, danach 11:00–15:00 im Betrieb.
 
-An jedem Mittwoch mit Vorlesung PP — außer den drei Tagen mit zusätzlichem
-Praktikum RT — geht es nach der Vorlesung noch für **vier Stunden** in den
-Betrieb, ab etwa 12:15 und damit ohne Pause. Das sind 12 Tage:
-
-18.03. · 25.03. · 01.04. · 08.04. · 15.04. · 22.04. · 06.05. · 13.05. ·
-03.06. · 10.06. · 17.06. · 24.06.
-
-Die Startzeiten streuen zwischen 12:10 und 12:25 (`KURZSCHICHT_STARTS` in
-`generator/hochschultage.py`), das Ende liegt entsprechend zwischen 16:10
-und 16:25.
-
-Ohne Schicht bleiben nur die **drei Tage mit Vorlesung PP *und* Praktikum RT**
-(29.04., 20.05., 27.05.). Die Hochschule belegt dort 10:00 bis 17:00; für die
-Fahrt nach Essing und zurück bleibt keine Zeit. Sie stehen als Typ V.
-
-Die vier Prüfungstage stehen in `PRUEFUNGEN` in `generator/bau_nachweis.py`:
-
-| Datum | Fach | Betrieb | Pause | Std netto |
-|---|---|---|---|---|
-| Do 09.07.2026 | PRM | 11:00–15:00 | — | 4,00 |
-| Fr 17.07.2026 | DA | 11:05–15:05 | — | 4,00 |
-| Mo 20.07.2026 | GAT | 11:00–15:00 | — | 4,00 |
-| Di 28.07.2026 | SWV | 11:10–15:10 | — | 4,00 |
-
-Diese vier Schichten und der 01.07. (08:00–14:00, 6,00 h) laufen **ohne Pause**
-durch — bis 6 Stunden Arbeitszeit verlangt das Arbeitszeitgesetz keine.
-
-Im Tagesnachweis beginnt der Text dieser Tage mit „Prüfung ⟨Fach⟩ an der OTH
-bis 10:00."; danach folgt die Tätigkeit des jeweiligen Projekts, denn der
-Nachmittag lief im Betrieb.
+Im Tagesnachweis beginnt der Text dieser Tage mit einem Vorspann („Vorlesung PP
+10:00-11:30 an der OTH, davor und danach im Betrieb.", „Prüfung PRM an der OTH
+bis 10:00." …); danach folgt die Tätigkeit des jeweiligen Projekts.
 
 ### Wochenübersicht
 
@@ -95,28 +89,22 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **709,50 h** |
-| **Soll laut Vertrag** (38,0 h × 18 Wochen) | **684,00 h** |
-| **Differenz** | **+25,50 h** |
-| Spanne | 23,00 h (KW 22) bis 42,00 h (KW 11) |
-| Ø je Kalenderwoche (22 KW) | 32,25 h |
+| Ist | **762,75 h** |
+| **Soll laut Vertrag § 6** | **775,25 h** |
+| **Differenz** | **−12,50 h** |
+| Spanne | 26,50 h (KW 22) bis 48,00 h (KW 10) |
+| Ø je Kalenderwoche (22 KW) | 34,67 h |
 
-Unter der Tabelle steht der Abgleich mit dem Vertrag: **38,0 h/Woche × 18 Wochen
-= 684,00 h**. Der Nachweis liegt mit 709,50 h um **25,50 h darüber**.
+Der Vertrag nennt in **§ 6** nur die Wochenarbeitszeit von 38,0 h, **keine
+Gesamtstundenzahl**. Sie ergibt sich aus dem Zeitraum: 110 Werktage (Mo–Fr)
+abzüglich 6 Feiertagen und 2 Krankheitstagen = **102 Arbeitstage × 7,60 h =
+775,25 h**. Der Nachweis liegt mit 762,75 h um 12,50 h darunter — das sind die
+20 Tage, an denen die OTH einen Teil des Tages belegt hat und von denen der
+Vertrag nichts weiß.
 
 Die Spalte *Soll* in der Tabelle ist etwas anderes — sie vergleicht Woche für
 Woche und rechnet 38,0 h anteilig je Anwesenheitstag, wobei ein Vorlesungs-,
-Praktikums- oder Prüfungstag als **halber Tag** zählt (der Vormittag gehört der
-OTH). Über alle Wochen ergibt das 687,75 h; die Abweichung je Woche bleibt
-zwischen −2,50 h und +4,00 h.
-
-Der Ø von 32,25 h/Woche wirkt niedrig, weil er über alle **22 Kalenderwochen**
-des Zeitraums teilt — einschließlich der Wochen mit Feiertag, Krankheit oder
-vollem Hochschultag. Gegen das Vertrags-Soll gerechnet ist der Nachweis im Plus.
-Ein höherer Wochenschnitt wäre nur zu erreichen, wenn die 9-Stunden-Grenze
-fiele: 82 volle Tage × 8,50 h + 70,00 h an Hochschul- und Prüfungstagen ergeben
-höchstens 767,00 h, also Ø 34,86 — und das nur, wenn jeder Tag exakt am Maximum
-liegt, ohne jede Streuung.
+Praktikums- oder Prüfungstag als **halber Tag** zählt.
 
 Wochen über einen Monatswechsel (KW 14 und KW 27) stehen in der Übersicht
 vollständig, in den Monatsblättern anteilig; die betroffenen Wochenzeilen sind
@@ -127,27 +115,21 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 
 ### Monatssummen
 
-Die vollen Betriebstage werden von Monat zu Monat kürzer — am Anfang, während
-der Einarbeitung und der großen Excel-Arbeit, sind die Tage am längsten:
+| Monat | Tage mit Stunden | Std netto | Ø je Tag |
+|---|---|---|---|
+| März | 19 A + 2 VA | 182,50 | 8,69 |
+| April | 15 A + 5 VA | 150,00 | 7,50 |
+| Mai | 14 A + 4 VA | 129,75 | 7,21 |
+| Juni | 17 A + 4 VA | 156,00 | 7,43 |
+| Juli | 17 A + 5 VA | 144,50 | 6,57 |
+| **Gesamt** | **82 A + 20 VA** | **762,75** | **7,48** |
 
-| Monat | Tage mit Stunden | Std netto | Ø voller Tag | Spanne |
-|---|---|---|---|---|
-| März | 19 A + 2 VA | 167,50 | **8,39** | 8,25–8,50 |
-| April | 15 A + 4 VA (+1 V) | 138,25 | 8,15 | 7,75–8,50 |
-| Mai | 14 A + 2 VA (+2 V) | 119,25 | 7,95 | 7,50–8,50 |
-| Juni | 17 A + 4 VA | 143,50 | 7,50 | 7,00–8,00 |
-| Juli | 17 A + 5 VA | 141,00 | 7,00 | 6,50–7,50 |
-| **Gesamt** | **82 A + 17 VA (+3 V)** | **709,50** | | |
-
-„Ø voller Tag" ist der Schnitt der reinen Betriebstage; die kurzen Schichten an
-Hochschul- und Prüfungstagen sind darin nicht enthalten. Über alle 99
-Anwesenheitstage liegt der Schnitt bei 7,17 h. Die Werte stehen in
-`generator/stundenplan.py`; wer die Kurve ändern will, ändert dort `ZIEL_A`
-und baut beide Dateien neu.
+März liegt vorn, weil dort die Startphase mit 9 bis 10 Stunden am Tag liegt;
+Juli hinten, weil dort die Prüfungsphase und vier Prüfungstage liegen.
 
 Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
 Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
-Achref Najah 690,75 h (33,4 h/Woche). Die 709,50 h liegen leicht darüber.
+Achref Najah 690,75 h (33,4 h/Woche). Die 762,75 h liegen darüber.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -171,21 +153,19 @@ ziehen alle Kopfzeilen des Nachweises automatisch nach. Im Word stehen sie im Bl
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
 PDF ausgelesen):
 
-- **82 Tage** Typ `A` (anwesend), 6,50–8,50 h
-- **17 Tage** Typ `VA` (Vorlesung/Prüfung und anwesend), 4,00–6,00 h Betrieb —
-  zwölf Schichten nach der Vorlesung PP, die vier Prüfungstage und der 01.07.
-  (Praktikum RT erst am Nachmittag)
-- **3 Tage** Typ `V` (Vorlesung, keine Anwesenheit im Betrieb) — 29.04., 20.05.
-  und 27.05., die drei Mittwoche mit Vorlesung PP *und* Praktikum RT
+- **82 Tage** Typ `A` (anwesend), 6,75–10,00 h je nach Abschnitt
+- **20 Tage** Typ `VA` (Vorlesung/Praktikum/Prüfung und anwesend), 2,50–7,50 h —
+  12 Vorlesungstage, 3 Tage mit Vorlesung und Praktikum RT, der 01.07. und die
+  vier Prüfungstage
+- **keine Tage** vom Typ `V` — an jedem Hochschultag war auch Betriebszeit
 - **2 Tage** Typ `K` — 20.03. und 03.07.
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **709,50 h** auf 99 Anwesenheitstage = **7,17 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 32,7 h/Woche — unter den 38 h der Stammdaten, weil
-6 Feiertage, 2 Krankheitstage und 3 volle Hochschultage in den Zeitraum fallen,
-weil an den 17 Vorlesungs- und Prüfungstagen nur der Nachmittag im Betrieb war
-und weil kein Tag über 9:00 Stunden hinausgeht.
+Summe **762,75 h** auf 102 Anwesenheitstage = **7,48 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 35,1 h/Woche — unter den 38 h der Stammdaten, weil
+6 Feiertage und 2 Krankheitstage in den Zeitraum fallen und weil an den
+20 Hochschul- und Prüfungstagen nur ein Teil des Tages im Betrieb war.
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
@@ -203,20 +183,20 @@ Der **Tagesnachweis dokumentiert alle Projekte**, der Word-Bericht nur fünf dav
 | Material- und Schraubenlager (5S) | 05.03. – 18.03. | 10 | — |
 | Lagerbestand-System in Excel/VBA | 19.03. – 20.04. | 20 | Bericht 1 |
 | Lagersystem als Web-Anwendung | 21.04. – 23.04. | 3 | in Bericht 1 |
-| Schweißarbeitsplatz | 24.04. – 18.05. | 14 | Bericht 2 |
-| Schweißtisch-Konstruktion | 19.05. – 11.06. | 14 | Bericht 3 |
-| Schweißmaschinen-Wagen nach 5S | 12.06. – 29.06. | 12 | Bericht 4 |
-| Zerspanarbeitsplatz | 30.06. – 20.07. | 14 | Bericht 5 |
-| Rostschutz-Konzept Schienenprofile | 21.07. – 31.07. | 9 | — |
+| Schweißarbeitsplatz | 24.04. – 15.05. | 14 | Bericht 2 |
+| Schweißtisch-Konstruktion | 18.05. – 08.06. | 14 | Bericht 3 |
+| Schweißmaschinen-Wagen nach 5S | 09.06. – 25.06. | 13 | Bericht 4 |
+| Zerspanarbeitsplatz | 26.06. – 17.07. | 15 | Bericht 5 |
+| Rostschutz-Konzept Schienenprofile | 20.07. – 31.07. | 10 | — |
 
 Das Schraubenlager hat bewusst weniger Tage als die übrigen Projekte. Die
 Web-Anwendung entstand mit KI-Unterstützung und beansprucht deshalb nur drei Tage;
 sie ist im Word-Bericht als Abschluss von Bericht 1 beschrieben.
 
 Die Arbeitsanweisungen laufen als einzelne Tageseinträge in den jeweiligen
-Projektphasen mit. Nur die 3 Tage vom Typ `V` zählen nicht als Arbeitstag einer
-Phase — an ihnen war keine Anwesenheit im Betrieb. Alle übrigen Vorlesungs- und
-Prüfungstage zählen mit, weil an ihnen im Betrieb gearbeitet wurde.
+Projektphasen mit. **Alle 102 Anwesenheitstage** zählen als Arbeitstag einer
+Phase, auch die Hochschul- und Prüfungstage — an jedem von ihnen wurde im
+Betrieb gearbeitet.
 
 Die Zeiträume der fünf Word-Berichte werden aus `generator/zeitraeume.json`
 gelesen, das `bau_nachweis.py` beim Bauen schreibt. Ändert sich die Aufteilung

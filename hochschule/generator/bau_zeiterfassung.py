@@ -4,14 +4,11 @@
 Die Netto-Stunden werden aus dem fertigen Tätigkeitsnachweis gelesen, damit
 beide Dokumente nicht auseinanderlaufen. Beginn, Pause und Ende werden daraus
 zurückgerechnet:
-  Pause  nach Arbeitszeitgesetz: bis 6 h keine, über 6 h -> 30 min
+  Pause  nach Arbeitszeitgesetz: bis 6 h keine, über 6 h -> 30 min, über 9 h -> 45 min
   Ende   = Beginn + Nettozeit + Pause
-An Vorlesungstagen (Mittwoch) beginnt die Arbeit erst nach der Vorlesung.
-Tage, an denen die Hochschule den ganzen Tag belegt (Vorlesung PP und
-Praktikum Regelungstechnik), sind im Nachweis Typ V und haben keine
-Betriebszeiten.
-
-Ein Arbeitstag dauert hoechstens 9:00 Stunden einschliesslich Pause.
+Tage mit Vorlesung, Praktikum oder Pruefung haben ein festes Fenster aus
+hochschultage.py. In der Pruefungsphase ab 15.06. ist taeglich um 15:00
+Schluss. Mehr als 10 Stunden netto laesst das Arbeitszeitgesetz nicht zu.
 """
 import os, sys, re, datetime as dt
 HIER = os.path.dirname(os.path.abspath(__file__))
@@ -20,13 +17,14 @@ import openpyxl
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 from openpyxl.utils import get_column_letter
 sys.path.insert(0, HIER)
-from hochschultage import kurzschichten
+from hochschultage import (PRUEFUNGSPHASE_START, PRUEFUNGSPHASE_ENDE,
+                           tagtypen, zeitfenster)
 
 NACHWEIS = os.path.join(ROOT, "Hassine_3399727_Tätigkeitsnachweis.xlsx")
 ZIEL     = os.path.join(ROOT, "Hassine_3399727_Zeiterfassung.xlsx")
 START, ENDE = dt.date(2026, 3, 2), dt.date(2026, 7, 31)
-SOLL_WOCHE = 38.0     # Wochenarbeitszeit laut Stammdaten
-VERTRAG_WOCHEN = 18   # Dauer des Praktikums laut Vertrag
+SOLL_WOCHE = 38.0     # Wochenarbeitszeit laut Vertrag § 6
+SOLL_TAG = SOLL_WOCHE / 5
 
 MONATE = {3: "März", 4: "April", 5: "Mai", 6: "Juni", 7: "Juli"}
 WT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
@@ -34,29 +32,20 @@ WT = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 # geschoben, wie es nötig ist, damit der Feierabend spätestens 18:00 ist.
 FRUEHESTENS = 7 * 60          # 07:00
 SPAETESTENS = 18 * 60         # 18:00
-NACH_VORLESUNG = 11 * 60 + 45 # Vorlesung endet 11:30
 # 60 bedeutet Arbeitsbeginn um 08:00 - so steht es auch im Stundenplan.
 VERSATZ_NORMAL = [0, 15, 60, 20, 10, 30, 5, 25, 60, 15, 10, 20, 5, 30, 15,
                   60, 5, 25, 0, 45, 10, 60, 20, 5, 35, 15, 0, 30, 60, 10]
-VERSATZ_VORLESUNG = [15, 0, 25, 10, 20, 5, 30, 15, 0, 20]
-HOECHSTDAUER = 9 * 60         # 9:00 brutto je Tag, Pause eingerechnet
+HOECHSTNETTO = 10 * 60        # Grenze des Arbeitszeitgesetzes je Tag
 
-# Am 01.07. steht im Stundenplan Betrieb 08:00-14:00 und danach das
-# Praktikum Regelungstechnik 15:30-17:00. An den vier Pruefungstagen war die
-# Pruefung um 10:00 zu Ende, der Betrieb lief ab etwa 11:00 bis 15:30.
-# Auf die Vorlesung PP folgt eine Schicht von vier Stunden ab etwa 12:15;
-# die Termine kommen aus hochschultage.py.
-KURZSCHICHTEN = kurzschichten()
-FESTER_BEGINN = {
-    dt.date(2026, 7,  1):  8 * 60,
-    dt.date(2026, 7,  9): 11 * 60,
-    dt.date(2026, 7, 17): 11 * 60 + 5,
-    dt.date(2026, 7, 20): 11 * 60,
-    dt.date(2026, 7, 28): 11 * 60 + 10,
-    **KURZSCHICHTEN,
+# Tage mit Hochschultermin haben ein festes Fenster; es kommt zusammen mit
+# den Tagestypen aus hochschultage.py.
+TYPEN   = tagtypen()
+FENSTER = zeitfenster()
+BEMERKUNG = {
+    "PP":   "Vorlesung PP 10:00–11:30, davor und danach im Betrieb",
+    "PPRT": "Vorlesung PP 10:00–11:30 und Praktikum RT 15:30–17:00",
+    "VRT":  "danach Praktikum RT 15:30–17:00 an der OTH",
 }
-PRUEFUNGSENDE = 15 * 60 + 30                  # spaetestes Ende an Pruefungstagen
-RT_BEMERKUNG = "danach Praktikum RT 15:30–17:00 an der OTH"
 
 DUENN = Side(style="thin", color="9AA3AB")
 KRAEFTIG = Side(style="medium", color="1F3A52")
@@ -70,13 +59,6 @@ def _pruefung(text):
     """Kuerzel der Pruefung aus dem Text des Nachweises, sonst None."""
     treffer = re.match(r"Prüfung (\S+) an der OTH", text or "")
     return treffer.group(1) if treffer else None
-
-
-def _hochschultag(text):
-    """Kurze Bemerkung fuer einen Tag ohne Anwesenheit im Betrieb."""
-    if "Praktikum" in (text or ""):
-        return "Vorlesung PP und Praktikum RT an der OTH"
-    return "Vorlesung PP 10:00–11:30 an der OTH"
 
 
 def pause_minuten(netto):
@@ -106,7 +88,7 @@ def lies_nachweis():
 def main():
     tage = lies_nachweis()
     wb = openpyxl.Workbook(); wb.remove(wb.active)
-    i_norm = i_vorl = 0
+    i_norm = 0
     gesamt = 0.0
 
     for monat, name in MONATE.items():
@@ -151,34 +133,30 @@ def main():
             ws.cell(zeile, 2, d).number_format = "DD.MM.YYYY"
 
             if typ in ("A", "VA") and netto:
-                pm = pause_minuten(netto)
-                dauer = round(float(netto) * 60) + pm
-                if dauer > HOECHSTDAUER:
-                    raise ValueError(f"{d}: {dauer} min brutto ueber der Grenze von 9:00")
-                if d in FESTER_BEGINN:
-                    frueh = versatz = 0
-                    start = FESTER_BEGINN[d]
+                if round(float(netto) * 60) > HOECHSTNETTO:
+                    raise ValueError(f"{d}: {netto} h netto über der Grenze von 10:00")
+                if d in FENSTER:
+                    start, ende_min, pm = FENSTER[d]
+                    dauer = ende_min - start
                     kuerzel = _pruefung(info["text"])
-                    if kuerzel:
-                        bem = f"Prüfung {kuerzel} bis 10:00, danach im Betrieb"
-                    elif d in KURZSCHICHTEN:
-                        bem = "Vorlesung PP 10:00–11:30, danach im Betrieb"
-                    else:
-                        bem = RT_BEMERKUNG
-                    if kuerzel and start + dauer > PRUEFUNGSENDE:
-                        raise ValueError(f"{d}: Ende nach 15:30 an einem Prüfungstag")
+                    bem = (f"Prüfung {kuerzel} bis 10:00, danach im Betrieb" if kuerzel
+                           else BEMERKUNG[TYPEN[d]])
+                    if round(float(netto) * 60) != dauer - pm:
+                        raise ValueError(f"{d}: Fenster passt nicht zu {netto} h")
                 else:
-                    if typ == "VA":
-                        frueh, versatz = NACH_VORLESUNG, VERSATZ_VORLESUNG[i_vorl % len(VERSATZ_VORLESUNG)]
-                        i_vorl += 1
-                        bem = "Vorlesung PP 10:00–11:30, danach im Betrieb"
-                    else:
-                        frueh, versatz = FRUEHESTENS, VERSATZ_NORMAL[i_norm % len(VERSATZ_NORMAL)]
-                        i_norm += 1
-                        bem = ""
-                    spaetester_beginn = SPAETESTENS - dauer
-                    start = min(frueh + versatz, spaetester_beginn)
+                    pm = pause_minuten(netto)
+                    dauer = round(float(netto) * 60) + pm
+                    frueh = FRUEHESTENS
+                    versatz = VERSATZ_NORMAL[i_norm % len(VERSATZ_NORMAL)]
+                    i_norm += 1
+                    bem = ""
+                    # In der Prüfungsphase ist um 15:00 Schluss, sonst um 18:00.
+                    feierabend = (PRUEFUNGSPHASE_ENDE if d >= PRUEFUNGSPHASE_START
+                                  else SPAETESTENS)
+                    start = min(frueh + versatz, feierabend - dauer)
                     start = max(frueh, start - start % 5)      # auf 5 Minuten runden
+                    if start + dauer > feierabend:
+                        raise ValueError(f"{d}: Ende nach {feierabend//60}:00")
                 beg = dt.time(start // 60, start % 60)
                 ende_dt = dt.datetime.combine(d, beg) + dt.timedelta(minutes=dauer)
                 ws.cell(zeile, 3, beg).number_format = "HH:MM"
@@ -190,7 +168,7 @@ def main():
                 ws.cell(zeile, 7, bem)
                 gesamt += float(netto)
             else:
-                bem = {"K": "Krank", "V": _hochschultag(info["text"] if info else ""),
+                bem = {"K": "Krank",
                        "F": info["text"] if info else "Feiertag"}.get(typ, "")
                 if d.weekday() >= 5: bem = "Wochenende"
                 ws.cell(zeile, 7, bem)
@@ -337,13 +315,19 @@ def main():
     ue.cell(z + 1, 7).alignment = Alignment(horizontal="center")
 
     # ---- Abgleich mit dem Vertrag -----------------------------------------
-    # Die Spalte "Soll" oben vergleicht Woche für Woche. Der Vertrag nennt
-    # dagegen eine feste Gesamtzahl: 38,0 h in 18 Wochen.
+    # Die Spalte "Soll" oben vergleicht Woche für Woche. Der Vertrag nennt in
+    # § 6 nur die Wochenarbeitszeit, keine Gesamtzahl. Sie ergibt sich aus den
+    # Werktagen des Zeitraums abzüglich Feiertagen und Krankheitstagen.
+    werktage = sum(1 for i in range((ENDE - START).days + 1)
+                   if (START + dt.timedelta(days=i)).weekday() < 5)
+    ausfall = sum(1 for d, i in tage.items() if i["typ"] in ("F", "K"))
+    soll_vertrag = round((werktage - ausfall) * SOLL_TAG * 4) / 4
     vertrag = z + 3
-    zeilen = (("Soll laut Vertrag", f"38,0 h/Woche × {VERTRAG_WOCHEN} Wochen",
-               SOLL_WOCHE * VERTRAG_WOCHEN),
+    zeilen = ((f"Soll laut Vertrag § 6",
+               f"{werktage - ausfall} Arbeitstage × 7,60 h "
+               f"({werktage} Werktage − {ausfall} Feiertage/Krank)", soll_vertrag),
               ("Ist laut Tätigkeitsnachweis", "", f"=D{z}"),
-              ("Differenz", "", f"=D{z}-{SOLL_WOCHE * VERTRAG_WOCHEN}"))
+              ("Differenz", "", f"=D{z}-{soll_vertrag}"))
     for i, (kopf, hinweis, wert) in enumerate(zeilen):
         r = vertrag + i
         fett = i == 2
@@ -364,7 +348,7 @@ def main():
                      "in den Monatsblättern erscheinen sie anteilig.")
     ue.cell(fuss + 1, 2, "Spalte Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. Vorlesungs-, "
                          "Praktikums- und Prüfungstage zählen als halber Tag, weil der Vormittag "
-                         "an der OTH war.")
+                         "an der OTH war. Der Vertrag selbst nennt keine Gesamtstundenzahl.")
     ue.cell(fuss + 2, 2, "Ø je Kalenderwoche rechnet über alle 22 Wochen des Zeitraums, also "
                          "einschließlich der Wochen mit Feiertag, Krankheit oder Hochschultag.")
     for zz in (fuss, fuss + 1, fuss + 2):
