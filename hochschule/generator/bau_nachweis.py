@@ -181,7 +181,9 @@ def main():
             std = stunden[d]
         ws.cell(r, 4).value = typ
         ws.cell(r, 5).value = std
-        ws.cell(r, 7).value = "ja" if t != "A" else "nein"
+        # "Vorlesung besucht?" ist nur an echten VA-Tagen "ja" - an Feiertagen,
+        # Krankheitstagen und am Wochenende fand keine Vorlesung statt.
+        ws.cell(r, 7).value = "ja" if typ == "VA" else ("nein" if typ else None)
         ws.cell(r, 8).value = txt
         if typ: protokoll.append((d, typ, std, txt, thema))
 
