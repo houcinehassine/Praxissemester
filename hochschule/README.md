@@ -39,7 +39,7 @@ Die reinen Betriebstage folgen drei Abschnitten (`generator/stundenplan.py`):
 | Abschnitt | Zeitraum | A-Tage | Spanne | Ø | Summe |
 |---|---|---|---|---|---|
 | **Startphase** | 02.03. – 13.03. | 10 | 9,00–10,00 | 9,53 | 95,25 |
-| **Sammelphase** | 16.03. – 12.06. | 46 | 7,25–9,75 | 7,92 | 364,50 |
+| **Sammelphase** | 16.03. – 12.06. | 47 | 7,25–9,75 | 7,91 | 372,00 |
 | **Prüfungsphase** | ab 15.06. | 27 | 6,75–7,50 | 7,22 | 195,00 |
 
 - **Startphase** — die ersten zwei Wochen sind Einarbeitung, jeden Tag 9 bis 10
@@ -53,42 +53,48 @@ Die reinen Betriebstage folgen drei Abschnitten (`generator/stundenplan.py`):
 
 ### Hochschultage und Prüfungen
 
-An Tagen mit Hochschultermin wird **vor und nach dem Termin** gearbeitet. Diese
-Tage haben ein festes Zeitfenster (`FENSTER` in `generator/hochschultage.py`)
-und stehen im Nachweis als Typ **VA**:
+An Tagen mit Hochschultermin wird **nur bis zur Abfahrt zur OTH** gearbeitet.
+Diese Tage haben ein festes Zeitfenster (`FENSTER` in
+`generator/hochschultage.py`) und stehen im Nachweis als Typ **VA**:
 
 | Anlass | Tage | Betrieb | Pause | Std netto |
 |---|---|---|---|---|
-| Vorlesung PP (bis 12.06.) | 9 | 07:00–09:30 **und** 12:00–17:00 | 2:30 | 7,50 |
-| Vorlesung PP (ab 15.06.) | 2 | 07:00–09:30 **und** 12:00–15:00 | 2:30 | 5,50 |
+| Vorlesung PP | 10 | 07:00–09:30 | — | 2,50 |
 | Vorlesung PP + Praktikum RT | 3 | 07:00–09:30 | — | 2,50 |
 | nur Praktikum RT (01.07.) | 1 | 08:00–14:00 | — | 6,00 |
 | Prüfungen | 4 | 11:00–15:00 | — | 4,00 |
 
-In der Stempelkarte steht die Lücke von 09:30 bis 12:00 als **Pause 2:30** —
-sie deckt Fahrt, Vorlesung und die gesetzliche Ruhepause ab.
+Die Vorlesung PP läuft **10:00–13:15** an der OTH (Angabe des Studierenden,
+nicht die ursprünglich angenommenen 10:00–11:30). Danach kommt keine Rückkehr
+mehr in den Betrieb — der Tag endet für den Nachweis um 09:30, wenn die Fahrt
+zur OTH beginnt.
 
 - Die **drei Tage mit Vorlesung PP *und* Praktikum RT** (29.04., 20.05., 27.05.)
-  sind von 10:00 bis 17:00 durch die OTH belegt; dort bleibt nur der Vormittag
-  im Betrieb.
+  sind ab 10:00 durch die OTH belegt (PP bis 13:15, RT 15:30–17:00); dort
+  bleibt ebenfalls nur der Vormittag im Betrieb.
 - Der **01.07.** steht so im Stundenplan: Betrieb 08:00–14:00, danach das
   Praktikum. Ohne Pause sind das glatte 6,00 h.
 - Die **vier Prüfungstage** (09.07. PRM, 17.07. DA, 20.07. GAT, 28.07. SWV):
   Prüfung bis 10:00, danach 11:00–15:00 im Betrieb.
 
-Im Tagesnachweis beginnt der Text dieser Tage mit einem Vorspann („Vorlesung PP
-10:00-11:30 an der OTH, davor und danach im Betrieb.", „Prüfung PRM an der OTH
-bis 10:00." …); danach folgt die Tätigkeit des jeweiligen Projekts.
+Im Tagesnachweis beginnt der Text dieser Tage mit einem Vorspann („Vormittags
+im Betrieb, ab 10:00 Vorlesung PP bis 13:15 an der OTH, danach nicht mehr im
+Betrieb.", „Prüfung PRM an der OTH bis 10:00." …); danach folgt die Tätigkeit
+des jeweiligen Projekts.
 
 **Korrektur 08.04.2026:** Der ausgelesene Stundenplan (`kalender.json`) führt an
 diesem Mittwoch noch eine „Vorlesung PP", der Tag liegt aber laut Semesterkalender
-der OTH Regensburg in der vorlesungsfreien Zeit rund um Ostern (§ 2 Abs. 5 der
-Vorlesungszeit-Ordnung). Die Korrektur (`VORLESUNGSFREI` in
+der OTH Regensburg in der vorlesungsfreien Zeit rund um Ostern (02.04.–08.04.,
+§ 2 Abs. 5 der Vorlesungszeit-Ordnung). Die Korrektur (`VORLESUNGSFREI` in
 `generator/hochschultage.py`) überschreibt den Eintrag, der Tag steht im Nachweis
-als normaler Betriebstag (Typ A). Die Prüfung stützt sich auf eine Websuche, nicht
-auf ein direktes Lesen des offiziellen Semesterkalender-PDFs (der Abruf von
-`www.oth-regensburg.de` ist aus dieser Umgebung heraus blockiert) — bei
-Unsicherheit lohnt ein Blick in den echten Kalender vor der Abgabe.
+als normaler Betriebstag (Typ A). Ursprünglich nur per Websuche geprüft, inzwischen
+durch einen Screenshot der Stundenplan-App bestätigt (Eintrag „Ferien Ostern
+02.04. bis 08.04.").
+
+**Korrektur 18.03.2026:** Laut Screenshot der Stundenplan-App ist die Vorlesung PP
+an diesem Mittwoch ausgefallen (durchgestrichener Termin). Der Tag steht deshalb
+in `ENTFALLENE_VORLESUNGEN` (`generator/hochschultage.py`) und läuft im Nachweis
+als normaler Betriebstag (Typ A) statt als VA.
 
 ### Wochenübersicht
 
@@ -99,18 +105,19 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **762,75 h** |
+| Ist | **716,75 h** |
 | **Soll laut Vertrag § 6** | **775,25 h** |
-| **Differenz** | **−12,50 h** |
-| Spanne | 26,50 h (KW 22) bis 48,00 h (KW 10) |
-| Ø je Kalenderwoche (22 KW) | 34,67 h |
+| **Differenz** | **−58,50 h** |
+| Spanne | 26,50 h (mehrfach) bis 48,00 h (KW 10) |
+| Ø je Kalenderwoche (22 KW) | 32,58 h |
 
 Der Vertrag nennt in **§ 6** nur die Wochenarbeitszeit von 38,0 h, **keine
 Gesamtstundenzahl**. Sie ergibt sich aus dem Zeitraum: 110 Werktage (Mo–Fr)
 abzüglich 6 Feiertagen und 2 Krankheitstagen = **102 Arbeitstage × 7,60 h =
-775,25 h**. Der Nachweis liegt mit 762,75 h um 12,50 h darunter — das sind die
-20 Tage, an denen die OTH einen Teil des Tages belegt hat und von denen der
-Vertrag nichts weiß.
+775,25 h**. Der Nachweis liegt mit 716,75 h um 58,50 h darunter — das sind die
+18 Tage, an denen die OTH einen Teil des Tages belegt hat (davon 13 nur bis
+09:30 im Betrieb, wegen der Vorlesung PP bis 13:15 ohne Rückkehr) und von denen
+der Vertrag nichts weiß.
 
 Die Spalte *Soll* in der Tabelle ist etwas anderes — sie vergleicht Woche für
 Woche und rechnet 38,0 h anteilig je Anwesenheitstag, wobei ein Vorlesungs-,
@@ -127,19 +134,19 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 
 | Monat | Tage mit Stunden | Std netto | Ø je Tag |
 |---|---|---|---|
-| März | 19 A + 2 VA | 182,50 | 8,69 |
-| April | 16 A + 4 VA | 150,00 | 7,50 |
-| Mai | 14 A + 4 VA | 129,75 | 7,21 |
-| Juni | 17 A + 4 VA | 156,00 | 7,43 |
+| März | 20 A + 1 VA | 177,50 | 8,45 |
+| April | 16 A + 4 VA | 135,00 | 6,75 |
+| Mai | 14 A + 4 VA | 119,75 | 6,65 |
+| Juni | 17 A + 4 VA | 140,00 | 6,67 |
 | Juli | 17 A + 5 VA | 144,50 | 6,57 |
-| **Gesamt** | **83 A + 19 VA** | **762,75** | **7,48** |
+| **Gesamt** | **84 A + 18 VA** | **716,75** | **7,03** |
 
 März liegt vorn, weil dort die Startphase mit 9 bis 10 Stunden am Tag liegt;
 Juli hinten, weil dort die Prüfungsphase und vier Prüfungstage liegen.
 
 Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
 Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
-Achref Najah 690,75 h (33,4 h/Woche). Die 762,75 h liegen darüber.
+Achref Najah 690,75 h (33,4 h/Woche). Die 716,75 h liegen darüber.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -151,19 +158,21 @@ Die Dateinamen entsprechen der Vorgabe aus dem Reiter „Anleitung" der Excel-Vo
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
 PDF ausgelesen):
 
-- **83 Tage** Typ `A` (anwesend), 6,75–10,00 h je nach Abschnitt
-- **19 Tage** Typ `VA` (Vorlesung/Praktikum/Prüfung und anwesend), 2,50–7,50 h —
-  11 Vorlesungstage, 3 Tage mit Vorlesung und Praktikum RT, der 01.07. und die
+- **84 Tage** Typ `A` (anwesend), 6,75–10,00 h je nach Abschnitt
+- **18 Tage** Typ `VA` (Vorlesung/Praktikum/Prüfung und anwesend), 2,50–6,00 h —
+  10 Vorlesungstage, 3 Tage mit Vorlesung und Praktikum RT, der 01.07. und die
   vier Prüfungstage
 - **keine Tage** vom Typ `V` — an jedem Hochschultag war auch Betriebszeit
 - **2 Tage** Typ `K` — 20.03. und 03.07.
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **762,75 h** auf 102 Anwesenheitstage = **7,48 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 35,1 h/Woche — unter den 38 h der Stammdaten, weil
+Summe **716,75 h** auf 102 Anwesenheitstage = **7,03 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 33,0 h/Woche — unter den 38 h der Stammdaten, weil
 6 Feiertage und 2 Krankheitstage in den Zeitraum fallen und weil an den
-20 Hochschul- und Prüfungstagen nur ein Teil des Tages im Betrieb war.
+18 Hochschul- und Prüfungstagen nur ein Teil des Tages im Betrieb war (an den
+13 reinen PP-Tagen sogar nur der Vormittag bis 09:30, da nach der Vorlesung
+keine Rückkehr mehr in den Betrieb erfolgt).
 
 Die erste Woche (02.–06.03.) ist bewusst Einarbeitung: Sicherheitsunterweisung,
 Betriebsrundgang, Maschinen und Abläufe kennenlernen, Arbeitsplatz einrichten. Die
@@ -253,6 +262,3 @@ dabei unverändert; alle Formeln und benannten Bereiche der Hochschule sind erha
 2. Nachweis ausdrucken, vom Betrieb unterschreiben und stempeln lassen, scannen
 3. Praktikumszeugnis vom Betrieb besorgen (wird nicht hier erzeugt)
 4. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
-5. 08.04.2026 gegen den echten Semesterkalender-PDF der OTH gegenprüfen (siehe
-   „Korrektur 08.04.2026" oben) — die Einstufung als vorlesungsfrei stützt sich
-   bislang nur auf eine Websuche, nicht auf das Original-PDF

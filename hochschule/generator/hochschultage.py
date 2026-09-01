@@ -7,7 +7,8 @@ ausgelesen), die bayerischen Feiertage und die Pruefungstermine.
 
 Rueckgabecodes von `tagtypen()`:
   A     nur Betrieb
-  PP    Vorlesung PP 10:00-11:30, davor und danach im Betrieb
+  PP    Vormittags im Betrieb, ab 10:00 Vorlesung PP bis 13:15 an der OTH,
+        danach keine Rueckkehr mehr in den Betrieb
   PPRT  Vorlesung PP und Praktikum RT - nur der Vormittag im Betrieb
   VRT   nur Praktikum RT am Nachmittag, davor im Betrieb (01.07.)
   P     Pruefung bis 10:00, danach im Betrieb
@@ -47,6 +48,14 @@ VORLESUNGSFREI = {
     dt.date(2026, 4, 8),   # Mittwoch der Osterwoche, laut Semesterkalender vorlesungsfrei
 }
 
+# Einzelne ausgefallene Vorlesungstermine - kein amtlicher vorlesungsfreier
+# Tag, sondern eine einzelne abgesagte Veranstaltung (durchgestrichener
+# Termin im Stundenplan der App). An diesen Tagen wurde ganz normal im
+# Betrieb gearbeitet (Typ A statt PP/PPRT/VRT).
+ENTFALLENE_VORLESUNGEN = {
+    dt.date(2026, 3, 18),   # Vorlesung PP ausgefallen, laut Screenshot der Stundenplan-App
+}
+
 # Pruefungen an der OTH, jeweils bis 10:00
 PRUEFUNGEN = {
     dt.date(2026, 7,  9): "PRM",
@@ -56,11 +65,11 @@ PRUEFUNGEN = {
 }
 
 # Feste Zeitfenster (Beginn, Ende, Pause) in Minuten seit Mitternacht.
-# An Vorlesungstagen wird vor und nach der Vorlesung gearbeitet; die Luecke
-# 09:30-12:00 deckt Fahrt, Vorlesung und die gesetzliche Pause ab.
+# An PP-Tagen wird nur vormittags gearbeitet: Beginn 07:00, um 09:30 Feierabend
+# im Betrieb fuer die Fahrt zur Vorlesung PP (10:00-13:15 an der OTH); danach
+# keine Rueckkehr mehr in den Betrieb (Angabe des Studierenden).
 FENSTER = {
-    "PP":      (7 * 60, 17 * 60, 150),          # 07:00-09:30 und 12:00-17:00
-    "PP_kurz": (7 * 60, 15 * 60, 150),          # in der Pruefungsphase
+    "PP":      (7 * 60,  9 * 60 + 30, 0),       # 07:00-09:30, dann zur Vorlesung
     "PPRT":    (7 * 60,  9 * 60 + 30, 0),       # nur der Vormittag
     "VRT":     (8 * 60, 14 * 60, 0),            # laut Stundenplan 08:00-14:00
     "P":      (11 * 60, 15 * 60, 0),            # nach der Pruefung
@@ -87,7 +96,7 @@ def tagtypen():
     d = START
     while d <= ENDE:
         pp, rt = plan.get(d, (False, False))
-        if d in VORLESUNGSFREI:
+        if d in VORLESUNGSFREI or d in ENTFALLENE_VORLESUNGEN:
             pp, rt = False, False
         if d.weekday() >= 5:   typ = "WE"
         elif d in FEIER:       typ = "F"
@@ -106,9 +115,7 @@ def zeitfenster():
     """date -> (Beginn, Ende, Pause) in Minuten, fuer alle Tage mit festem Ablauf."""
     aus = {}
     for d, typ in tagtypen().items():
-        if typ == "PP":
-            aus[d] = FENSTER["PP_kurz" if d >= PRUEFUNGSPHASE_START else "PP"]
-        elif typ in FENSTER:
+        if typ in FENSTER:
             aus[d] = FENSTER[typ]
     return aus
 

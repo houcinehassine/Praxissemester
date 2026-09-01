@@ -31,8 +31,8 @@ from stundenplan import stunden_je_tag
 
 # Vorspann im Tagestext fuer die Tage mit Hochschultermin
 VORSPANN = {
-    "PP":   "Vorlesung PP 10:00-11:30 an der OTH, davor und danach im Betrieb. ",
-    "PPRT": ("Vorlesung PP 10:00-11:30 und Praktikum Regelungstechnik 15:30-17:00 "
+    "PP":   "Vormittags im Betrieb, ab 10:00 Vorlesung PP bis 13:15 an der OTH, danach nicht mehr im Betrieb. ",
+    "PPRT": ("Vorlesung PP 10:00-13:15 und Praktikum Regelungstechnik 15:30-17:00 "
              "an der OTH, Vormittag im Betrieb. "),
     "VRT":  "Im Anschluss Praktikum Regelungstechnik 15:30-17:00 an der OTH. ",
 }

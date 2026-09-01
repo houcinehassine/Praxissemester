@@ -42,8 +42,8 @@ HOECHSTNETTO = 10 * 60        # Grenze des Arbeitszeitgesetzes je Tag
 TYPEN   = tagtypen()
 FENSTER = zeitfenster()
 BEMERKUNG = {
-    "PP":   "Vorlesung PP 10:00–11:30, davor und danach im Betrieb",
-    "PPRT": "Vorlesung PP 10:00–11:30 und Praktikum RT 15:30–17:00",
+    "PP":   "Vorlesung PP 10:00–13:15, danach nicht mehr im Betrieb",
+    "PPRT": "Vorlesung PP 10:00–13:15 und Praktikum RT 15:30–17:00",
     "VRT":  "danach Praktikum RT 15:30–17:00 an der OTH",
 }
 
