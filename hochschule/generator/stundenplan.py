@@ -12,9 +12,10 @@ hochschultage.py:
       Einarbeitung, jeden Tag 9 bis 10 Stunden.
 
   Sammelphase 16.03.-12.06.
-      Grundlast 7,25 bis 7,75 h. Dazu bekommt jeder Monat vier laengere
-      Tage, um Stunden vorzuarbeiten: zweimal 8,00 h und zweimal zwischen
-      9 und 10 h. Sie liegen ueber den Monat verteilt.
+      Grundlast 8,00 bis 8,50 h - kein Tag unter 8 Stunden. Dazu bekommt
+      jeder Monat vier laengere Tage, um Stunden vorzuarbeiten: zweimal
+      8,00 h und zweimal zwischen 9 und 10 h. Sie liegen ueber den Monat
+      verteilt.
 
   Pruefungsphase ab 15.06.
       Feierabend spaetestens 15:00, also hoechstens 7,50 h netto. Der Rest
@@ -36,8 +37,9 @@ HOECHSTNETTO = 10.00
 # Startphase: zehn Arbeitstage, 9 bis 10 Stunden
 STARTPHASE = [9.50, 9.75, 9.25, 10.00, 9.50, 9.25, 9.75, 9.00, 9.50, 9.75]
 
-# Sammelphase: Grundlast und die vier laengeren Tage je Monat
-SAMMEL_GRUND = [7.25, 7.50, 7.75, 7.50]
+# Sammelphase: Grundlast und die vier laengeren Tage je Monat.
+# Kein Tag unter 8 Stunden - das gilt nur bis zur Pruefungsphase (ab 15.06.).
+SAMMEL_GRUND = [8.00, 8.25, 8.50, 8.25]
 SAMMEL_EXTRA = [8.00, 9.75, 8.00, 9.25]
 SAMMEL_LAGE  = (0.15, 0.35, 0.60, 0.85)   # relative Lage im Monat
 

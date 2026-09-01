@@ -39,14 +39,15 @@ Die reinen Betriebstage folgen drei Abschnitten (`generator/stundenplan.py`):
 | Abschnitt | Zeitraum | A-Tage | Spanne | Ø | Summe |
 |---|---|---|---|---|---|
 | **Startphase** | 02.03. – 13.03. | 10 | 9,00–10,00 | 9,53 | 95,25 |
-| **Sammelphase** | 16.03. – 12.06. | 47 | 7,25–9,75 | 7,91 | 372,00 |
+| **Sammelphase** | 16.03. – 12.06. | 47 | 8,00–9,75 | 8,41 | 395,25 |
 | **Prüfungsphase** | ab 15.06. | 27 | 6,75–7,50 | 7,22 | 195,00 |
 
 - **Startphase** — die ersten zwei Wochen sind Einarbeitung, jeden Tag 9 bis 10
   Stunden.
-- **Sammelphase** — Grundlast 7,25 bis 7,75 h. Dazu bekommt **jeder Monat vier
-  längere Tage**, um Stunden vorzuarbeiten: zweimal 8,00 h und zweimal zwischen
-  9 und 10 h, über den Monat verteilt (`SAMMEL_EXTRA` und `SAMMEL_LAGE`).
+- **Sammelphase** — Grundlast 8,00 bis 8,50 h, kein Tag unter 8 Stunden. Dazu
+  bekommt **jeder Monat vier längere Tage**, um Stunden vorzuarbeiten: zweimal
+  8,00 h und zweimal zwischen 9 und 10 h, über den Monat verteilt
+  (`SAMMEL_EXTRA` und `SAMMEL_LAGE`).
 - **Prüfungsphase** — ab der zweiten Junihälfte ist täglich um **15:00** Schluss,
   damit Zeit für die Prüfungsvorbereitung bleibt. Das begrenzt den Tag auf
   7,50 h netto (07:00 + 8:00 brutto − 30 min Pause).
@@ -105,16 +106,16 @@ einem Feiertag hat also 30,50 h Soll statt 38,00 h.
 
 | | |
 |---|---|
-| Ist | **716,75 h** |
+| Ist | **740,00 h** |
 | **Soll laut Vertrag § 6** | **775,25 h** |
-| **Differenz** | **−58,50 h** |
-| Spanne | 26,50 h (mehrfach) bis 48,00 h (KW 10) |
-| Ø je Kalenderwoche (22 KW) | 32,58 h |
+| **Differenz** | **−35,25 h** |
+| Spanne | 27,75 h (KW 27) bis 48,00 h (KW 10) |
+| Ø je Kalenderwoche (22 KW) | 33,64 h |
 
 Der Vertrag nennt in **§ 6** nur die Wochenarbeitszeit von 38,0 h, **keine
 Gesamtstundenzahl**. Sie ergibt sich aus dem Zeitraum: 110 Werktage (Mo–Fr)
 abzüglich 6 Feiertagen und 2 Krankheitstagen = **102 Arbeitstage × 7,60 h =
-775,25 h**. Der Nachweis liegt mit 716,75 h um 58,50 h darunter — das sind die
+775,25 h**. Der Nachweis liegt mit 740,00 h um 35,25 h darunter — das sind die
 18 Tage, an denen die OTH einen Teil des Tages belegt hat (davon 13 nur bis
 09:30 im Betrieb, wegen der Vorlesung PP bis 13:15 ohne Rückkehr) und von denen
 der Vertrag nichts weiß.
@@ -134,19 +135,19 @@ Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 
 | Monat | Tage mit Stunden | Std netto | Ø je Tag |
 |---|---|---|---|
-| März | 20 A + 1 VA | 177,50 | 8,45 |
-| April | 16 A + 4 VA | 135,00 | 6,75 |
-| Mai | 14 A + 4 VA | 119,75 | 6,65 |
-| Juni | 17 A + 4 VA | 140,00 | 6,67 |
+| März | 20 A + 1 VA | 182,00 | 8,67 |
+| April | 16 A + 4 VA | 144,00 | 7,20 |
+| Mai | 14 A + 4 VA | 127,25 | 7,07 |
+| Juni | 17 A + 4 VA | 142,25 | 6,77 |
 | Juli | 17 A + 5 VA | 144,50 | 6,57 |
-| **Gesamt** | **84 A + 18 VA** | **716,75** | **7,03** |
+| **Gesamt** | **84 A + 18 VA** | **740,00** | **7,25** |
 
 März liegt vorn, weil dort die Startphase mit 9 bis 10 Stunden am Tag liegt;
 Juli hinten, weil dort die Prüfungsphase und vier Prüfungstage liegen.
 
 Zum Vergleich mit den drei bestandenen Beispielen aus dem Bekanntenkreis:
 Batuhan Sener 611,25 h (31,0 h/Woche), Ayad Kharbotly 572,45 h (28,6 h/Woche),
-Achref Najah 690,75 h (33,4 h/Woche). Die 716,75 h liegen darüber.
+Achref Najah 690,75 h (33,4 h/Woche). Die 740,00 h liegen darüber.
 
 Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 
@@ -167,8 +168,8 @@ PDF ausgelesen):
 - **6 Tage** Typ `F` — Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt,
   Pfingstmontag, Fronleichnam
 
-Summe **716,75 h** auf 102 Anwesenheitstage = **7,03 h je Tag**. Bezogen auf die
-21,7 Kalenderwochen sind das 33,0 h/Woche — unter den 38 h der Stammdaten, weil
+Summe **740,00 h** auf 102 Anwesenheitstage = **7,25 h je Tag**. Bezogen auf die
+21,7 Kalenderwochen sind das 34,1 h/Woche — unter den 38 h der Stammdaten, weil
 6 Feiertage und 2 Krankheitstage in den Zeitraum fallen und weil an den
 18 Hochschul- und Prüfungstagen nur ein Teil des Tages im Betrieb war (an den
 13 reinen PP-Tagen sogar nur der Vormittag bis 09:30, da nach der Vorlesung
