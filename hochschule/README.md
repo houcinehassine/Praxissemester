@@ -146,18 +146,6 @@ Zum Neubauen siehe „Neu erzeugen" weiter unten; die Reihenfolge ist bindend.
 Die Dateinamen entsprechen der Vorgabe aus dem Reiter „Anleitung" der Excel-Vorlage
 (`NAME_MATRIKELNUMMER_…`). Bitte nicht umbenennen.
 
-## Noch einzutragen
-
-Drei Felder konnte ich nicht füllen. Sie stehen in beiden Dateien als `⟨…⟩`:
-
-- Position bzw. Funktion von Amin Halloul im Unternehmen
-- E-Mail des Betreuers
-- Telefonnummer des Betreuers
-
-Im Excel stehen sie auf dem Blatt **Stammdaten** in `I17`, `I20` und `I23` — von dort
-ziehen alle Kopfzeilen des Nachweises automatisch nach. Im Word stehen sie im Block
-„Angaben Ausbildungsbetrieb".
-
 ## Grundlage der Tagesdaten
 
 Der Nachweis folgt dem Schichtkalender (`generator/kalender.json`, aus dem übergebenen
@@ -260,12 +248,11 @@ dabei unverändert; alle Formeln und benannten Bereiche der Hochschule sind erha
 
 ## Vor der Abgabe
 
-1. Die drei Betreuer-Felder ausfüllen (Stammdaten `I17`/`I20`/`I23`, siehe oben)
-2. Bild für Bericht 2 nachreichen (siehe „Abbildungen im Word-Bericht") — optional,
+1. Bild für Bericht 2 nachreichen (siehe „Abbildungen im Word-Bericht") — optional,
    Minimum von 3 bebilderten Berichten ist bereits erfüllt
-3. Nachweis ausdrucken, vom Betrieb unterschreiben und stempeln lassen, scannen
-4. Praktikumszeugnis vom Betrieb besorgen (wird nicht hier erzeugt)
-5. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
-6. 08.04.2026 gegen den echten Semesterkalender-PDF der OTH gegenprüfen (siehe
+2. Nachweis ausdrucken, vom Betrieb unterschreiben und stempeln lassen, scannen
+3. Praktikumszeugnis vom Betrieb besorgen (wird nicht hier erzeugt)
+4. Hochladen: Zeugnis (PDF), Nachweis (xlsx), unterschriebener Nachweis (PDF), Bericht (docx)
+5. 08.04.2026 gegen den echten Semesterkalender-PDF der OTH gegenprüfen (siehe
    „Korrektur 08.04.2026" oben) — die Einstufung als vorlesungsfrei stützt sich
    bislang nur auf eine Websuche, nicht auf das Original-PDF

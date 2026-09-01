@@ -124,8 +124,8 @@ def main():
         "B49": "Beratung und Planung",        # Zerspanarbeitsplatz
         "I5": "Mechanische Werkstätte Schmidt e.K.", "I8": "Herr",
         "I11": "Halloul", "I14": "Amin",   # Schreibweise nach Vertrag §4
-        "I17": "⟨Position im Unternehmen⟩", "I20": "⟨E-Mail Betreuer⟩",
-        "I23": "⟨Telefon Betreuer⟩", "I26": "Stiftstraße", "N26": 20,
+        "I17": "Konstruktion und Arbeitsvorbereitung", "I20": "amin.halloul@mw-schmidt.de",
+        "I23": "09447/9909014", "I26": "Stiftstraße", "N26": 20,
         "I29": "93343", "L29": "Essing", "I32": "Deutschland",
         "I37": "Anlagen- und Maschinenbau",
     }.items():
@@ -191,6 +191,7 @@ def main():
     for zelle in ("B17", "I20"):
         st[zelle].hyperlink = None
     st["B17"].hyperlink = "mailto:houcine1.hassine@hs-regensburg.de"
+    st["I20"].hyperlink = "mailto:amin.halloul@mw-schmidt.de"
     for eig, wert in (("creator", "Houcine Hassine"), ("lastModifiedBy", "Houcine Hassine"),
                       ("title", "Tätigkeitsnachweis Praxissemester"), ("lastPrinted", None),
                       ("description", None), ("subject", None), ("keywords", None),

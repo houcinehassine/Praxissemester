@@ -71,7 +71,7 @@ daten = {
  "betrieb": {"name": "Mechanische Werkstätte Schmidt e.K.",
              "anschrift": "Stiftstraße 20, 93343 Essing"},
  "betreuer": {"anrede": "Herr", "vorname": "Amin", "name": "Halloul",
-              "email": "⟨E-Mail Betreuer eintragen⟩", "telefon": "⟨Telefon Betreuer eintragen⟩"},
+              "email": "amin.halloul@mw-schmidt.de", "telefon": "09447/9909014"},
  "berichte": [
    {"titel": b["titel"], "zeitraum": zeitraum(i + 1), "absaetze": b["absaetze"],
     "abbildungen": [{"nr": j + 1, "text": txt, "datei": datei, "nach": nach}
