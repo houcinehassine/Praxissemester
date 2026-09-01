@@ -343,7 +343,39 @@ def main():
         if hinweis:
             ue.cell(r, 5, hinweis).font = Font(name="Arial", size=8, italic=True, color="595959")
 
-    fuss = vertrag + 4
+    # ---- Hypothetische Vergleichsrechnung (nur zur Information) -----------
+    # Auf Nachfrage: wie hoch wäre die Summe, wenn Feiertage und Krankheits-
+    # tage als 8-Stunden-Arbeitstage gerechnet würden? Das ist KEIN Teil des
+    # tatsächlichen Nachweises - Feiertage und Krankheitstage sind keine
+    # Arbeitszeit und duerfen im echten Nachweis nicht als solche auftauchen.
+    feiertage_n = sum(1 for i in tage.values() if i["typ"] == "F")
+    krank_n = sum(1 for i in tage.values() if i["typ"] == "K")
+    hyp = vertrag + 5
+    ue.cell(hyp - 1, 2, "Hypothetisch: Feiertage/Krankheitstage als 8-Std.-Arbeitstage").font = \
+        Font(name="Arial", size=9, bold=True, color="1F3A52")
+    hyp_zeilen = (
+        ("Ist laut Nachweis", "", f"=D{z}"),
+        (f"+ {feiertage_n} Feiertage × 8,00 h", "", feiertage_n * 8.0),
+        (f"+ {krank_n} Krankheitstage × 8,00 h", "", krank_n * 8.0),
+        ("Hypothetische Summe", "", f"=D{hyp}+D{hyp+1}+D{hyp+2}"),
+    )
+    for i, (kopf, hinweis, wert) in enumerate(hyp_zeilen):
+        r = hyp + i
+        fett = i == 3
+        ue.cell(r, 2, kopf).font = Font(name="Arial", size=9, bold=fett)
+        ue.cell(r, 2).alignment = Alignment(horizontal="right")
+        c = ue.cell(r, 4, wert)
+        c.number_format = "0.00"
+        c.font = Font(name="Arial", size=9, bold=fett, color="1F3A52" if fett else "000000")
+        c.alignment = Alignment(horizontal="center")
+        c.border = Border(top=KRAEFTIG if fett else DUENN, bottom=KRAEFTIG if fett else DUENN,
+                          left=DUENN, right=DUENN)
+        c.fill = WOCHE_FUELLUNG
+
+    fuss = hyp + 5
+    ue.cell(fuss - 1, 2, "Nur zur Information - Feiertage und Krankheitstage sind keine "
+                        "Arbeitszeit und werden im tatsächlichen Nachweis nicht als solche "
+                        "erfasst.").font = Font(name="Arial", size=8, italic=True, color="595959")
     ue.cell(fuss, 2, "Wochen über einen Monatswechsel sind hier vollständig zusammengefasst; "
                      "in den Monatsblättern erscheinen sie anteilig.")
     ue.cell(fuss + 1, 2, "Spalte Soll = 38,0 h/Woche, anteilig je Anwesenheitstag. Vorlesungs-, "

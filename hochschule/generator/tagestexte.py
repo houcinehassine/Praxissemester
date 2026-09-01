@@ -4,7 +4,7 @@ Reihenfolge = Reihenfolge der Arbeitstage innerhalb der Phase."""
 
 EINARBEITUNG = [
  "Begrüßung und Einführung im Betrieb, Rundgang durch Werkstatt, Lager und Büro. Teilnahme an der Sicherheitsunterweisung und Einweisung in die Hausordnung.",
- "Unterweisung an den Maschinen und Arbeitsplätzen durch den Betreuer. Persönliche Schutzausrüstung erhalten, Arbeitsplatz und Rechner eingerichtet, Zugänge zur CAD-Software und zu den Netzlaufwerken angelegt.",
+ "Unterweisung an den Maschinen und Arbeitsplätzen durch den Betreuer. Persönliche Schutzausrüstung erhalten und den zugewiesenen Arbeitsplatz eingerichtet.",
  "Aufgaben des Praxissemesters mit dem Betreuer besprochen und zeitlich eingeordnet. Abläufe von der Auftragsannahme bis zur Auslieferung kennengelernt und bei laufenden Arbeiten in der Werkstatt mitgeholfen.",
 ]
 

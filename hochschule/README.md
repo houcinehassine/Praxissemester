@@ -131,6 +131,13 @@ dort entsprechend beschriftet.
 Innerhalb der Monatsblätter steht nach jedem Sonntag eine hinterlegte Zeile
 **Summe KW nn**; die Monatssumme addiert genau diese Wochenzeilen.
 
+Direkt unter dem Vertragsabgleich steht auf Anfrage ein zweiter, klar als
+**„Nur zur Information"** gekennzeichneter Block: die hypothetische Summe,
+wenn die 6 Feiertage und 2 Krankheitstage als 8-Stunden-Arbeitstage gerechnet
+würden — 740,00 + 48,00 + 16,00 = **804,00 h**. Das ist keine reale Zahl und
+wird nirgends im tatsächlichen Nachweis oder in den Summen verwendet:
+Feiertage und Krankheitstage sind arbeitsrechtlich keine Arbeitszeit.
+
 ### Monatssummen
 
 | Monat | Tage mit Stunden | Std netto | Ø je Tag |
