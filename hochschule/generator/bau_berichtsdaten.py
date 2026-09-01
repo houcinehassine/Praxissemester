@@ -36,11 +36,8 @@ ABBILDUNGEN = {
       "projekte/projekt-2/img/design-dashboard.jpg", 3),
      ("Tablet-Modus für die Bedienung an der Maschine",
       "projekte/projekt-2/img/tablet-modus.jpg", 7)],
- # Das Foto "Feste Station mit Materialregal, Lochwaenden, Schraenken und
- # Schweisstisch" passt inhaltlich genau zu Absatz 9 (Ausstattung der festen
- # Station). Es liegt mir noch nicht als Datei vor - sobald es als Anhang
- # ankommt, hier eintragen: (text, "projekte/projekt-4/img/<datei>", 9).
- 2: [],
+ 2: [("Ecke mit Materialregal (Mitte), Lochwänden (rechts), Schränken (links) und Schweißtisch",
+      "projekte/projekt-4/img/feste-station-ecke-3d.jpg", 9)],
  3: [("Lochplatten-Spannsystem auf dem Tischrahmen",
       "projekte/projekt-5/img/lochplatten-auf-rahmen.png", 5),
      ("3D-Modell des Schweißtisches im Gesamtzusammenbau",
