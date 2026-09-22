@@ -1,0 +1,855 @@
+<title>Zerspanplatz-Logbuch</title>
+<style>
+  :root{
+    --bg:#eef1f4;
+    --panel:#ffffff;
+    --panel-2:#f6f8fa;
+    --ink:#1c2733;
+    --muted:#5b6b7a;
+    --muted-2:#8592a0;
+    --line:#dde3e9;
+    --accent:#0e6ba8;
+    --accent-dark:#093f5c;
+    --accent-soft:#e4f0f8;
+    --amber:#b4740e;
+    --amber-soft:#faf0dd;
+    --red:#b3392c;
+    --red-soft:#fbe9e6;
+    --green:#2e7d40;
+    --green-soft:#e7f4ea;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, Arial, sans-serif;
+    --disp: 'IBM Plex Sans Condensed', var(--sans);
+    color-scheme: light;
+  }
+  *{box-sizing:border-box}
+  html,body{background:var(--bg);}
+  body{
+    margin:0;font-family:var(--sans);color:var(--ink);line-height:1.5;
+    padding-inline:0;
+  }
+  a{color:var(--accent)}
+  img{max-width:100%;display:block}
+  h1,h2,h3,h4{font-family:var(--disp);font-weight:600;text-wrap:balance;margin:0}
+
+  /* ===== Diskussion strip (top) ===== */
+  .disc-bar{
+    position:sticky;top:0;z-index:40;
+    background:var(--accent-dark);color:#fff;
+    padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px));
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;
+  }
+  .disc-bar .lbl{opacity:.65;text-transform:uppercase;font-size:10px;letter-spacing:.08em}
+  .disc-tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .disc-tab{
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
+    color:#fff;border-radius:20px;padding:4px 12px;cursor:pointer;font:inherit;
+  }
+  .disc-tab.on{background:#fff;color:var(--accent-dark);border-color:#fff;font-weight:600}
+
+  /* ===== Progress rail ===== */
+  .progress-rail{
+    position:sticky;top:37px;z-index:39;height:5px;background:var(--line);
+  }
+  .progress-rail .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));transition:width .08s linear}
+
+  /* ===== Layout shell ===== */
+  .shell{display:flex;align-items:flex-start;max-width:1240px;margin:0 auto}
+  .sidebar{
+    width:290px;flex:0 0 290px;position:sticky;top:47px;
+    max-height:calc(100vh - 47px);overflow-y:auto;
+    background:var(--panel);border-right:1px solid var(--line);
+    padding:20px 16px 40px;
+  }
+  .sidebar-head{margin-bottom:14px}
+  .sidebar-head .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+  .sidebar-head h2{font-size:19px;margin-top:4px;color:var(--accent-dark)}
+  .sidebar-head p{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+  .stand-badge{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    padding:9px 11px;margin:14px 0;font-family:var(--mono);font-size:12px;color:var(--accent-dark)
+  }
+  .stand-badge b{font-size:15px}
+  .register{list-style:none;margin:0;padding:0}
+  .register .grp{margin-top:16px}
+  .register .grp-title{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted-2);padding:0 4px 5px;border-bottom:1px solid var(--line);margin-bottom:5px
+  }
+  .register a{
+    display:block;text-decoration:none;color:var(--ink);font-size:13px;
+    padding:5px 8px;border-radius:7px;
+  }
+  .register a:hover{background:var(--accent-soft)}
+  .register a .n{font-family:var(--mono);color:var(--muted-2);margin-right:6px;font-size:11.5px}
+
+  .main{flex:1;min-width:0;padding:28px 28px 90px}
+
+  .doc-head{
+    background:linear-gradient(155deg,var(--accent-dark),var(--accent));
+    color:#fff;border-radius:16px;padding:30px 30px 26px;margin-bottom:30px;
+  }
+  .doc-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;opacity:.8;text-transform:uppercase}
+  .doc-head h1{font-size:clamp(26px,4vw,34px);margin-top:6px;color:#fff}
+  .doc-head p{max-width:640px;opacity:.92;margin:10px 0 0;font-size:14.5px}
+  .doc-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px;font-size:12.5px;font-family:var(--mono)}
+  .doc-meta span{opacity:.85}
+  .doc-meta b{font-weight:600}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:10px;margin-top:20px}
+  .kpi{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 12px}
+  .kpi b{display:block;font-size:20px;font-family:var(--mono)}
+  .kpi span{font-size:11px;opacity:.85}
+
+  .legend{
+    display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px;
+  }
+  .legend .it{
+    display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);
+    border-radius:20px;padding:5px 11px;font-size:12px;color:var(--muted)
+  }
+  .legend .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+
+  /* ===== Timeline ===== */
+  .timeline{position:relative;padding-left:34px}
+  .timeline::before{
+    content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;
+    background:repeating-linear-gradient(var(--line),var(--line) 6px,transparent 6px,transparent 11px);
+  }
+  .chapter-mark{
+    position:relative;margin:36px 0 16px;padding-left:2px;
+  }
+  .chapter-mark::before{
+    content:"";position:absolute;left:-32px;top:4px;width:20px;height:20px;border-radius:6px;
+    background:var(--accent-dark);
+  }
+  .chapter-mark .num{
+    position:absolute;left:-27px;top:4px;width:20px;height:20px;color:#fff;font-family:var(--mono);
+    font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .chapter-mark h3{font-size:16px;color:var(--accent-dark)}
+  .chapter-mark .sub{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+
+  .node{position:relative;margin-bottom:14px;scroll-margin-top:60px}
+  .node .dot{
+    position:absolute;left:-30px;top:18px;width:13px;height:13px;border-radius:50%;
+    background:var(--accent);border:3px solid var(--panel);box-shadow:0 0 0 1.5px var(--accent);
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:15px 18px;box-shadow:0 1px 2px rgba(20,30,40,.04);
+  }
+  .card .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .card .heading{flex:1;min-width:200px}
+  .card .subtitle{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+  .card h4{font-size:15.5px;line-height:1.3}
+  .card .time{
+    font-family:var(--mono);font-size:12px;color:var(--accent-dark);background:var(--accent-soft);
+    border-radius:7px;padding:3px 9px;white-space:nowrap;font-weight:600
+  }
+  .card ul{margin:10px 0 0;padding-left:18px}
+  .card li{margin:3px 0;font-size:13.5px}
+  .card li::marker{color:var(--muted-2)}
+  .tags{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:3px 9px;border-radius:20px;font-weight:600}
+  .tag.belegt{background:var(--green-soft);color:var(--green);border:1px solid #bfe0c6}
+  .tag.kreativ{background:var(--amber-soft);color:var(--amber);border:1.5px dashed #e0bd82}
+  .card .photo{margin-top:12px;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--panel-2)}
+  .card .photo img{width:100%}
+  .card .photo figcaption{font-size:11.5px;color:var(--muted);padding:7px 10px;font-family:var(--mono)}
+
+  /* type variants */
+  .node.error .dot{background:var(--red);box-shadow:0 0 0 1.5px var(--red)}
+  .node.error .card{border-left:4px solid var(--red)}
+  .node.error .subtitle{color:var(--red)}
+  .node.correction .dot{background:var(--green);box-shadow:0 0 0 1.5px var(--green)}
+  .node.correction .card{border-left:4px solid var(--green)}
+  .node.correction .subtitle{color:var(--green)}
+  .node.problem .dot{background:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
+  .node.problem .card{border-left:4px solid var(--accent)}
+  .node.solution .dot{background:var(--green);box-shadow:0 0 0 1.5px var(--green)}
+  .node.solution .card{border-left:4px solid var(--green)}
+  .node.optimization .dot{background:var(--amber);box-shadow:0 0 0 1.5px var(--amber)}
+  .node.optimization .card{border-left:4px solid var(--amber)}
+  .node.wait .dot{background:var(--panel);border:3px solid var(--muted-2);box-shadow:none}
+  .node.wait .card{background:var(--panel-2);border:1.5px dashed var(--muted-2)}
+  .node.wait .subtitle{color:var(--muted-2)}
+  .node.wait h4{color:var(--muted)}
+  .node.wait .span-badge{
+    font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--panel);
+    border:1px solid var(--line);border-radius:7px;padding:3px 9px;white-space:nowrap
+  }
+  .node.milestone{margin:26px 0}
+  .node.milestone .dot{
+    left:-33px;top:8px;width:19px;height:19px;background:var(--panel);
+    border:3px solid var(--accent-dark);box-shadow:none;
+  }
+  .node.milestone .card{background:var(--accent-dark);color:#fff;border:none}
+  .node.milestone .card .subtitle{color:#bcd7ea}
+  .node.milestone .card h4{color:#fff;font-size:17px}
+  .node.milestone .card li{color:#e7eff5}
+  .node.milestone .percent{
+    font-family:var(--mono);font-size:26px;font-weight:700;color:#fff;
+  }
+
+  .kicker-label{font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+  .label-row{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+  .icon-badge{font-size:13px}
+
+  /* ===== Summary ===== */
+  .summary{
+    margin-top:44px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 28px;
+  }
+  .summary h2{font-size:19px;color:var(--accent-dark);margin-bottom:4px}
+  .summary p.lede{color:var(--muted);font-size:13.5px;margin:4px 0 18px}
+  .sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+  .sum-tile{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:14px 14px}
+  .sum-tile b{display:block;font-family:var(--mono);font-size:24px;color:var(--accent-dark)}
+  .sum-tile span{font-size:11.5px;color:var(--muted)}
+  .sum-note{margin-top:18px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+  footer.page-foot{max-width:1240px;margin:0 auto;padding:20px 28px 50px;font-size:11.5px;color:var(--muted-2);font-family:var(--mono)}
+
+  @media(max-width:900px){
+    .shell{display:block}
+    .sidebar{
+      position:static;width:auto;max-height:none;border-right:none;border-bottom:1px solid var(--line);
+    }
+    .main{padding:20px 16px 70px}
+    .timeline{padding-left:28px}
+    .node .dot{left:-25px}
+    .chapter-mark::before{left:-27px}
+    .chapter-mark .num{left:-22px}
+    .node.milestone .dot{left:-28px}
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="disc-bar">
+  <span class="lbl">Diskussion</span>
+  <div class="disc-tabs" id="discTabs"></div>
+</div>
+<div class="progress-rail"><div class="fill" id="progFill"></div></div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <div class="kicker">Werkstattlogbuch</div>
+      <h2>Projekt 7 · Zerspanplatz</h2>
+      <p>Verlauf der Konzeptplanung von der Auftragsübergabe bis zur fertigen Dokumentation.</p>
+    </div>
+    <div class="stand-badge">
+      <span>Stand</span>
+      <b id="standReadout">−1 %</b>
+    </div>
+    <ul class="register" id="register"></ul>
+  </aside>
+
+  <main class="main" id="page-1">
+
+    <header class="doc-head">
+      <div class="eyebrow">Werkstattlogbuch · Verlaufsbericht</div>
+      <h1>Projekt 7 — Zerspanarbeitsplatz nach 5S</h1>
+      <p>Von der Aufgabenstellung in einem Satz bis zur fertig dokumentierten Konzeptplanung: Werkzeugliste, 5S-Ordnung, vier Bauvarianten, vier Layout-Konzepte, Nutzwertanalyse, Amortisationsrechnung und Gefährdungsbeurteilung.</p>
+      <div class="doc-meta">
+        <span>Betrieb: <b>Mechanische Werkstätte Schmidt e.K., Essing</b></span>
+        <span>Zeitraum: <b>Tag 1 – Tag 60</b></span>
+        <span>Dauer: <b>60 Arbeitstage, durchgehend</b></span>
+      </div>
+      <p style="font-size:12px;opacity:.8;margin-top:10px">
+        Hinweis: Diese Fassung zeigt den Ablauf ohne Unterbrechung, ergänzt um mehrere
+        Revisionsschleifen und um fünf erste Schritte in die Umsetzung (Kapitel 14) — deutlich
+        über den ursprünglichen Dokumentationsstand hinaus. Alle diese Ergänzungen sind
+        „kreativ ergänzt“ markiert und stehen so nicht in den Originalquellen; das Fazit in
+        Kapitel 13 listet die zugehörigen Punkte weiterhin korrekt als zum Zeitpunkt seiner
+        Abgabe offen — Kapitel 14 zeigt, was danach als Erstes angegangen wurde.
+      </p>
+      <div class="kpi-row">
+        <div class="kpi"><b>63</b><span>Teilschritte</span></div>
+        <div class="kpi"><b>2</b><span>Fehler-Paare</span></div>
+        <div class="kpi"><b>3</b><span>Problem-Paare</span></div>
+        <div class="kpi"><b>4</b><span>Optimierungen</span></div>
+        <div class="kpi"><b>10</b><span>Fotos / Renderings</span></div>
+        <div class="kpi"><b id="kpiHours">–</b><span>Std. geschätzt</span></div>
+      </div>
+    </header>
+
+    <div class="legend">
+      <span class="it"><span class="dot" style="background:var(--accent)"></span>Arbeitsschritt</span>
+      <span class="it"><span class="dot" style="background:var(--red)"></span>❌ Falscher Schritt</span>
+      <span class="it"><span class="dot" style="background:var(--green)"></span>✅ Korrektur / Lösung</span>
+      <span class="it"><span class="dot" style="background:var(--accent)"></span>⚠️ Problem</span>
+      <span class="it"><span class="dot" style="background:var(--amber)"></span>⚙ Optimierung</span>
+      <span class="it"><span class="tag belegt" style="padding:2px 8px">belegt</span></span>
+      <span class="it"><span class="tag kreativ" style="padding:2px 8px">kreativ ergänzt</span></span>
+    </div>
+
+    <div class="timeline" id="timeline"></div>
+
+    <section class="summary" id="summary">
+      <h2>Zusammenfassung</h2>
+      <p class="lede">Automatisch aus dem Zeitstrahl berechnet — keine manuelle Nachbuchung.</p>
+      <div class="sum-grid" id="sumGrid"></div>
+      <p class="sum-note">
+        Zeitschätzungen sind eigene, nachträgliche Einschätzungen des Aufwands je Arbeitsschritt —
+        keine Übernahme aus einer Zeiterfassung. Als „belegt" markierte Inhalte stehen wörtlich oder
+        sinngemäß in den Quelldateien <code>13_zerspanarbeitsplatz-zeitstrahl-v3.html</code>,
+        <code>14_zerspanarbeitsplatz-final.html</code> sowie den Projektseiten
+        <code>projekte/projekt-7/*.html</code>. Als „kreativ ergänzt" markierte Inhalte sind plausibel
+        hinzugefügt, um den Ablauf realistisch und vollständig zu zeigen, und stehen so nicht in den
+        Quellen.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="page-foot">Praxissemester-Dokumentation · Werkstattlogbuch · generiert aus projekte/projekt-7/ und quellen/dateien/13–14</footer>
+
+<script>
+(function(){
+
+  const IMG = "img/"; // published alongside this page
+
+  // ---------------------------------------------------------------------
+  // Data: one entry per timeline node, in chronological order.
+  // type: milestone | step | error | correction | problem | solution | optimization
+  // ---------------------------------------------------------------------
+  const chapters = {
+    start:"Vor Projektbeginn",
+    k1:"Kapitel 1 · Einführung",
+    k2:"Kapitel 2 · Analyse — Werkzeuge & Kosten",
+    k3:"Kapitel 3 · 5S-Ordnung",
+    k4:"Kapitel 4 · Planung — Maße, Varianten, Layout",
+    k5:"Kapitel 5 · Bewertung — Nutzwertanalyse",
+    k6:"Kapitel 6 · Wirtschaftlichkeit",
+    k7:"Kapitel 7 · Arbeitssicherheit",
+    k8:"Kapitel 8 · Umsetzung & Abgabe",
+    k13:"Fazit & Abschluss",
+    k14:"Kapitel 14 · Erste Schritte in die Umsetzung"
+  };
+
+  const D = [
+    {type:"milestone", chap:"start", percent:"−1 %", date:"vor Tag 1",
+      title:"Themenübergabe — Auftrag erhalten",
+      bullets:[
+        "Betrieb: Mechanische Werkstätte Schmidt e.K., Essing",
+        "Aufgabenstellung der Hochschule erhalten: Arbeitsplatz zum Zerspanen (Drehen & Fräsen) planen",
+        "Rahmenbedingungen grob abgesteckt: 3 Personen/Schicht, 1 Schicht/Tag, kein festes Budget"
+      ], tag:"belegt"},
+
+    {type:"step", chap:"k1", date:"Tag 1", time:1.0,
+      title:"Auftrag verdichtet, 5 Teilaufgaben abgeleitet", sub:"Kapitel 1",
+      bullets:[
+        "Aufgabe in einem Satz formuliert: Arbeitsplatz zum Zerspanen planen, alle Werkzeuge aufnehmen, nach 5S organisieren, Varianten vergleichen",
+        "5 Teilaufgaben A–E festgelegt: Werkzeuge, Werkbank, 5S, Varianten, Gegenüberstellung"
+      ], tag:"belegt"},
+    {type:"step", chap:"k1", time:0.5,
+      title:"Rahmenbedingungen dokumentiert", sub:"Kapitel 1",
+      bullets:[
+        "3 Personen pro Schicht, 1 Schicht/Tag, kein festes Budget notiert",
+        "Folge abgeleitet: Handwerkzeug & Messmittel teils 3-fach beschaffen, Werkbank zentral für alle drei auslegen"
+      ], tag:"belegt"},
+
+    {type:"step", chap:"k2", date:"ab Tag 2", time:0.5,
+      title:"Werkzeuge zum Drehen recherchiert", sub:"Gruppe 1 von 6",
+      bullets:[
+        "Drehmeißel-Satz, Wendeschneidplatten + Halter, Bohrfutter + HSS-Bohrer",
+        "Zentrierbohrer, Gewindeschneidzeug, mitlaufende Körnerspitze, Einstelllehre"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:0.5,
+      title:"Drehwerkzeug-Liste mit der Praxis abgeglichen",
+      bullets:[
+        "Liste an der Drehmaschine durchgegangen, gegen den tatsächlichen Werkzeugbestand geprüft",
+        "Keine Lücke gefunden — Gruppe 1 als vollständig markiert"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:0.5,
+      title:"Werkzeuge zum Fräsen recherchiert", sub:"Gruppe 2 von 6",
+      bullets:[
+        "Schaftfräser-Satz HSS/VHM, Walzenstirnfräser / Messerkopf",
+        "Bohrer- & Gewindebohrer-Satz, Spannzangen/Fräsdorne, Kantentaster"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:0.5,
+      title:"Fräswerkzeug-Liste mit der Praxis abgeglichen",
+      bullets:[
+        "Liste an der Fräsmaschine durchgegangen, gegen den tatsächlichen Werkzeugbestand geprüft",
+        "Kantentaster ergänzt, der in der ersten Fassung fehlte"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:0.75,
+      title:"Spann- und Aufspannmittel erfasst", sub:"Gruppe 3 von 6",
+      bullets:[
+        "Maschinenschraubstock, Spanneisen/Pratzen-Satz",
+        "Vierbackenfutter + Schlüssel, Parallelunterlagen, Teilapparat (optional)"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:0.75,
+      title:"Mess- und Prüfmittel erfasst", sub:"Gruppe 4 von 6",
+      bullets:[
+        "Digitaler Messschieber (3× — je Person), Bügelmessschraube",
+        "Messuhr + Magnetstativ, Winkel-, Radien-, Fühler- und Gewindelehren"
+      ], tag:"belegt"},
+
+    {type:"error", chap:"k2", time:0.25,
+      title:"Nacharbeit & Hilfsmittel zunächst vergessen",
+      bullets:[
+        "Erste Liste umfasste nur die 4 Kerngruppen Drehen / Fräsen / Spannen / Messen",
+        "Beim Abgleich mit dem realen Ablauf „Zerspanen → Entgraten → Prüfen → Reinigen“ fiel die Lücke auf",
+        "Entgratwerkzeug, Feilen, PSA und Kühlschmierstoff fehlten komplett"
+      ], tag:"kreativ"},
+    {type:"correction", chap:"k2", time:1.0,
+      title:"Gruppen 5 und 6 ergänzt — Liste komplettiert",
+      bullets:[
+        "Gruppe 5 Nacharbeit: Entgratwerkzeug, Feilen-Satz, Schleifleinen, Gewinde-Nachschneider",
+        "Gruppe 6 Hilfsmittel: Handwerkzeug-Grundsatz, Drehmomentschlüssel, KSS, PSA, Werkstattwagen",
+        "Liste wuchs von 27 auf 35 Positionen in 6 Gruppen"
+      ], tag:"kreativ"},
+
+    {type:"step", chap:"k2", time:1.0,
+      title:"Richtpreise für alle 35 Positionen recherchiert",
+      bullets:[
+        "Marktrecherche je Kategorie — Drehen bis Hilfsmittel",
+        "Richtpreise (dt. Markt) je Position notiert, ohne Werkbank & Maschinen"
+      ], tag:"belegt"},
+    {type:"step", chap:"k2", time:1.25,
+      title:"Kostenliste strukturiert, Zwischensumme berechnet",
+      bullets:[
+        "35 Positionen mit Menge, Einheit und Richtpreis in Tabelle überführt",
+        "Zwischensumme netto berechnet: 4.825 €"
+      ], tag:"belegt"},
+    {type:"error", chap:"k2", time:0.25,
+      title:"Erste Summe ohne MwSt. als „Gesamtkosten“ genannt",
+      bullets:[
+        "Netto-Zwischensumme (4.825 €) im ersten Entwurf versehentlich als Endbetrag kommuniziert",
+        "19 % MwSt. fehlten in der Angabe — Differenz von rund 917 €"
+      ], tag:"kreativ"},
+    {type:"correction", chap:"k2", time:0.5,
+      title:"Tabelle sauber in netto / MwSt. / brutto gegliedert",
+      bullets:[
+        "Drei Zeilen klar beschriftet: netto 4.825 € → MwSt. 19 % → brutto 5.742 €",
+        "Bruttosumme als verbindlicher Wert für die spätere Amortisationsrechnung übernommen"
+      ], tag:"kreativ"},
+    {type:"optimization", chap:"k2", time:1.5,
+      title:"Kostenliste zur interaktiven Tabelle ausgebaut",
+      bullets:[
+        "Kategorie-Filter (Alle / Drehen / Fräsen / Spannen / Messen / Nacharbeit / Hilfsmittel) ergänzt",
+        "Live-Suche über den Werkzeugnamen eingebaut",
+        "Preise pro Position editierbar gemacht, Summen rechnen automatisch neu"
+      ], tag:"belegt"},
+
+    {type:"step", chap:"k3", date:"ab Tag 11", time:1.0,
+      title:"Die 5 Schritte konkret am Platz formuliert",
+      bullets:[
+        "Seiri (sortieren), Seiton (systematisieren), Seiso (säubern), Seiketsu (standardisieren), Shitsuke (Selbstdisziplin)",
+        "Für jeden Schritt eine konkrete Umsetzung notiert — z. B. Shadow-Board für Seiton"
+      ], tag:"belegt"},
+    {type:"step", chap:"k3", time:0.5,
+      title:"Zonen A / B / C und Farbcode festgelegt",
+      bullets:[
+        "Zone A – täglich (Lochwand), Zone B – wöchentlich (Schubladen), Zone C – selten (Schrank)",
+        "Farbcode je Zone definiert (Blau/Orange/Grau)"
+      ], tag:"belegt"},
+    {type:"step", chap:"k3", time:0.5,
+      title:"Werkzeuge der Zone A zugeordnet — täglich",
+      bullets:[
+        "Häufigste Drehmeißel, Schaftfräser, Messschieber (digital), Messuhr",
+        "Entgratwerkzeug, Feilen, KSS + Pinsel, Spänehaken + Handfeger"
+      ], tag:"belegt"},
+    {type:"step", chap:"k3", time:0.5,
+      title:"Werkzeuge der Zone B zugeordnet — wöchentlich",
+      bullets:[
+        "Bohrer-, Gewinde- und Fräsersätze, Wendeschneidplatten + Halter",
+        "Bügelmessschraube, Anschlagwinkel, Radien-/Fühler-/Gewindelehren, Drehmomentschlüssel"
+      ], tag:"belegt"},
+    {type:"step", chap:"k3", time:0.5,
+      title:"Werkzeuge der Zone C zugeordnet — selten",
+      bullets:[
+        "Teilapparat/Rundtisch, Vierbackenfutter, Reserve-Wendeplatten",
+        "Verbrauchsmaterial, PSA-Ersatz, Werkstattwagen separat verortet"
+      ], tag:"belegt"},
+    {type:"step", chap:"k3", date:"ab Tag 14", time:0.75, sub:"Revisionsschleife",
+      title:"Zonen-Zuordnung mit dem Meister abgestimmt",
+      bullets:[
+        "Erste Zuordnung zur Prüfung vorgelegt",
+        "Rückmeldung: Messuhr + Magnetstativ werden häufiger gebraucht als angenommen",
+        "Von Zone B nach Zone A verschoben und in der Liste aktualisiert"
+      ], tag:"kreativ"},
+
+    {type:"step", chap:"k4", date:"ab Tag 16", time:0.75,
+      title:"Grundmaße recherchiert — Breite, Tiefe, Traglast",
+      bullets:[
+        "Vergleichbare Werkbänke und Herstellerangaben gesichtet",
+        "Breite 1500–2000 mm, Tiefe 600 mm, Traglast ≥ 500 kg festgelegt"
+      ], tag:"belegt"},
+    {type:"step", chap:"k4", time:0.75,
+      title:"Arbeitshöhe normbasiert begründet",
+      bullets:[
+        "Arbeitshöhe 850–950 mm aus DIN EN ISO 14738 (Ellenbogenhöhe) hergeleitet",
+        "DIN 33402-2 für Körpermaße herangezogen, Höhenverstellung als ideal markiert"
+      ], tag:"belegt"},
+    {type:"problem", chap:"k4", time:0.25,
+      title:"Maschinen durchgehend in Produktion",
+      bullets:[
+        "In der ersten Praxiswoche liefen Dreh- und Fräsmaschine im Dauerbetrieb",
+        "Keine Zeit für eine eigene Maßaufnahme direkt am geplanten Standort"
+      ], tag:"kreativ"},
+    {type:"solution", chap:"k4", time:0.5,
+      title:"Grundmaße normbasiert hergeleitet, Vor-Ort-Check verschoben",
+      bullets:[
+        "Maße zunächst vollständig aus DIN EN ISO 14738 / DIN 33402-2 abgeleitet",
+        "Abgleich mit der realen Werkstatt auf eine ruhigere Randzeit (Schichtende) verlegt"
+      ], tag:"kreativ"},
+
+    {type:"step", chap:"k4", time:1.5, img:"variante1-item-profil.png", cap:"Variante 1 — offener item-Profil-Rahmen",
+      title:"Variante 1 — item-Profil in 3D modelliert",
+      bullets:["Offener Aluprofil-Rahmen, flexibel erweiterbar", "Vorteil: Ergonomie & Flexibilität — Nachteil: teuerste Option"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.5, img:"variante2-stahl-standard.png", cap:"Variante 2 — Stahlkorpus mit Schubladen",
+      title:"Variante 2 — Stahl-Standard in 3D modelliert",
+      bullets:["Stahlkorpus mit Schubladen, sofort einsatzbereit", "Vorteil: robust & günstig — Nachteil: wenig flexibel"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.5, img:"variante3-systemmodule.png", cap:"Variante 3 — kombinierte Schrankmodule",
+      title:"Variante 3 — Systemmodule in 3D modelliert",
+      bullets:["Kombinierte Schrankmodule, viel Stauraum", "Vorteil: erweiterbar, gute Ordnung — Nachteil: mittlere Kosten"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.5, img:"variante4-eigenbau.png", cap:"Variante 4 — geschweißter Stahlrahmen (Eigenbau)",
+      title:"Variante 4 — Eigenbau in 3D modelliert",
+      bullets:["Geschweißter Stahlrahmen, passgenau selbst gebaut", "Vorteil: günstig im Material — Nachteil: hoher Bauaufwand"], tag:"belegt"},
+    {type:"step", chap:"k4", time:0.5,
+      title:"Vergleichstabelle aus den 4 Varianten erstellt",
+      bullets:["Tabellarischer Vergleich aus den 4 Einzelbewertungen zusammengeführt"], tag:"belegt"},
+    {type:"step", chap:"k4", time:0.5,
+      title:"Vergleich gegen die Teilaufgaben rückgeprüft",
+      bullets:["Vor-/Nachteile gegen die Kriterien der Aufgabenstellung gespiegelt", "Grundlage für die spätere Nutzwertanalyse gelegt"], tag:"belegt"},
+
+    {type:"step", chap:"k4", time:1.0, img:"konzept1-tiefe-unterschraenke.png", cap:"Konzept 1 — tiefe Unterschränke",
+      title:"Layout-Konzept 1 visualisiert — tiefe Unterschränke",
+      bullets:["Große Fläche und viel Volumen", "Nachteil: 700 mm Tiefe → weites Greifen"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.0, img:"konzept2-lochwand-mittig.png", cap:"Konzept 2 — Lochwand mittig + Hochschränke",
+      title:"Layout-Konzept 2 visualisiert — Lochwand mittig",
+      bullets:["Geringe Tiefe, alles in Reichweite, Höhe genutzt", "Nachteil: Wandverankerung nötig"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.0, img:"konzept3-bank-wagen.png", cap:"Konzept 3 — schlanke Bank + mobiler Wagen",
+      title:"Layout-Konzept 3 visualisiert — Bank + mobiler Wagen",
+      bullets:["Werkzeug fährt zur Maschine, flexibel", "Nachteil: Zusatzkosten, Disziplin nötig"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.0, img:"konzept4-systemwand.png", cap:"Konzept 4 — durchgehende Systemwand",
+      title:"Layout-Konzept 4 visualisiert — Systemwand",
+      bullets:["Maximale Sicht und Zugriff über die Länge", "Nachteil: wenig geschlossener Stauraum"], tag:"belegt"},
+    {type:"step", chap:"k4", time:0.5,
+      title:"Vor- und Nachteile der 4 Layout-Konzepte gegenübergestellt",
+      bullets:["Alle 4 Konzepte tabellarisch nach Greifwegen, Stauraum und Aufwand verglichen"], tag:"belegt"},
+    {type:"step", chap:"k4", time:0.5,
+      title:"Entscheidung für Konzept 2 begründet",
+      bullets:["Konzept 2 als Basis festgelegt — geringe Tiefe, alles in Reichweite", "Mobiler Wagen (Konzept 3) als Ergänzung ergänzt"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.5, img:"konzept2-3d-zonen.png", cap:"Konzept 2 — 3D-Zonenmodell mit Hochschränken",
+      title:"Konzept 2 als 3D-Zonenmodell ausgearbeitet",
+      bullets:["Hochschränke Tiefe ~400 mm, Bank Tiefe 600 mm, Breite ~1800 mm", "Zonen A/B/C im Modell verortet"], tag:"belegt"},
+    {type:"step", chap:"k4", time:1.5, img:"werkstatt-grundriss.png", cap:"Werkstatt-Grundriss mit U-Anordnung der Maschinen",
+      title:"Werkstatt-Grundriss erstellt",
+      bullets:["Maschinen in U-Anordnung, Freiraum ≥ 800–1000 mm je Maschine", "Raum- und Maschinenmaße als Beispielwerte gekennzeichnet"], tag:"belegt"},
+
+    {type:"step", chap:"k5", date:"ab Tag 21", time:1.0,
+      title:"7 Bewertungskriterien definiert und gewichtet", sub:"Kapitel 5",
+      bullets:["Flexibilität, Ergonomie, Anschaffungskosten, Robustheit, Aufwand bis einsatzbereit, 5S-Eignung, Optik", "Standard-Gewichtung: 20/15/20/15/10/15/5 %"], tag:"belegt"},
+    {type:"step", chap:"k5", time:1.0,
+      title:"Alle 4 Varianten je Kriterium bewertet",
+      bullets:["Punkteschema 1–5 je der 7 Kriterien angewendet", "Ergebnis: item-Profil 4,15 vor Systemmodule 3,95"], tag:"belegt"},
+    {type:"step", chap:"k5", time:1.25,
+      title:"Bewertung als interaktiven Rechner umgesetzt",
+      bullets:["Gewichte live veränderbar gemacht, Rang berechnet sich automatisch neu", "Normierung auf 100 % ergänzt, falls die Gewichte nicht exakt aufsummieren"], tag:"belegt"},
+    {type:"problem", chap:"k5", time:0.25,
+      title:"Ergebnis zu knapp für eine klare Empfehlung",
+      bullets:["Nur 0,20 Punkte Abstand zwischen Platz 1 (item-Profil) und Platz 2 (Systemmodule)", "Das liegt innerhalb der eigenen Schätzunsicherheit der Bewertung"], tag:"belegt"},
+    {type:"solution", chap:"k5", time:0.5,
+      title:"Als Empfehlung + gleichwertige Alternative dokumentiert",
+      bullets:["item-Profil als 1. Wahl, Systemmodule als Budget-Alternative ausgewiesen — kein erzwungener Sieger", "Bauvariantenentscheidung bewusst offengelassen (siehe Fazit)"], tag:"belegt"},
+    {type:"step", chap:"k5", date:"ab Tag 24", time:1.25, sub:"Revisionsschleife",
+      title:"Zweite Abstimmungsrunde zur Bauvariante",
+      bullets:[
+        "Ergebnis (4,15 vs. 3,95) dem Meister vorgestellt und diskutiert",
+        "Gemeinsam festgehalten: Entscheidung braucht reale Angebote, keine weitere Punktebewertung",
+        "Anforderungen für eine spätere Angebotsanfrage (Maße, Traglast, Zonenaufteilung) für beide Varianten notiert"
+      ], tag:"kreativ"},
+
+    {type:"step", chap:"k6", date:"ab Tag 26", time:1.0,
+      title:"Kostenschätzung je Variante erstellt", sub:"Kapitel 6",
+      bullets:["Anschaffung + Zusatzaufwand grob je Variante geschätzt", "Spanne 800 € (Eigenbau, Material) bis 7.000 € (item-Profil)"], tag:"belegt"},
+    {type:"step", chap:"k6", time:1.0,
+      title:"Rechenformel für Amortisation aufgestellt",
+      bullets:["Gesparte Suchzeit × Stundensatz je Jahr der Investition gegenübergestellt", "Formel von Hand durchgerechnet, Ergebnis Standardfall: 26,5 Monate"], tag:"belegt"},
+    {type:"step", chap:"k6", time:1.25,
+      title:"Als interaktiven Rechner umgesetzt",
+      bullets:["Eingaben: Personen, gesparte Suchzeit/Tag, Arbeitstage/Jahr, Stundensatz, Investition", "Ergebnis-Kacheln für gesparte Zeit, Ersparnis/Jahr, Amortisation, Netto nach 5 Jahren"], tag:"belegt"},
+    {type:"optimization", chap:"k6", time:0.5,
+      title:"Rechner für Sensitivitätsprüfung nutzbar gemacht",
+      bullets:["Alle Annahmen frei einstellbar statt fest verdrahtet", "Ergebnis: Wirtschaftlichkeit trägt selbst bei halbierter Zeitersparnis"], tag:"belegt"},
+    {type:"step", chap:"k6", date:"ab Tag 30", time:1.0, sub:"Revisionsschleife",
+      title:"Amortisationsrechnung nach Rückmeldung überarbeitet",
+      bullets:[
+        "Erste Fassung dem Meister gezeigt — Stundensatz von 40 €/h als zu hoch empfunden",
+        "Sensitivität zusätzlich mit 32 €/h durchgerechnet",
+        "Ergebnis bestätigt: Amortisation bleibt auch bei 32 €/h unter 3 Jahren"
+      ], tag:"kreativ"},
+
+    {type:"step", chap:"k7", date:"ab Tag 31", time:0.5,
+      title:"Rechtsgrundlagen recherchiert", sub:"Kapitel 7",
+      bullets:["ArbSchG § 5 (Pflicht zur Gefährdungsbeurteilung), BetrSichV, DGUV-Vorschriften (u. a. DGUV V3)"], tag:"belegt"},
+    {type:"step", chap:"k7", time:0.5,
+      title:"STOP-Prinzip als Struktur übernommen",
+      bullets:["Substitution → Technisch → Organisatorisch → Persönlich (PSA) als Rangfolge für jede Maßnahme"], tag:"belegt"},
+    {type:"step", chap:"k7", time:1.25,
+      title:"Erste 5 Gefährdungen erfasst und bewertet",
+      bullets:["Rotierende Teile / Einzug, Späne, wegfliegende Werkstücke, Lärm, Kühlschmierstoff", "Je Gefährdung: mögliche Folge, Schutzmaßnahme, Restrisiko"], tag:"belegt"},
+    {type:"step", chap:"k7", time:1.25,
+      title:"Weitere 5 Gefährdungen erfasst und bewertet",
+      bullets:["Scharfe Kanten/Grat, Heben schwerer Werkstücke, Stolpern/Rutschen, Elektrik, Beleuchtung", "Je Gefährdung: mögliche Folge, Schutzmaßnahme, Restrisiko"], tag:"belegt"},
+    {type:"step", chap:"k7", time:0.5,
+      title:"Unterweisung & Wiederholung ergänzt",
+      bullets:["Erst-Unterweisung vor Arbeitsaufnahme, danach mindestens jährlich", "Dokumentationspflicht (Datum, Inhalt, Unterschrift) festgehalten"], tag:"belegt"},
+
+    {type:"step", chap:"k8", date:"ab Tag 36", time:1.0,
+      title:"Phasenstruktur mit 7 Phasen festgelegt", sub:"Kapitel 8",
+      bullets:["Analyse, 5S-Konzept, Layout, Angebote, Entscheidung, Aufbau, Einweisung als 7 Phasen definiert", "Dauer je Phase in Wochen festgelegt"], tag:"belegt"},
+    {type:"step", chap:"k8", time:1.25,
+      title:"Als Gantt-Tool mit Meilensteinen umgesetzt",
+      bullets:["Gantt-Tool mit einstellbarer Phasendauer je Phase gebaut", "Meilensteine berechnen sich automatisch aus Start- und Urlaubsdatum"], tag:"belegt"},
+    {type:"optimization", chap:"k8", time:1.0,
+      title:"Szenario-Vergleich ergänzt",
+      bullets:["Zeitpläne unter einem Namen (z. B. „Plan A“) speicherbar gemacht", "Erlaubt, Urlaubslage und Phasendauer gegeneinander durchzuspielen"], tag:"belegt"},
+    {type:"problem", chap:"k8", time:0.25,
+      title:"Zeitraum-Unschärfe entdeckt",
+      bullets:["Entscheidungsblatt nennt Tag 45 als Ende der Kernphasen 1–6", "Phase 7 „Einweisung & Audit“ endet rechnerisch aber erst an Tag 50 — eine Woche später"], tag:"kreativ"},
+    {type:"solution", chap:"k8", time:0.25,
+      title:"Für die Abgabe festgelegt",
+      bullets:["Tag 45 bleibt Stichtag für die Kernphasen 1–6 (Planung bis Aufbau)", "Einweisung / erstes Audit als Nachlauf außerhalb des Berichtszeitraums vermerkt"], tag:"kreativ"},
+
+    {type:"step", chap:"k8", time:0.75,
+      title:"10 Prüfpunkte über die 5 S definiert",
+      bullets:["Je Prüfpunkt einem der 5 S zugeordnet (Seiri bis Shitsuke)", "Max. 20 Punkte als Zielgröße festgelegt"], tag:"belegt"},
+    {type:"step", chap:"k8", time:0.75,
+      title:"Bewertungsskala und Ampel-Logik festgelegt",
+      bullets:["Skala 0–2 Punkte je Prüfpunkt", "Ampel-Bewertung: ab 16 sehr gut, ab 10 nachbessern, darunter Sofortmaßnahmen"], tag:"belegt"},
+    {type:"optimization", chap:"k8", time:1.0,
+      title:"Skala bewusst auf 0/1/2 statt Ja/Nein gelegt",
+      bullets:["Eine Ja/Nein-Bewertung hätte „fast in Ordnung“ als erfüllt durchgehen lassen", "Zusätzlich Verlaufs-Historie über mehrere Audits mit Lösch-Funktion gebaut"], tag:"belegt"},
+    {type:"step", chap:"k8", time:1.0,
+      title:"Entscheidungsblatt final formuliert",
+      bullets:["Layout, Werkbankmaße, Ordnung und Werkzeugkosten festgelegt", "Bauvariante bewusst offengelassen (siehe Nutzwertanalyse)"], tag:"belegt"},
+    {type:"step", chap:"k8", date:"ab Tag 48", time:0.75, sub:"Revisionsschleife",
+      title:"Entscheidungsblatt nach Rückmeldung überarbeitet",
+      bullets:[
+        "Entwurf dem Meister vorgelegt",
+        "Wandverankerung der Hochschränke als offener Punkt ergänzt, statt stillschweigend vorausgesetzt",
+        "Entscheidungsblatt entsprechend präzisiert"
+      ], tag:"kreativ"},
+    {type:"step", chap:"k8", time:1.0,
+      title:"Quellen- und Normübersicht zusammengestellt",
+      bullets:["8 Normen/Regelwerke von DIN EN ISO 14738 bis EN 388 tabellarisch mit Kernaussage erfasst"], tag:"belegt"},
+    {type:"step", chap:"k8", time:1.0,
+      title:"Export/Import aller Projektdaten ergänzt",
+      bullets:["Alle Eingaben (Preise, Gewichtung, Zeitplan, Audits) als JSON-Datei sicherbar gemacht", "Ermöglicht Weiterarbeit auf einem anderen Gerät"], tag:"belegt"},
+
+    {type:"step", chap:"k8", time:0.75,
+      title:"Alle 8 Kapitel zu einer Seite zusammengeführt",
+      bullets:["Durchklickbare, druckbare Seite aus den 8 Einzelkapiteln gebaut", "Datei „13_zerspanarbeitsplatz-zeitstrahl-v3.html“ — bewusst ohne eingebettete Bilder für schnelles Laden"], tag:"belegt"},
+    {type:"step", chap:"k8", time:0.75,
+      title:"Druckfunktion und Layout final geprüft",
+      bullets:["Seitenumbrüche pro Kapitel für die Druckansicht geprüft", "Sticky-Fortschrittsleiste und Sprungmarken auf allen 8 Kapiteln getestet"], tag:"belegt"},
+    {type:"step", chap:"k8", time:1.0,
+      title:"Alle 10 3D-Grafiken eingebettet",
+      bullets:["4 Varianten, 4 Layout-Konzepte, 3D-Zonenmodell und Werkstatt-Grundriss eingefügt", "Finalfassung „14_zerspanarbeitsplatz-final.html“ — beide Versionen bewusst erhalten"], tag:"belegt"},
+
+    {type:"step", chap:"k13", date:"ab Tag 50", time:1.0,
+      title:"Rückblick „Was das Konzept leistet“ geschrieben", sub:"Kapitel 13",
+      bullets:["Vollständigkeit statt Auswahl, jede Entscheidung mit Zahlen hinterlegt, Sicherheit mitgeplant statt angehängt"], tag:"belegt"},
+    {type:"step", chap:"k13", time:1.0,
+      title:"„Was offen bleibt“ priorisiert dokumentiert",
+      bullets:["8 offene Punkte mit Priorität — u. a. Bauvariante nicht entschieden, Preise sind Richtwerte, Raummaße Beispielannahmen"], tag:"belegt"},
+    {type:"step", chap:"k13", time:0.5,
+      title:"Persönliches Fazit formuliert",
+      bullets:["Lehrreichster Moment: die Nutzwertanalyse lieferte bewusst keine eindeutige Antwort", "Grenze der eigenen Methode benannt statt überspielt"], tag:"belegt"},
+
+    {type:"step", chap:"k14", date:"ab Tag 54", time:2.0,
+      title:"Werkstatt real aufgemessen",
+      bullets:[
+        "Maßband-Aufnahme der geplanten Wandfläche für Konzept 2 durchgeführt",
+        "Ergebnis: nutzbare Breite 1740 mm statt angenommener 1800 mm — Layout minimal angepasst",
+        "Maschinen-Freiräume bestätigt: ≥ 900 mm eingehalten"
+      ], tag:"kreativ"},
+    {type:"step", chap:"k14", time:1.0,
+      title:"Zwei Angebote für die Bauvariante angefragt",
+      bullets:[
+        "Anfragen an einen item-Profil-Systemanbieter und einen Systemmodule-Hersteller verschickt",
+        "Technische Anforderungen aus der zweiten Abstimmungsrunde beigelegt (Maße, Traglast, Zonenaufteilung)",
+        "Rückmeldefrist 2–3 Wochen — Entscheidung bleibt damit über das Praktikumsende hinaus offen"
+      ], tag:"kreativ"},
+    {type:"step", chap:"k14", time:1.0,
+      title:"Wandaufbau und Tragfähigkeit vor Ort geprüft",
+      bullets:[
+        "Wandaufbau an der vorgesehenen Stelle mit dem Haustechniker besprochen",
+        "Ergebnis: Massivwand, Verankerung der Hochschränke grundsätzlich möglich",
+        "Genaue Dübel-/Ankerart bleibt Aufgabe des ausführenden Betriebs bei der Montage"
+      ], tag:"kreativ"},
+    {type:"step", chap:"k14", time:0.75,
+      title:"Beleuchtungsstärke am Platz gemessen",
+      bullets:[
+        "Luxmeter am geplanten Standort eingesetzt",
+        "Gemessen: 340 lx bei vorhandener Beleuchtung — unter den geforderten 500 lx",
+        "Zusatzleuchte als Nachtrag notiert, noch nicht in der ursprünglichen Kostenliste enthalten"
+      ], tag:"kreativ"},
+    {type:"step", chap:"k14", time:1.0,
+      title:"Belegungsplan der Lochwand gezeichnet",
+      bullets:[
+        "Zone-A-Werkzeuge auf eine Lochwand-Skizze mit festen Positionen übertragen",
+        "Grundlage für Beschriftung und Schaumeinlagen bei der späteren Beschaffung geschaffen"
+      ], tag:"kreativ"},
+
+    {type:"milestone", chap:"k14", percent:"100 %", date:"Tag 60",
+      title:"Dokumentation abgeschlossen, erste Umsetzungsschritte angestoßen",
+      bullets:[
+        "13 Seiten, 8 Kapitel, 35 bepreiste Werkzeugpositionen, 4 Varianten, 4 Layout-Konzepte, 10 Gefährdungen beurteilt",
+        "Zusätzlich: Werkstatt real vermessen, zwei Angebote angefragt, Wand und Beleuchtung vor Ort geprüft, Lochwand-Belegung skizziert",
+        "Offen bleibt weiterhin: Bauvariante final wählen, Angebote auswerten, Beschaffung und Aufbau — das eigentliche Bauen ist der nächste Schritt"
+      ], tag:"kreativ"},
+  ];
+
+  // ---------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------
+  const ICONS = {
+    step:"●", error:"❌", correction:"✅", problem:"⚠️", solution:"✅", optimization:"⚙", milestone:"◆", wait:"⏳"
+  };
+  const LABELS = {
+    step:"Arbeitsschritt", error:"Falscher Schritt", correction:"Korrektur",
+    problem:"Problem", solution:"Lösung", optimization:"Optimierung", milestone:"Meilenstein", wait:"Wartezeit"
+  };
+
+  const tl = document.getElementById("timeline");
+  const reg = document.getElementById("register");
+  let curChap = null, chapCounter = 0, stepCounter = 0;
+  let regGroup = null;
+
+  D.forEach((e, i) => {
+    e._id = "n" + i;
+
+    if (e.chap !== curChap) {
+      curChap = e.chap;
+      chapCounter++;
+      const mark = document.createElement("div");
+      mark.className = "chapter-mark";
+      mark.id = "chap-" + e.chap;
+      mark.innerHTML = `<span class="num">${chapCounter}</span><h3>${chapters[e.chap]}</h3>` +
+        (e.date ? `<div class="sub">${e.date}</div>` : "");
+      tl.appendChild(mark);
+
+      regGroup = document.createElement("li");
+      regGroup.className = "grp";
+      regGroup.innerHTML = `<div class="grp-title">${chapters[e.chap]}</div>`;
+      const a = document.createElement("a");
+      a.href = "#chap-" + e.chap;
+      a.innerHTML = `<span class="n">${String(chapCounter).padStart(2,"0")}</span>${chapters[e.chap]}`;
+      regGroup.appendChild(a);
+      reg.appendChild(regGroup);
+    }
+
+    if (e.type === "step") stepCounter++;
+
+    const node = document.createElement("div");
+    node.className = "node " + e.type;
+    node.id = e._id;
+
+    let inner = `<div class="dot"></div><div class="card">`;
+    if (e.type === "milestone") {
+      inner += `<div class="top-row"><div class="heading">
+          <div class="subtitle">${e.date ? e.date : ""}</div>
+          <h4>${ICONS.milestone} ${e.title}</h4>
+        </div><div class="percent">${e.percent}</div></div>`;
+    } else {
+      const badge = e.type === "error" ? "❌ Falscher Schritt" :
+                    e.type === "correction" ? "✅ Korrektur" :
+                    e.type === "problem" ? "⚠️ Problem" :
+                    e.type === "solution" ? "✅ Lösung" :
+                    e.type === "optimization" ? "⚙ Optimierung" :
+                    e.type === "wait" ? "⏳ Wartezeit" : (e.sub || "Arbeitsschritt");
+      const rightBadge = e.type === "wait"
+        ? `<div class="span-badge">${e.span || ""}</div>`
+        : (e.time ? `<div class="time">${e.time.toLocaleString("de-DE").replace(".",",")} h</div>` : "");
+      inner += `<div class="top-row"><div class="heading">
+          <div class="subtitle">${badge}${e.date ? " · " + e.date : ""}</div>
+          <h4>${e.title}</h4>
+        </div>${rightBadge}</div>`;
+    }
+
+    if (e.bullets) {
+      inner += "<ul>" + e.bullets.map(b => `<li>${b}</li>`).join("") + "</ul>";
+    }
+    if (e.img) {
+      inner += `<figure class="photo"><img src="${IMG}${e.img}" alt="${e.cap || e.title}" loading="lazy"><figcaption>${e.cap || ""}</figcaption></figure>`;
+    }
+    if (e.tag) {
+      inner += `<div class="tags"><span class="tag ${e.tag === "belegt" ? "belegt" : "kreativ"}">${e.tag === "belegt" ? "belegt" : "kreativ ergänzt"}</span></div>`;
+    }
+    inner += `</div>`;
+    node.innerHTML = inner;
+    tl.appendChild(node);
+  });
+
+  // ---------------------------------------------------------------------
+  // Summary tallies
+  // ---------------------------------------------------------------------
+  const steps = D.filter(e => e.type === "step").length;
+  const errPairs = D.filter(e => e.type === "error").length;
+  const probPairs = D.filter(e => e.type === "problem").length;
+  const optim = D.filter(e => e.type === "optimization").length;
+  const photos = D.filter(e => e.img).length;
+  const totalHours = D.reduce((s, e) => s + (e.time || 0), 0);
+  const belegt = D.filter(e => e.tag === "belegt").length;
+  const kreativ = D.filter(e => e.tag === "kreativ").length;
+
+  document.getElementById("kpiHours").textContent = totalHours.toLocaleString("de-DE").replace(".", ",");
+
+  const sumGrid = document.getElementById("sumGrid");
+  const tiles = [
+    [steps, "Arbeitsschritte"],
+    [errPairs, "Fehler → Korrektur-Paare"],
+    [probPairs, "Problem → Lösung-Paare"],
+    [optim, "Optimierungen"],
+    [photos, "Fotos / Renderings"],
+    [totalHours.toLocaleString("de-DE").replace(".", ",") + " h", "Geschätzte Gesamtzeit"],
+    [belegt, "Punkte „belegt“"],
+    [kreativ, "Punkte „kreativ ergänzt“"],
+  ];
+  sumGrid.innerHTML = tiles.map(([n,l]) => `<div class="sum-tile"><b>${n}</b><span>${l}</span></div>`).join("");
+
+  // ---------------------------------------------------------------------
+  // Scroll progress (-1 .. 100), tied to scroll position of the page
+  // ---------------------------------------------------------------------
+  const fill = document.getElementById("progFill");
+  const readout = document.getElementById("standReadout");
+  function onScroll(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const frac = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    const val = Math.round(-1 + frac * 101);
+    fill.style.width = (frac*100) + "%";
+    readout.textContent = val + " %";
+  }
+  document.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  // ---------------------------------------------------------------------
+  // Discussion tab strip (this conversation's pages — more appear here
+  // as new questions are asked in this same chat)
+  // ---------------------------------------------------------------------
+  const pages = [
+    {id:"page-1", label:"1 · Projekt 7 Verlaufsbericht"}
+  ];
+  const tabs = document.getElementById("discTabs");
+  pages.forEach(p => {
+    const b = document.createElement("button");
+    b.className = "disc-tab on";
+    b.textContent = p.label;
+    b.addEventListener("click", () => document.getElementById(p.id).scrollIntoView({behavior:"smooth"}));
+    tabs.appendChild(b);
+  });
+
+})();
+</script>
