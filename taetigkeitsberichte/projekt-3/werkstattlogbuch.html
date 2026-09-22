@@ -1,0 +1,1432 @@
+<title>Werkstattlogbuch</title>
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --paper:#eef1ee;
+    --surface:#ffffff;
+    --surface-2:#e3e8e4;
+    --ink:#182220;
+    --ink-muted:#57635e;
+    --ink-faint:#8b968f;
+    --line:#ccd4cd;
+    --line-strong:#aab5ad;
+    --accent:#c17114;
+    --accent-soft:#f4e3cd;
+    --accent-ink:#7a4409;
+    --ok:#2f7d5c;
+    --ok-soft:#dcece3;
+    --fix:#b3261e;
+    --fix-soft:#f7dfdc;
+    --info:#2b6a8f;
+    --info-soft:#dceaf0;
+    --radius:10px;
+    --radius-sm:6px;
+    --font-display:'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'Consolas', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ color-scheme: light; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15.5px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  ul{ margin:0; padding:0; list-style:none; }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  ::selection{ background:var(--accent-soft); color:var(--accent-ink); }
+
+  .layout{ display:grid; grid-template-columns:264px 1fr; min-height:100vh; }
+
+  .sidebar{
+    background:var(--surface-2);
+    border-right:1px solid var(--line);
+    padding:1.5rem 1.25rem;
+    position:sticky; top:0; height:100vh; overflow-y:auto;
+    display:flex; flex-direction:column; gap:1.75rem;
+  }
+  .brand{ display:flex; flex-direction:column; gap:.15rem; }
+  .brand .mark{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.14em;
+    color:var(--accent-ink); background:var(--accent-soft); border:1px solid var(--accent);
+    border-radius:4px; padding:.15rem .4rem; width:max-content;
+  }
+  .brand h1{ font-size:1.65rem; line-height:1.05; letter-spacing:.01em; }
+  .brand p{ font-size:.8rem; color:var(--ink-muted); }
+
+  .register-label{
+    font-family:var(--font-mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:.55rem; display:block;
+  }
+  .register{ display:flex; flex-direction:column; gap:.35rem; }
+  .register li a{
+    display:flex; gap:.55rem; align-items:baseline; text-decoration:none;
+    padding:.5rem .6rem; border-radius:var(--radius-sm); border:1px solid transparent; cursor:pointer;
+  }
+  .register li a .tab-nr{ font-family:var(--font-mono); font-size:.72rem; color:var(--ink-faint); min-width:1.1rem; }
+  .register li a .tab-txt{ font-size:.86rem; font-weight:500; color:var(--ink); }
+  .register li a .tab-sub{ display:block; font-size:.72rem; color:var(--ink-muted); font-weight:400; }
+  .register li a.active{ background:var(--surface); border-color:var(--line); box-shadow:0 1px 0 rgba(0,0,0,.02); }
+  .register li a.active .tab-nr{ color:var(--accent); font-weight:600; }
+
+  .sidebar-note{
+    margin-top:auto; font-size:.74rem; color:var(--ink-muted);
+    border-top:1px dashed var(--line-strong); padding-top:1rem; line-height:1.5;
+  }
+  .sidebar-note b{ color:var(--ink); }
+
+  main{ min-width:0; }
+  .page{ display:none; }
+  .page.active{ display:block; }
+
+  .page-head{ padding:2.75rem 3rem 1.75rem; max-width:900px; }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent-ink); display:block; margin-bottom:.6rem;
+  }
+  .page-head h2{ font-size:2.35rem; line-height:1.05; margin-bottom:.75rem; }
+  .page-head .lead{ font-size:1rem; color:var(--ink-muted); max-width:62ch; }
+
+  .check-box{
+    margin:1.5rem 3rem 0; max-width:834px; background:var(--surface);
+    border:1px solid var(--line); border-radius:var(--radius); padding:1.4rem 1.6rem;
+  }
+  .check-box h3{ font-size:1.15rem; margin-bottom:.9rem; }
+  .check-list{ display:flex; flex-direction:column; gap:.55rem; }
+  .check-list li{ display:flex; gap:.6rem; font-size:.92rem; }
+  .check-list li::before{ content:'✓'; color:var(--ok); font-weight:600; flex-shrink:0; font-family:var(--font-mono); }
+  .check-list b{ font-weight:600; }
+
+  .info-flag{
+    margin:1.1rem 3rem 0; max-width:834px; background:var(--info-soft);
+    border:1px solid var(--info); border-radius:var(--radius); padding:1.1rem 1.4rem;
+    font-size:.9rem; color:var(--ink);
+  }
+  .info-flag b{ color:var(--info); }
+
+  .schriftfeld{
+    margin:2.25rem 3rem 0; max-width:834px; border:1px solid var(--line-strong);
+    border-radius:var(--radius); overflow:hidden; background:var(--surface);
+  }
+  .schriftfeld-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;
+    padding:1.1rem 1.4rem; border-bottom:1px solid var(--line); background:var(--surface-2);
+  }
+  .schriftfeld-top h3{ font-size:1.5rem; }
+  .schriftfeld-top .tag{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+    background:var(--accent); color:#fff; padding:.3rem .55rem; border-radius:4px; white-space:nowrap;
+  }
+  .schriftfeld-grid{ display:grid; grid-template-columns:repeat(3, 1fr); }
+  .schriftfeld-grid div{ padding:.8rem 1.4rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .schriftfeld-grid div:nth-child(3n){ border-right:none; }
+  .schriftfeld-grid span{
+    display:block; font-family:var(--font-mono); font-size:.64rem; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:.2rem;
+  }
+  .schriftfeld-grid strong{ font-size:.92rem; font-weight:600; }
+
+  .spine-wrap{ margin:2.5rem 3rem 3.5rem; max-width:834px; }
+  .spine-heading{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1.6rem; gap:1rem; flex-wrap:wrap; }
+  .spine-heading h3{ font-size:1.5rem; }
+  .spine-heading .legend{ display:flex; gap:.9rem; flex-wrap:wrap; }
+  .legend-item{ display:flex; align-items:center; gap:.35rem; font-size:.74rem; color:var(--ink-muted); }
+  .legend-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+  .phase-heading{
+    margin:2.2rem 0 1rem; padding-left:2px;
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent-ink); border-bottom:1px dashed var(--line-strong); padding-bottom:.5rem;
+  }
+  .phase-heading:first-of-type{ margin-top:0; }
+
+  .spine{ position:relative; }
+  .spine::before{
+    content:''; position:absolute; left:27px; top:8px; bottom:8px; width:2px;
+    background:linear-gradient(var(--line-strong), var(--line-strong)) top/2px 6px repeat-y;
+  }
+  .stop{ position:relative; display:grid; grid-template-columns:56px 1fr; gap:1rem; margin-bottom:1.5rem; }
+  .stop:last-child{ margin-bottom:0; }
+  .stop-marker{ position:relative; display:flex; justify-content:center; padding-top:.35rem; }
+  .stop-pct{
+    width:54px; height:54px; border-radius:50%; background:var(--surface); border:2px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.72rem;
+    font-weight:600; color:var(--ink-muted); z-index:1;
+  }
+  .stop.is-start .stop-pct{ border-color:var(--ink-faint); color:var(--ink-faint); background:var(--surface-2); }
+  .stop.is-end .stop-pct{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); }
+
+  .stop-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.3rem 1.3rem; }
+  .stop-card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:.5rem; }
+  .stop-titles .stop-eyebrow{
+    font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-faint); display:block; margin-bottom:.25rem;
+  }
+  .stop-titles h4{ font-size:1.2rem; line-height:1.2; }
+  .time-chip{
+    flex-shrink:0; font-family:var(--font-mono); font-size:.74rem; font-weight:600; color:var(--accent-ink);
+    background:var(--accent-soft); border:1px solid var(--accent); border-radius:var(--radius-sm);
+    padding:.32rem .55rem; white-space:nowrap; text-align:right; line-height:1.3;
+  }
+  .time-chip small{ display:block; font-weight:400; font-size:.62rem; letter-spacing:.03em; text-transform:uppercase; color:var(--accent-ink); opacity:.75; }
+
+  .stop-body{ font-size:.9rem; color:var(--ink); }
+  .stop-list{ display:flex; flex-direction:column; gap:.4rem; margin-top:.6rem; }
+  .stop-list li{ display:flex; gap:.5rem; }
+  .stop-list li::before{ content:'—'; color:var(--ink-faint); flex-shrink:0; }
+
+  .code-snip{
+    margin-top:.7rem; background:#182220; color:#dcece3; border-radius:var(--radius-sm);
+    padding:.7rem .9rem; font-family:var(--font-mono); font-size:.72rem; line-height:1.55;
+    overflow-x:auto; white-space:pre;
+  }
+
+  .src-tag{
+    font-family:var(--font-mono); font-size:.6rem; letter-spacing:.04em; text-transform:uppercase;
+    border-radius:4px; padding:.12rem .4rem; font-weight:600; margin-left:.35rem; white-space:nowrap;
+  }
+  .src-belegt{ background:var(--surface-2); color:var(--ink-muted); border:1px solid var(--line-strong); }
+  .src-kreativ{ background:var(--accent-soft); color:var(--accent-ink); border:1px solid var(--accent); }
+
+  .stop.is-wrong{ margin-bottom:.6rem; }
+  .stop.is-wrong .stop-pct{ border-color:var(--fix); color:var(--fix); background:var(--fix-soft); font-size:1.15rem; font-weight:700; }
+  .stop.is-wrong .stop-card{ border-color:var(--fix); border-style:dashed; }
+  .stop.is-fixstep .stop-pct{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); font-size:1.15rem; font-weight:700; }
+  .stop.is-fixstep .stop-card{ border-color:var(--ok); }
+
+  .wrong-box{ background:var(--fix-soft); border:1px solid var(--fix); border-left:4px solid var(--fix); border-radius:var(--radius-sm); padding:.7rem .9rem; font-size:.87rem; }
+  .correct-box{ background:var(--ok-soft); border:1px solid var(--ok); border-left:4px solid var(--ok); border-radius:var(--radius-sm); padding:.7rem .9rem; font-size:.87rem; }
+  .correct-box b{ color:#1c5239; }
+
+  .stop.is-problem{ margin-bottom:.6rem; }
+  .stop.is-problem .stop-pct{ border-color:var(--info); color:var(--info); background:var(--info-soft); font-size:1.15rem; font-weight:700; }
+  .stop.is-problem .stop-card{ border-color:var(--info); border-style:dashed; }
+  .problem-box{ background:var(--info-soft); border:1px solid var(--info); border-left:4px solid var(--info); border-radius:var(--radius-sm); padding:.7rem .9rem; font-size:.87rem; }
+
+  .stop.is-optimize .stop-pct{ border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft); font-size:1.15rem; font-weight:700; }
+  .stop.is-optimize .stop-card{ border-color:var(--accent); }
+  .optimize-box{ background:var(--accent-soft); border:1px solid var(--accent); border-left:4px solid var(--accent); border-radius:var(--radius-sm); padding:.7rem .9rem; font-size:.87rem; color:var(--ink); }
+
+  .summary-wrap{ margin:0 3rem 3.5rem; max-width:834px; }
+  .summary-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  }
+  .summary-tile{ background:var(--surface); padding:1rem 1.1rem; display:flex; flex-direction:column; gap:.25rem; }
+  .summary-tile strong{ font-family:var(--font-mono); font-size:1.5rem; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+  .summary-tile span{ font-size:.74rem; color:var(--ink-muted); }
+
+  .footer-note{ margin:0 3rem 3rem; max-width:834px; font-size:.78rem; color:var(--ink-faint); border-top:1px solid var(--line); padding-top:1rem; }
+
+  @media (max-width: 860px){
+    .layout{ grid-template-columns:1fr; }
+    .sidebar{ position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); }
+    .page-head, .check-box, .info-flag, .schriftfeld, .spine-wrap, .summary-wrap, .footer-note{ margin-left:1.1rem; margin-right:1.1rem; padding-left:0; padding-right:0; }
+    .page-head{ padding-left:1.1rem; padding-right:1.1rem; }
+    .schriftfeld-grid{ grid-template-columns:1fr 1fr; }
+    .schriftfeld-grid div:nth-child(3n){ border-right:1px solid var(--line); }
+    .schriftfeld-grid div:nth-child(2n){ border-right:none; }
+    .summary-grid{ grid-template-columns:1fr 1fr; }
+    .stop{ grid-template-columns:40px 1fr; }
+    .stop-pct{ width:40px; height:40px; font-size:.62rem; }
+    .spine::before{ left:19px; }
+  }
+
+</style>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="mark">PRAXISSEMESTER &middot; MASCHINENBAU</span>
+      <h1>Werkstatt&shy;logbuch</h1>
+      <p>Verlaufsbericht je Projekt &mdash; Stand &minus;1&nbsp;% bis Stand 100&nbsp;%.</p>
+    </div>
+    <nav>
+      <span class="register-label">Seiten dieser Unterhaltung</span>
+      <ul class="register" id="register">
+        <li><a href="#seite-1" class="active" data-page="seite-1">
+          <span class="tab-nr">01</span>
+          <span><span class="tab-txt">Projekt 3 &middot; Cloud-Lagersystem</span><span class="tab-sub">Werkstattlogbuch &minus;1% &rarr; 100%</span></span>
+        </a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-note">
+      <b>Hinweis:</b> Jede neue Frage in dieser Unterhaltung wird als weitere Seite hier im Register ergänzt &ndash; es entstehen keine separaten Dateien. Änderungswünsche an einer Seite duplizieren die alte Seite, statt sie zu überschreiben.
+    </div>
+  </aside>
+
+  <main>
+    <section class="page active" id="seite-1">
+
+      <header class="page-head">
+        <span class="eyebrow">Seite 01 &middot; Projekt 3 &middot; Vom Excel-Lagersystem zur Cloud-Anwendung</span>
+        <h2>Projekt 3: Cloud-Lagersystem</h2>
+        <p class="lead">Verlaufsbericht von Stand &minus;1&nbsp;% (vor Projektbeginn) bis Stand 100&nbsp;% (fertig dokumentiert) &mdash; aufgebaut aus den 13 Original-Projektseiten <span style="font-family:var(--font-mono)">projekte/projekt-3/</span> und den Quelldateien <span style="font-family:var(--font-mono)">05_lagersystem-projektbericht.pdf</span> und <span style="font-family:var(--font-mono)">06_lagersystem-projektbericht-detailliert.pdf</span>.</p>
+      </header>
+
+      <div class="check-box">
+        <h3>So ist dieser Verlaufsbericht aufgebaut</h3>
+        <ul class="check-list">
+          <li><span><b>Jeder Arbeitsschritt</b> als eigener Zeitstrahl-Punkt mit Untertitel, Stichpunkten und selbst geschätzter Arbeitszeit &ndash; keine echte Zeiterfassung wurde übernommen.</span></li>
+          <li><span><b>Fehler (❌/✅), Probleme (⚠️/✅) und Optimierungen (⚙)</b> stehen als eigene, aufeinanderfolgende Punkte im Zeitstrahl &ndash; nicht als Randnotiz.</span></li>
+          <li><span><b>Jeder dieser Punkte trägt ein Etikett:</b> „belegt“ (steht so in den Original-Quelldateien) oder „kreativ ergänzt“ (plausibel erfunden, um den Ablauf realistisch zu zeigen).</span></li>
+          <li><span>Große Arbeitsblöcke (24 VBA-Module, Oberflächen-Feinschliff, Postgres-Migration) sind in mehrere aufeinanderfolgende Einzelschritte aufgeteilt.</span></li>
+        </ul>
+      </div>
+
+      <div class="info-flag">
+        <b>Zu den Fotos:</b> Projekt 3 ist ein reines Software-/Digitalisierungsprojekt (Python/Streamlit-Anwendung) &ndash; im Repository liegt dafür kein <span style="font-family:var(--font-mono)">img/</span>-Ordner mit Fotos, anders als bei den Werkstatt-Bauprojekten. Die Quellen erwähnen „vier Fotos handbeschriebener Bestandslisten“ als Ausgangsmaterial der Digitalisierung (Seite 6) &ndash; diese Fotos selbst sind aber nicht als Bilddateien im Repository vorhanden, nur als Textbeschreibung. Es werden daher an dieser Stelle <b>keine</b> Bilder eingebunden, um nichts zu erfinden, das nicht in den Quellen vorliegt.
+      </div>
+
+      <div class="schriftfeld">
+        <div class="schriftfeld-top">
+          <h3>Projekt 3 &middot; Vom Excel-Lagersystem zur Cloud-Anwendung</h3>
+          <span class="tag">Werkstattlogbuch</span>
+        </div>
+        <div class="schriftfeld-grid">
+          <div><span>Zeitraum</span><strong>bis 16.08.2026<br><span style="font-weight:400;font-size:.72rem;color:var(--ink-faint)">Startdatum nicht in Quellen dokumentiert</span></strong></div>
+          <div><span>Bereich</span><strong>Lager &amp; Digitalisierung</strong></div>
+          <div><span>Werkzeug</span><strong>Python &middot; Streamlit &middot; SQLite/Postgres</strong></div>
+          <div><span>Teilschritte gesamt</span><strong>74</strong></div>
+          <div><span>Fehler &rarr; Korrektur-Paare</span><strong style="color:var(--fix)">4</strong></div>
+          <div><span>Problem &rarr; Lösung-Paare</span><strong style="color:var(--info)">6</strong></div>
+        </div>
+      </div>
+
+      <div class="spine-wrap">
+        <div class="spine-heading">
+          <h3>Verlauf: Stand &minus;1&nbsp;% &rarr; Stand 100&nbsp;%</h3>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-dot" style="background:var(--ink-faint)"></span>Vorstufe / Meilenstein</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--fix)"></span>❌ Falscher Schritt</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--info)"></span>⚠️ Problem</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--ok)"></span>✅ Korrektur / Lösung</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>⚙ Optimierung</span>
+          </div>
+        </div>
+        <div class="spine">
+
+          <div class="stop is-start">
+            <div class="stop-marker"><div class="stop-pct">−1%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Vorstufe · vor jeder eigenen Tätigkeit an Projekt 3</span><h4>Ausgangslage: Projekt 2 abgeschlossen, Punkt 3 der Aufgabenliste steht noch aus</h4></div>
+                <div class="time-chip"><small>Zeit</small>0&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Das Excel/VBA-Lagerbestand-System aus Projekt 2 läuft produktiv und zuverlässig auf einem einzelnen Rechner.</li>
+                <li>Punkt 3 der ursprünglichen Aufgabenliste ist noch offen: das Excel-Lagersystem „in eine Webseite umwandeln“.</li>
+                <li>Noch keine eigene Leistung an Projekt 3: kein Code analysiert, keine Architekturentscheidung getroffen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">0%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 1/13 · Überblick</span><h4>Kickoff: Auftrag zur Umwandlung in eine Webseite angenommen</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Auftrag eingeordnet: „Lager System V3.3.xlsm“ soll als eigenständige, mehrbenutzerfähige Anwendung neu aufgebaut werden.</li>
+                <li>Vorgabe von Anfang an: Lösung so einfach wie möglich halten, Projekt Schritt für Schritt gemeinsam entwickeln.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 1 · Seite 2/13 · Das Original-System vollständig verstehen</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">3%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 2/13</span><h4>Tablet-Modus und Entwickler-Modus analysiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Modul <code>A3_Tablet_Modus</code> / Sub <code>APPModus_Umschalten</code> durchgearbeitet: blendet Menüband, Bearbeitungsleiste und Blattregister aus.</li>
+                <li>Modul <code>A4_AnsichtBereich</code>: zoomt jedes Blatt automatisch auf seinen Datenbereich.</li>
+                <li><code>Workbook_Open</code> nachvollzogen: entsperrt Blätter, gibt gezielt Zellbereiche frei, sperrt danach wieder komplett.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">5%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 2/13</span><h4>Die sechs Tabellenblätter durchgearbeitet</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Dashboard, Artikel Liste, Reste, Verlauf, Artikel Gruppe, Einstellung – Zweck und Zellschutz je Blatt dokumentiert.</li>
+                <li>Auffällig: „Artikel Gruppe“ bewusst nur A–G freigegeben, „Artikel Liste“ dagegen A–Q.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">7%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 2/13</span><h4>Die vier UserForms analysiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,25&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>frmArtikelDetails</code>, <code>frmArtikelGruppe</code>, <code>frmBarcodeEingabe</code> und <code>frmMaterialEntnahme</code> im Detail durchgearbeitet.</li>
+                <li>Kernstück erkannt: <code>frmMaterialEntnahme</code> berechnet die Restlänge live und fragt unter 1000&nbsp;mm per Ja/Nein nach, ob Schrott.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">9%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 2/13</span><h4>Die 24 VBA-Module A–H systematisch durchgearbeitet</h4></div>
+                <div class="time-chip"><small>Zeit</small>2,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Acht Themenbereiche durchgearbeitet: A Grundgerüst, B Export, C E-Mail, D Hilfsfunktionen, E Profil-/Material-Nachschlage, F Artikelgruppen, G Artikel-Stück (Kernlogik), H Dashboard-Suche.</li>
+                <li>Herzstück identifiziert: <code>G7_MaterialEntnahme_Logik</code> mit <code>ProzessMaterialEntnahme</code>.</li>
+                <li>Auffällig in <code>H1_Suchen_Funktionen</code>: Platzhalter- und auskommentierter Code für eine nie fertiggestellte Zusatzfunktion.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">11%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 2/13</span><h4>Datenmodell der Excel-Tabellen rekonstruiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Aus <code>G1_ArtikelStueck_Type</code> und den <code>InTabelleHinzufuegen_AS</code>-Zuweisungen den 14-spaltigen Aufbau von Artikel_Liste/Reste/Verlauf rekonstruiert.</li>
+                <li>Artikel_Gruppe als schmalere 5-Spalten-Tabelle erkannt (Barcode, Bezeichnung, Profil, Maß, Material).</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 2 · Seite 3/13 · Schwachstellen als Ausgangspunkt</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">13%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 3/13</span><h4>Sechs strukturelle Schwachpunkte dokumentiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Kein Mehrbenutzerbetrieb, durchgängige Mac/Windows-Plattformweichen, Gmail nie wirklich unterstützt.</li>
+                <li>Unvollständiger Code in der Dashboard-Suche, Blattschutz mit Klartext-Passwort im Quellcode.</li>
+                <li>Fehlende Nachvollziehbarkeit von Löschvorgängen (<code>Del_ArtikelStueck</code> sofort und endgültig).</li>
+                <li>Diese Beobachtungen fließen direkt in die Anforderungen an die Neuentwicklung ein.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 3 · Seite 4/13 · Architekturentscheidung: weg von Excel</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">15%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 4/13</span><h4>Alternativen zur Weiternutzung von Excel diskutiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Verschiedene Optionen abgewogen, bevor eine Richtung festgelegt wurde.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">16%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 4/13</span><h4>Entscheidung: Python + Streamlit + SQLite, so einfach wie möglich</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Bewusst gegen Excel entschieden – Web-Anwendung mit robusterer Datenbank im Hintergrund.</li>
+                <li>Ausdrückliche Vorgabe: Einfachheit als Leitprinzip, bewusst gegen zusätzliche Komplexität (eigenes Frontend, Login-System) solange nicht nötig.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">17%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 4/13</span><h4>Drei-Schichten-Architektur festgelegt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>app.py</code> (Oberfläche), <code>logic.py</code> (Fachlogik), <code>db.py</code> (Datenzugriff), <code>schema.sql</code> (Datenbankschema) klar getrennt festgelegt.</li>
+                <li>Regel definiert: <code>app.py</code> ruft nur <code>logic.py</code> auf, diese liest/schreibt nur über <code>db.py</code> – nie direktes SQL an der Datenbank vorbei.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 4 · Seite 5–6/13 · Grundsystem: VBA nach Python portiert</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">19%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 6/13</span><h4>Datenbankschema entworfen</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Stammdaten Lager, Typ, Einheit, Profil_Abk, Material_Gruppe angelegt.</li>
+                <li>Artikel_Gruppe als Artikel-Stammsatz sowie die drei identisch aufgebauten Tabellen Artikel_Liste, Reste, Verlauf – bewusst nah an der Excel-Struktur.</li>
+                <li>Barcode-Schema übernommen: Haupt-Barcode je Artikelgruppe, Stück-Barcode je physischem Stück.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-wrong">
+            <div class="stop-marker"><div class="stop-pct">✕</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">❌ Falscher Schritt <span class="src-tag src-kreativ">kreativ ergänzt</span></span><h4>Barcode-Schema zunächst ohne Trennzeichen entworfen</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body wrong-box">
+                Im ersten Entwurf des Barcode-Schemas wurde der Stück-Barcode direkt an den Haupt-Barcode angehängt (z. B. „FLS3700012“ statt „FLS370001-2“) – beim Testen ließ sich damit nicht mehr eindeutig zwischen Haupt- und Stück-Nummer unterscheiden.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Korrektur <span class="src-tag src-kreativ">kreativ ergänzt</span></span><h4>Bindestrich als Trennzeichen ergänzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Schema auf „Haupt-Barcode-Stücknummer“ (z. B. „FLS370001-2“) umgestellt – damit lässt sich ein gescannter Gruppen-Code eindeutig von einem gescannten Stück-Code unterscheiden.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">22%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>Materialentnahme-Logik nach Python portiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>2,5&nbsp;h</div>
+              </div>
+              <div class="stop-body">
+                <ul class="stop-list">
+                  <li><code>G7_MaterialEntnahme_Logik</code> fast 1:1 in <code>logic.process_material_entnahme()</code> übertragen.</li>
+                  <li>Reihenfolge beibehalten: Verlauf-Eintrag vor der Reduktion, dann Reduktion/Löschung des Ursprungsstücks, dann bedingtes Einbuchen des Reststücks.</li>
+                </ul>
+                <div class="code-snip">def process_material_entnahme(source_table, urspungs_barcode2,
+                                genutzte_laenge, ist_schrott):
+    with _SCHREIB_LOCK:
+        orig = db.fetch_one(f"SELECT * FROM {source_table} WHERE Barcode2 = ?", ...)
+        restlaenge = berechne_restlaenge(orig["LaengeMM"], genutzte_laenge)
+        _schreibe_verlauf(..., -genutzte_laenge, ..., "Verbrauch", ...)
+        # Ursprungsstück reduzieren oder löschen, danach ggf. Reststück einbuchen</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">24%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>Einstellbare Schrott-/Rest-Schwelle ergänzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Im Original war „1000&nbsp;mm“ fest im Code verankert – neu über eine Konfigurationstabelle einstellbar gemacht.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">26%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>Mehrbenutzerbetrieb umgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>SQLite-Datenbank im WAL-Modus (Write-Ahead-Logging) betrieben – lesende und schreibende Zugriffe blockieren sich nicht mehr gegenseitig.</li>
+                <li>Barcode-Vergabe zusätzlich über einen anwendungsinternen <code>threading.Lock</code> abgesichert.</li>
+                <li>Dieser gesamte Themenbereich existierte im Original-VBA-System überhaupt nicht.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">27%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>Lasttest zur Verifikation durchgeführt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>100 gleichzeitige Schreibzugriffe, 5 parallele simulierte Nutzer.</li>
+                <li>Ergebnis: 0 Konflikte, keine doppelt vergebenen Barcodes.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">28%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>Export &amp; Kommunikation bewusst vereinfacht</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Statt plattformabhängiger Ordnerdialoge: Streamlits eingebauter Datei-Download (Browser wählt Speicherort).</li>
+                <li>Statt Outlook-COM/AppleScript: einfacher <code>mailto</code>-Link, bewusst ohne SMTP-Zugangsdaten – funktioniert dadurch auch mit Gmail zuverlässig.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">29%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 5/13</span><h4>VBA→Python-Funktionen tabellarisch gegenübergestellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Elf zentrale VBA-Funktionen ihren Python-Pendants zugeordnet (u. a. <code>FindeMaxBarcodeNummer</code> → <code>make_barcode_ag</code>, <code>Del_ArtikelStueck</code> → <code>soft_delete_artikel_stueck</code> + Papierkorb).</li>
+                <li>Festgestellt: <code>SheetsSperren</code>/<code>SheetsEntsperren</code> entfällt komplett – kein Blattschutz-Konzept mehr nötig.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 5 · Seite 6/13 · Digitalisierung der Bestandsdaten</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">31%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 6/13</span><h4>Vier Fotos handschriftlicher Bestandslisten gesichtet</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Die realen Lagerbestände lagen zunächst nur als vier Fotos handbeschriebener Listen vor – als Ausgangsmaterial für die Digitalisierung.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">33%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 6/13</span><h4>Kontroll-Tabelle statt direkter Übernahme erstellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Um Übertragungsfehler zu vermeiden, keine direkte Übernahme in die Produktivdatenbank.</li>
+                <li>Stattdessen „Bestandsaufnahme_Kontrolle.xlsx“ erstellt: alle erkannten Werte samt unsicherer/unleserlicher Stellen aufgelistet.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">35%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 6/13</span><h4>Kontroll-Tabelle durch Auftraggeber bestätigt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Vollständig durchgesehen und korrigiert, inklusive expliziter Kennzeichnung unbekannter Materialangaben mit „---“.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">37%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 6/13</span><h4>Import per Skript in die echte Datenbank</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Erst auf Basis der final bestätigten Tabelle: <code>import_bestand.py</code> ausgeführt.</li>
+                <li>86 Artikel-Datensätze über 50 Artikelgruppen hinweg importiert – bildet ab hier durchgehend die reale Produktivgrundlage.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 6 · Seite 7/13 · Iterative Weiterentwicklung der Oberfläche</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">39%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>PDF-Download-Button zu jeder Tabellenansicht ergänzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Neben dem eingebauten CSV-Download, direkt neben dem nativen Symbol-Menü platziert.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-optimize">
+            <div class="stop-marker"><div class="stop-pct">⚙</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚙ Optimierung <span class="src-tag src-belegt">belegt</span></span><h4>PDF-Button-Position bei gefilterten Tabellen vereinheitlicht</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body optimize-box">
+                Position bei gefilterten/gesuchten Tabellen nachträglich vereinheitlicht: der PDF-Button steht seither immer oben neben der Ergebnis-Überschrift, nicht mehr darunter.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">42%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>Modale Dialoge statt eigener Unterseiten eingeführt</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Hinzufügen, Material entnehmen, Bearbeiten/Löschen, Artikelgruppe anlegen, Materialgruppe anlegen von eigenen Unterseiten auf <code>st.dialog</code>-Popups umgestellt.</li>
+                <li>Fenster öffnen sich per Knopfdruck, ohne die Seite zu wechseln.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">44%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>Dialog-Layout vereinheitlicht</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Fenster vertikal mittig zentriert, Eingabefelder konsequent untereinander statt nebeneinander.</li>
+                <li>Bestätigungs-Buttons einheitlich rechts platziert (Löschen links, Speichern/Hinzufügen rechts).</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-optimize">
+            <div class="stop-marker"><div class="stop-pct">⚙</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚙ Optimierung <span class="src-tag src-belegt">belegt</span></span><h4>Sechs Buttons zu drei zusammengeführt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body optimize-box">
+                Ursprünglich getrennte Buttons für „Artikel“ und „Reste“ zusammengeführt: die eingegebene Länge entscheidet seither automatisch, ob ein Stück als voller Artikel oder als Rest gespeichert wird – mit Live-Hinweistext und manueller Überschreibungs-Möglichkeit.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">47%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>Tabellen ohne inneren Scrollbalken umgestellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Tabellen zeigen seither ihre volle Höhe – die Seite selbst scrollt.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">48%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>Tipp-/scanfähige Kombobox mit „Erweiterten Filtern“ ergänzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Einfache Textsuche zu einer tipp- und scanfähigen Dropdown-Kombobox ausgebaut.</li>
+                <li>Abschnitt „Erweiterte Filter“ mit Mehrfachkriterien ergänzt: Profil, Barcode, Bezeichnung, Lagerort, Material, Maß, Länge von/bis.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-optimize">
+            <div class="stop-marker"><div class="stop-pct">⚙</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚙ Optimierung <span class="src-tag src-belegt">belegt</span></span><h4>Schrott-/Rest-Grenze vereinheitlicht</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body optimize-box">
+                Ursprünglich zwei getrennte, fest im Code verankerte Schwellenwerte (Schrott-Erkennung bei Entnahme, automatische Rest-Zuordnung beim Hinzufügen) auf eine einzige, über eine Konfigurationstabelle einstellbare Einstellung vereinheitlicht.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-optimize">
+            <div class="stop-marker"><div class="stop-pct">⚙</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚙ Optimierung <span class="src-tag src-belegt">belegt</span></span><h4>Schnellzugriff zentral in die Seitenleiste verschoben</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body optimize-box">
+                Schnellzugriff-Buttons waren zunächst auf allen Einzelseiten dupliziert – zentral in die Seitenleiste verschoben, damit sie von jeder Seite verfügbar sind, ohne redundante Pflege.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">52%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 7/13</span><h4>Weitere Layout-Feinjustierungen</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Überschriftengrößen, Spaltenanzahl in Formularen, einheitliche Button-Breiten.</li>
+                <li>Eigene Filterleisten direkt auf „Artikel Liste“ und „Reste“ ergänzt.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 7 · Seite 8/13 · Datensicherheit: Papierkorb</div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem <span class="src-tag src-belegt">belegt</span></span><h4>Risiko erkannt: „Löschen“ entfernte Artikel sofort &amp; endgültig</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Sowohl im VBA-Original als auch in der ersten Version der neuen Anwendung entfernte der „Löschen“-Knopf einen Artikel nach nur einer Ja/Nein-Abfrage sofort und endgültig – bei einer Verwechslung beim Scannen wäre das ein potenzieller Datenverlust ohne jede Rückgängig-Möglichkeit gewesen.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung <span class="src-tag src-belegt">belegt</span></span><h4>Zwei Absicherungsstufen umgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Vor jedem Löschvorgang erscheint seither eine explizite Sicherheitsabfrage. Ein gelöschtes Stück landet zusätzlich nicht mehr im Nichts, sondern in einer neuen Papierkorb-Tabelle samt Löschzeitpunkt und ursprünglicher Quelltabelle.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">56%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 8/13</span><h4>Wiederherstellen oder endgültig löschen umgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Aus dem Papierkorb mit einem Klick wiederherstellbar (schlägt fehlerhaft ab, falls der Barcode inzwischen erneut vergeben wurde).</li>
+                <li>Nach einer zweiten, eigenen Sicherheitsabfrage endgültig und unwiderruflich löschbar.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 8 · Seite 9/13 · Produktionsreife auf dem lokalen Rechner</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">58%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>Backup-Skript mit SQLite VACUUM INTO umgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Sichert die Datenbank in eine eigenständige, in sich konsistente Kopie.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-wrong">
+            <div class="stop-marker"><div class="stop-pct">✕</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">❌ Falscher Schritt <span class="src-tag src-belegt">belegt</span></span><h4>Backup lief zunächst nur beim Start der Anwendung</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body wrong-box">
+                Bei einem durchgehend laufenden Hintergrunddienst wäre das Backup dadurch nie aktualisiert worden – die Datei blieb praktisch immer auf dem Stand des letzten Neustarts.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Korrektur <span class="src-tag src-belegt">belegt</span></span><h4>Zusätzlicher täglicher Backup-Zeitplan ergänzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Zusätzlich ein täglich zu fester Uhrzeit ausgelöster Backup-Zeitplan ergänzt, unabhängig von Neustarts. Es werden automatisch die letzten 30 Tage aufbewahrt.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">61%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>macOS-LaunchAgent für automatischen Hintergrunddienst eingerichtet</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Anwendung startet seither automatisch beim Anmelden am Rechner.</li>
+                <li>Startet sich bei einem Absturz selbstständig neu.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">62%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>Absturz-Neustart gezielt verifiziert</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Prozess im laufenden Betrieb gezielt beendet, um den automatischen Neustart zu überprüfen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem <span class="src-tag src-belegt">belegt</span></span><h4>iCloud Drive verweigert Hintergrunddiensten den Dateizugriff</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Der Projektordner lag ursprünglich in iCloud Drive – macOS verweigert Hintergrunddiensten dort systembedingt den Dateizugriff. Kein eigener Fehler, sondern eine systembedingte Einschränkung von macOS.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung <span class="src-tag src-belegt">belegt</span></span><h4>Projekt in lokalen Ordner umgezogen</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Nach Rücksprache das gesamte Projekt in einen lokalen, nicht synchronisierten Ordner verschoben (die ursprüngliche Kopie blieb – nur umbenannt – als Sicherheitsnetz erhalten), die virtuelle Python-Umgebung neu aufgebaut und der Hintergrunddienst umkonfiguriert.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">65%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>Kurzanleitung für den Vorgesetzten erstellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Ergänzend zur technischen README: Öffnen der App, Übersicht der Seiten, wichtigste Aktionen im Schnellzugriff, Vorgehen bei versehentlichem Löschen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 9 · Seite 9/13 · Mehrgeräte-Zugriff und Windows-Vorbereitung</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">66%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>Verknüpfungen für macOS, Windows, iOS/Android erstellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>.webloc</code>-Datei für macOS, <code>.url</code>-Datei für Windows – beide direkt auf die Netzwerkadresse zeigend, kein Installationsschritt nötig.</li>
+                <li>Für iOS/Android die Vorgehensweise „Zum Home-Bildschirm hinzufügen“ dokumentiert.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">68%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 9/13</span><h4>Vollständiges Windows-Setup-Paket vorbereitet</h4></div>
+                <div class="time-chip"><small>Zeit</small>2,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Plattformunabhängiges Backup-Skript in Python statt Bash.</li>
+                <li>Start-Skript per Windows-Aufgabenplanung, unsichtbar über einen VBS-Wrapper gestartet, plus manueller Doppelklick-Fallback.</li>
+                <li>Ausführliche Schritt-für-Schritt-Anleitung – Rückfalloption, falls der Betrieb auf einen Firmenrechner umzieht.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 10 · Seite 10/13 · Die Entscheidung für die Cloud</div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem <span class="src-tag src-belegt">belegt</span></span><h4>Struktureller Schwachpunkt: System an eine einzelne Person gebunden</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Bei der Planung der Übergabe erkannt: Der Praktikant, auf dessen Rechner die Anwendung lief, würde das Unternehmen irgendwann verlassen – ein System, das an eine einzelne Person gebunden ist, wäre dann nicht mehr betriebsfähig. Kein eigener Fehler, sondern ein struktureller Umstand der Ausgangslage.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">71%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 10/13</span><h4>Zwei Wege gegenübergestellt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Firmenrechner: kostenlos, kein zusätzliches Sicherheitsrisiko, aber weiterhin auf das Büro-Netzwerk beschränkt.</li>
+                <li>Echtes Cloud-Hosting: von überall erreichbar, aber echte Kosten, notwendiger Zugriffsschutz und größerer technischer Umbau.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung <span class="src-tag src-belegt">belegt</span></span><h4>Entscheidung für die Cloud getroffen</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                GitHub für die Quellcodeverwaltung, Neon als kostenlose gehostete Postgres-Datenbank, Streamlit Community Cloud als Ausführungsumgebung mit privatem, einladungsbasiertem Zugriff – alle drei Dienste in der kostenlosen Stufe ausreichend.
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 11 · Seite 10/13 · Technische Umsetzung der Cloud-Migration</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">74%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 10/13</span><h4>Zwei-Wege-Datenzugriffsschicht in db.py umgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body">
+                <ul class="stop-list">
+                  <li>Ist <code>DATABASE_URL</code> konfiguriert, verbindet sich die Anwendung mit Postgres, sonst bleibt sie beim lokalen SQLite-Betrieb.</li>
+                  <li>Exakt derselbe Anwendungscode läuft wahlweise lokal oder in der Cloud – ohne Verzweigungen im restlichen Programm.</li>
+                </ul>
+                <div class="code-snip">def get_connection():
+    if _ist_postgres():
+        return psycopg2.connect(DATABASE_URL)
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+    conn.execute("PRAGMA journal_mode = WAL")
+    return conn</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">75%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 10/13</span><h4>Postgres-Schema und Migrationsskript geschrieben</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>schema_postgres.sql</code>: syntaktisch angepasstes, aber inhaltlich identisches Schema.</li>
+                <li><code>migrate_sqlite_to_postgres.py</code>: überträgt bestehende Daten vollständig und wiederholbar in die Cloud-Datenbank.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">76%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 10/13</span><h4>Lokale Postgres-Testinstanz aufgesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Eigens installiert, mit einer Kopie der echten 86 Datensätze befüllt, um systematisch gegen echtes Postgres-Verhalten zu testen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem 1/4 <span class="src-tag src-belegt">belegt</span></span><h4>Groß-/Kleinschreibung: Postgres faltet Bezeichner auf Kleinschreibung</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Anders als SQLite faltet Postgres unquotierte Tabellen- und Spaltennamen automatisch auf Kleinschreibung – „LaengeMM“ kommt als „laengemm“ zurück. Ein Unterschied im Datenbankverhalten, kein eigener Programmierfehler.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung 1/4 <span class="src-tag src-belegt">belegt</span></span><h4>_Zeile-Klasse gebaut</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body">
+                <div class="correct-box">Eigenes Zeilen-Objekt sorgt seither dafür, dass Ergebniszeilen unabhängig vom Datenbanktyp exakt die im Schema definierte Schreibweise zeigen – Schlüssel werden schon beim Erstellen umbenannt, nicht erst bei einzelnem Feldzugriff.</div>
+                <div class="code-snip">class _Zeile(dict):
+    def __init__(self, mapping):
+        self._werte = list(mapping.values())
+        super().__init__(
+            (_SCHEMA_SPALTEN.get(k.lower(), k), v) for k, v in mapping.items()
+        )</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem 2/4 <span class="src-tag src-belegt">belegt</span></span><h4>Cursor-Typ-Konflikt mit pandas</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Der für den eigenen dict-artigen Zeilenzugriff gesetzte Cursor-Typ kollidierte mit der Art, wie die Bibliothek pandas Tabellen aus einer Datenbankverbindung einliest.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung 2/4 <span class="src-tag src-belegt">belegt</span></span><h4>Getrennte Cursor-Konfigurationen</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Für beide Anwendungsfälle (eigener dict-Zugriff vs. pandas-Einlesen) jeweils eine eigene Cursor-Konfiguration angelegt.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-wrong">
+            <div class="stop-marker"><div class="stop-pct">✕</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">❌ Falscher Schritt 3/4 <span class="src-tag src-belegt">belegt</span></span><h4>Alias-Kollision in einer Abfrage</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body wrong-box">
+                Ein in einer Abfrage selbst gewählter Kurzname (Alias) geriet in Konflikt mit einer echten Spalte gleichen Namens in einer anderen Tabelle und lieferte dadurch falsche Werte zurück – eine eigene Namenswahl beim Schreiben der Abfrage.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Korrektur 3/4 <span class="src-tag src-belegt">belegt</span></span><h4>Abfrage-Alias eindeutig umbenannt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Kurzname eindeutig umbenannt, sodass keine Kollision mit einer echten Spalte mehr auftreten kann.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-problem">
+            <div class="stop-marker"><div class="stop-pct">!</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">⚠️ Problem 4/4 <span class="src-tag src-belegt">belegt</span></span><h4>Sequenz-Fortsetzung nach Datenübertragung nicht synchron</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body problem-box">
+                Nach dem Übertragen bestehender Datensätze mit bereits vergebenen IDs blieb der interne Postgres-Zähler für automatisch vergebene IDs auf dem alten Stand – ein Verhalten von Postgres beim Einspielen fremder IDs, kein eigener Fehler.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Lösung 4/4 <span class="src-tag src-belegt">belegt</span></span><h4>Sequenz manuell auf höchsten Wert gesetzt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Interner Postgres-Zähler nach jeder Übertragung per <code>setval()</code> manuell auf den höchsten übertragenen Wert gesetzt, um spätere ID-Kollisionen zu vermeiden.
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">85%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 10/13</span><h4>Jede Korrektur lokal gegen echte Daten verifiziert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Alle vier Korrekturen vor der Veröffentlichung lokal gegen die Postgres-Testinstanz mit einer Kopie der echten 86 Datensätze nachgestellt.</li>
+                <li>Durch einen vollständigen Klick-Test aller Seiten und Dialoge verifiziert, bevor live geschaltet wurde.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 12 · Seite 11/13 · Go-Live</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">86%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 11/13</span><h4>Privates GitHub-Repository angelegt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Quellcode hochgeladen; lokale Datenbankdatei, Backups und Zugangsdaten über <code>.gitignore</code> bewusst ausgeschlossen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">87%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 11/13</span><h4>Neon-Postgres-Datenbank eingerichtet und befüllt</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Kostenlose Neon-Datenbank eingerichtet, 86 echte Artikel-Datensätze samt aller Stammdaten mittels Migrationsskript übertragen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">88%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 11/13</span><h4>Deployment auf Streamlit Community Cloud</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Verbunden mit dem GitHub-Repository, Datenbankverbindung als geschütztes Secret hinterlegt.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">89%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 11/13</span><h4>Zugriff auf eingeladene Personen beschränkt</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,25&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>„Only specific people can view this app“ aktiviert – der Link ist nicht öffentlich zugänglich.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">90%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 11/13</span><h4>Live-Test im Browser gegen echte Daten</h4></div>
+                <div class="time-chip"><small>Zeit</small>1,5&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Anzeige der 86 Artikel und 50 Artikelgruppen, Anlegen, Bearbeiten, Entnehmen, Löschen sowie Papierkorb-Funktion getestet.</li>
+                <li>Parallel verifiziert, dass der weiterhin aktive lokale Mac-Betrieb davon unberührt blieb.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 13 · Seite 11/13 · Fehlerbehebung nach dem Go-Live</div>
+
+          <div class="stop is-wrong">
+            <div class="stop-marker"><div class="stop-pct">✕</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">❌ Fehler gemeldet <span class="src-tag src-belegt">belegt</span></span><h4>Auftraggeber meldet Fehler bei „Artikel Liste“/„Reste“ und „Hinzufügen“</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,5&nbsp;h</div>
+              </div>
+              <div class="stop-body wrong-box">
+                Kurz nach der ersten Veröffentlichung meldete der Auftraggeber Fehlermeldungen beim Aufrufen der Seiten „Artikel Liste“ und „Reste“ sowie beim Anlegen eines neuen Artikels über den „Hinzufügen“-Dialog – Ursache: dieselbe Postgres-Eigenheit bei der Groß-/Kleinschreibung, diesmal an Stellen, die von den ursprünglichen Tests nicht abgedeckt waren (positionaler Listenzugriff, zufällige Alias-Namensüberschneidung).
+              </div>
+            </div>
+          </div>
+
+          <div class="stop is-fixstep">
+            <div class="stop-marker"><div class="stop-pct">✓</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">✅ Korrektur <span class="src-tag src-belegt">belegt</span></span><h4>Grundlegend statt symptomatisch behoben</h4></div>
+                <div class="time-chip"><small>Zeit</small>2&nbsp;h</div>
+              </div>
+              <div class="stop-body correct-box">
+                Die <code>_Zeile</code>-Klasse benennt Spalten seither bereits beim Erzeugen der Zeile korrekt um, statt nur die zwei gemeldeten Symptome einzeln zu flicken. Erneut vollständig lokal nachgestellt (inklusive des exakt gemeldeten Ablaufs), vor der Veröffentlichung durch einen kompletten Klick-Test bestätigt und anschließend live verifiziert.
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 14 · Seite 12/13 · Code-Vertiefung</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">93%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 12/13</span><h4>_Zeile-Klasse für die Dokumentation im Detail beschrieben</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Nachvollzogen und dokumentiert, warum der Positions- <em>und</em> Namenszugriff gleichzeitig korrekt bleiben muss.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">94%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 12/13</span><h4>Schreib-Lock für kollisionsfreie Barcode-Vergabe dokumentiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body">
+                <ul class="stop-list"><li>„Höchste Nummer suchen“ und „neue Zeile einfügen“ laufen als ununterbrechbare Einheit innerhalb desselben <code>threading.Lock</code>.</li></ul>
+                <div class="code-snip">_SCHREIB_LOCK = threading.Lock()
+
+def create_artikel_gruppe(profil, mass, material):
+    with _SCHREIB_LOCK:
+        if db.value_exists("Artikel_Gruppe", "Bezeichnung", bezeichnung):
+            raise LagerFehler(...)
+        barcode = make_barcode_ag(profil, mass, material)
+        db.execute("INSERT INTO Artikel_Gruppe (...) VALUES (...)", ...)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">95%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 12/13</span><h4>Migrationsskript wiederholbar gemacht</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>migrate_sqlite_to_postgres.py</code> löscht vor jeder Tabelle deren Zieldaten, bevor die aktuellen Daten eingespielt werden – dadurch gefahrlos mehrfach ausführbar.</li>
+                <li>Nach dem Kopieren wird für jede Tabelle mit automatisch vergebenen IDs die Postgres-Sequenz auf den höchsten übertragenen Wert gesetzt.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">96%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 12/13</span><h4>Betriebs-Skripte im Überblick zusammengefasst</h4></div>
+                <div class="time-chip"><small>Zeit</small>0,75&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li><code>backup.sh</code>/<code>windows-setup/backup.py</code>, <code>server.sh</code>/<code>start_server.bat</code>, <code>start.command</code>/<code>start.bat</code>, <code>start_hidden.vbs</code> dokumentiert.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="phase-heading">Phase 15 · Seite 13/13 · Fazit &amp; Ausblick</div>
+
+          <div class="stop">
+            <div class="stop-marker"><div class="stop-pct">98%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Seite 13/13</span><h4>Fazit gezogen: fachliche, methodische und praktische Erkenntnisse</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>Fachlich: eine Migration ist mehr als eine Übersetzung – die Materialentnahme-Logik ließ sich erst 1:1 übertragen, nachdem das VBA-Original vollständig verstanden war.</li>
+                <li>Methodisch: die Drei-Schichten-Architektur hat den Cloud-Umzug ermöglicht, ohne <code>app.py</code>/<code>logic.py</code> anzufassen – nur <code>db.py</code> wurde erweitert.</li>
+                <li>Praktisch: 86 reale Datensätze bei jeder Änderung mitgetestet – das machte mehrere Postgres-Fallstricke schon vor dem Go-Live sichtbar.</li>
+                <li>Bekannte Einschränkungen dokumentiert: Neon pausiert nach ca. 5 Minuten Inaktivität; Cloud-Backup läuft über Neons Point-in-Time-Recovery; lokale Netzwerkadresse nicht als feste IP hinterlegt.</li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="stop is-end">
+            <div class="stop-marker"><div class="stop-pct">100%</div></div>
+            <div class="stop-card">
+              <div class="stop-card-head">
+                <div class="stop-titles"><span class="stop-eyebrow">Meilenstein · Stand 16.08.2026</span><h4>Projekt vollständig dokumentiert</h4></div>
+                <div class="time-chip"><small>Zeit</small>1&nbsp;h</div>
+              </div>
+              <div class="stop-body"><ul class="stop-list">
+                <li>13 Seiten Projektdokumentation fertiggestellt, von der Excel/VBA-Analyse bis zur privat erreichbaren Cloud-Anwendung.</li>
+                <li>Lokaler Mac-Betrieb und Cloud-Version laufen parallel, beide mit denselben 86 realen Artikel-Datensätzen.</li>
+              </ul></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="summary-wrap">
+        <div class="summary-grid">
+          <div class="summary-tile"><strong>74</strong><span>Teilschritte im Zeitstrahl</span></div>
+          <div class="summary-tile"><strong>10</strong><span>Fehler-/Problem-Paare (4 Fehler + 6 Probleme)</span></div>
+          <div class="summary-tile"><strong>≈ 77,5 h</strong><span>Gesamtzeit (selbst geschätzt)</span></div>
+          <div class="summary-tile"><strong>0</strong><span>Fotos eingebunden (Software-Projekt, keine Bilddateien in den Quellen)</span></div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Alle Arbeitszeiten sind selbst nach Aufwand des jeweiligen Schritts eingeschätzt, nicht aus einer Zeiterfassung übernommen. Grundlage der Inhalte: <span style="font-family:var(--font-mono)">projekte/projekt-3/index.html</span> bis <span style="font-family:var(--font-mono)">13-fazit.html</span> sowie <span style="font-family:var(--font-mono)">quellen/dateien/05_lagersystem-projektbericht.pdf</span> und <span style="font-family:var(--font-mono)">06_lagersystem-projektbericht-detailliert.pdf</span> (Stand 16.08.2026).
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.register a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var id = a.getAttribute('data-page');
+      document.querySelectorAll('.register a').forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+      a.classList.add('active');
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0,0);
+    });
+  });
+</script>
